@@ -1,0 +1,1 @@
+contradict = (x) -> not x
