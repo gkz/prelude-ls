@@ -25,18 +25,24 @@ minify = ->
   ast = uglify.ast_squeeze ast
   uglify.gen_code ast
 
-task \build 'build lib/ from src/' ->
-  ext = /\.ls$/; 
-  sources = for file in dir \src
-    \src/ + file if ext.test file
-  run [\-bco \lib] +++ sources
+task \build 'build prelude.js from prelude.ls' ->
+  run [\-cb \prelude.ls]
 
-task \build:full 'build twice and run tests' ->
-  exec 'bin/slake build && bin/slake build && bin/slake test'
-  , (err, stdout, stderr) ->
-    say stdout.trim! if stdout
-    say stderr.trim! if stderr
-    throw err        if err
+task \build:browser 'build prelude-min.js' ->
+  LiveScript = require \../LiveScript/lib/livescript
+  ls = "\n#{slurp \prelude.ls .replace /\n/g '\n ' }\n"
+  js = """
+  this.Prelude = function(){
+    #{ LiveScript.compile ls, {+bare}}
+  }();
+  """
+  slobber \prelude-min.js """
+    // prelude-ls 0.1.0
+    // Copyright (c) 2012 George Zahariev
+    // Released under the MIT License
+    // raw.github.com/gkz/prelude-ls/master/LICNSE
+    #{ minify js };
+  """
 
 task \test 'run test/' -> runTests require \../LiveScript/lib/livescript
 
@@ -58,7 +64,7 @@ function runTests global.LiveScript
     else tint message
   dir(\test)forEach (file) ->
     return unless /\.ls$/i.test file
-    code = slurp \src/prelude.ls
+    code = slurp \prelude.ls
     code += slurp filename = path.join \test file
     try LiveScript.run code, {filename} catch
       ++failedTests
