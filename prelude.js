@@ -1,32 +1,32 @@
-var __slice = [].slice;
-exports.contradict = function(x){
+var contradict, equals, notEquals, lt, lte, gt, gte, andTest, orTest, compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, add, minus, subtract, times, multiply, divide, divideBy, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, sum, product, concat, concatMap, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, elem, notElem, lookup, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice;
+exports.contradict = contradict = function(x){
   return !x;
 };
-exports.equals = __curry(function(x, y){
+exports.equals = equals = __curry(function(x, y){
   return x === y;
 });
-exports.notEquals = __curry(function(x, y){
+exports.notEquals = notEquals = __curry(function(x, y){
   return x !== y;
 });
-exports.lt = __curry(function(x, y){
+exports.lt = lt = __curry(function(x, y){
   return x > y;
 });
-exports.lte = __curry(function(x, y){
+exports.lte = lte = __curry(function(x, y){
   return x >= y;
 });
-exports.gt = __curry(function(x, y){
+exports.gt = gt = __curry(function(x, y){
   return x < y;
 });
-exports.gte = __curry(function(x, y){
+exports.gte = gte = __curry(function(x, y){
   return x <= y;
 });
-exports.andTest = __curry(function(x, y){
+exports.andTest = andTest = __curry(function(x, y){
   return x && y;
 });
-exports.orTest = __curry(function(x, y){
+exports.orTest = orTest = __curry(function(x, y){
   return x || y;
 });
-exports.compose = function(){
+exports.compose = compose = function(){
   var funcs;
   funcs = __slice.call(arguments);
   return function(){
@@ -39,13 +39,13 @@ exports.compose = function(){
     return args[0];
   };
 };
-exports.max = Math.max;
-exports.min = Math.min;
-exports.negate = function(x){
+exports.max = max = Math.max;
+exports.min = min = Math.min;
+exports.negate = negate = function(x){
   return -x;
 };
-exports.abs = Math.abs;
-exports.signum = function(x){
+exports.abs = abs = Math.abs;
+exports.signum = signum = function(x){
   switch (false) {
   case !(x < 0):
     return -1;
@@ -55,72 +55,72 @@ exports.signum = function(x){
     return 0;
   }
 };
-exports.quot = __curry(function(x, y){
+exports.quot = quot = __curry(function(x, y){
   return ~~(x / y);
 });
-exports.rem = __curry(function(x, y){
+exports.rem = rem = __curry(function(x, y){
   return x % y;
 });
-exports.div = __curry(function(x, y){
+exports.div = div = __curry(function(x, y){
   return Math.floor(x / y);
 });
-exports.mod = __curry(function(x, y){
+exports.mod = mod = __curry(function(x, y){
   var __ref;
   return ((x) % (__ref = y) + __ref) % __ref;
 });
-exports.recip = function(x){
+exports.recip = recip = function(x){
   return 1 / x;
 };
-exports.pi = Math.PI;
-exports.exp = Math.exp;
-exports.sqrt = Math.sqrt;
-exports.log = Math.log;
-exports.pow = __curry(function(x, y){
+exports.pi = pi = Math.PI;
+exports.exp = exp = Math.exp;
+exports.sqrt = sqrt = Math.sqrt;
+exports.log = log = Math.log;
+exports.pow = pow = __curry(function(x, y){
   return Math.pow(x, y);
 });
-exports.sin = Math.sin;
-exports.tan = Math.tan;
-exports.cos = Math.cos;
-exports.asin = Math.asin;
-exports.atan = Math.atan;
-exports.atan2 = __curry(function(x, y){
+exports.sin = sin = Math.sin;
+exports.tan = tan = Math.tan;
+exports.cos = cos = Math.cos;
+exports.asin = asin = Math.asin;
+exports.atan = atan = Math.atan;
+exports.atan2 = atan2 = __curry(function(x, y){
   return Math.atan2(x, y);
 });
-exports.acos = Math.acos;
-exports.truncate = function(x){
+exports.acos = acos = Math.acos;
+exports.truncate = truncate = function(x){
   return ~~x;
 };
-exports.round = Math.round;
-exports.ceiling = Math.ceil;
-exports.floor = Math.floor;
-exports.isItNaN = function(x){
+exports.round = round = Math.round;
+exports.ceiling = ceiling = Math.ceil;
+exports.floor = floor = Math.floor;
+exports.isItNaN = isItNaN = function(x){
   return x !== x;
 };
-exports.add = __curry(function(x, y){
+exports.add = add = __curry(function(x, y){
   return x + y;
 });
-exports.minus = __curry(function(x, y){
+exports.minus = minus = __curry(function(x, y){
   return x - y;
 });
-exports.subtract = __curry(function(x, y){
+exports.subtract = subtract = __curry(function(x, y){
   return y - x;
 });
-exports.multiply = exports.times = __curry(function(x, y){
+exports.multiply = multiply = exports.times = times = __curry(function(x, y){
   return x * y;
 });
-exports.divide = __curry(function(x, y){
+exports.divide = divide = __curry(function(x, y){
   return x / y;
 });
-exports.divideBy = __curry(function(x, y){
+exports.divideBy = divideBy = __curry(function(x, y){
   return y / x;
 });
-exports.even = function(x){
+exports.even = even = function(x){
   return x % 2 === 0;
 };
-exports.odd = function(x){
+exports.odd = odd = function(x){
   return x % 2 !== 0;
 };
-exports.gcd = __curry(function(x, y){
+exports.gcd = gcd = __curry(function(x, y){
   var z;
   x = Math.abs(x);
   y = Math.abs(y);
@@ -131,19 +131,19 @@ exports.gcd = __curry(function(x, y){
   }
   return x;
 });
-exports.lcm = __curry(function(x, y){
+exports.lcm = lcm = __curry(function(x, y){
   return Math.abs(Math.floor(x / gcd(x, y) * y));
 });
-exports.id = function(x){
+exports.id = id = function(x){
   return x;
 };
-exports.flip = __curry(function(f, x, y){
+exports.flip = flip = __curry(function(f, x, y){
   return f(y, x);
 });
-exports.error = function(msg){
+exports.error = error = function(msg){
   throw msg;
 };
-exports.each = __curry(function(f, xs){
+exports.each = each = __curry(function(f, xs){
   var x, __i, __len;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
@@ -151,7 +151,7 @@ exports.each = __curry(function(f, xs){
   }
   return xs;
 });
-exports.map = __curry(function(f, xs){
+exports.map = map = __curry(function(f, xs){
   var result, x, __i, __len;
   result = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -160,13 +160,13 @@ exports.map = __curry(function(f, xs){
   }
   return result;
 });
-exports.cons = __curry(function(x, xs){
+exports.cons = cons = __curry(function(x, xs){
   return [(x)].concat(xs);
 });
-exports.append = __curry(function(xs, ys){
+exports.append = append = __curry(function(xs, ys){
   return (xs).concat(ys);
 });
-exports.filter = __curry(function(f, xs){
+exports.filter = filter = __curry(function(f, xs){
   var result, x, __i, __len;
   result = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -177,7 +177,7 @@ exports.filter = __curry(function(f, xs){
   }
   return result;
 });
-exports.reject = __curry(function(f, xs){
+exports.reject = reject = __curry(function(f, xs){
   var result, x, __i, __len;
   result = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -188,7 +188,7 @@ exports.reject = __curry(function(f, xs){
   }
   return result;
 });
-exports.find = __curry(function(f, xs){
+exports.find = find = __curry(function(f, xs){
   var x, __i, __len;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
@@ -197,7 +197,7 @@ exports.find = __curry(function(f, xs){
     }
   }
 });
-exports.pluck = __curry(function(prop, xs){
+exports.pluck = pluck = __curry(function(prop, xs){
   var result, x, __i, __len;
   result = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -208,28 +208,28 @@ exports.pluck = __curry(function(prop, xs){
   }
   return result;
 });
-exports.head = function(xs){
+exports.head = head = function(xs){
   return xs.slice(0, 1);
 };
-exports.tail = function(xs){
+exports.tail = tail = function(xs){
   return xs.slice(1);
 };
-exports.last = function(xs){
+exports.last = last = function(xs){
   return xs.slice(xs.length - 1);
 };
-exports.initial = function(xs){
+exports.initial = initial = function(xs){
   return xs.slice(0, xs.length - 1);
 };
-exports.empty = function(xs){
+exports.empty = empty = function(xs){
   return !xs.length;
 };
-exports.length = function(xs){
+exports.length = length = function(xs){
   return xs.length;
 };
-exports.reverse = function(xs){
+exports.reverse = reverse = function(xs){
   return xs.slice().reverse();
 };
-exports.fold = exports.foldl = __curry(function(f, memo, xs){
+exports.fold = fold = exports.foldl = foldl = __curry(function(f, memo, xs){
   var x, __i, __len;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
@@ -237,37 +237,37 @@ exports.fold = exports.foldl = __curry(function(f, memo, xs){
   }
   return memo;
 });
-exports.fold1 = exports.foldl1 = __curry(function(f, xs){
+exports.fold1 = fold1 = exports.foldl1 = foldl1 = __curry(function(f, xs){
   return fold(f, xs[0], xs.slice(1));
 });
-exports.foldr = __curry(function(f, memo, xs){
+exports.foldr = foldr = __curry(function(f, memo, xs){
   return fold(f, memo, xs.reverse());
 });
-exports.foldr1 = __curry(function(f, xs){
+exports.foldr1 = foldr1 = __curry(function(f, xs){
   xs.reverse();
   return fold(f, xs[0], xs.slice(1));
 });
-exports.andList = function(xs){
+exports.andList = andList = function(xs){
   return fold(function(memo, x){
     return memo && x;
   }, true, xs);
 };
-exports.orList = function(xs){
+exports.orList = orList = function(xs){
   return fold(function(memo, x){
     return memo || x;
   }, false, xs);
 };
-exports.any = __curry(function(f, xs){
+exports.any = any = __curry(function(f, xs){
   return fold(function(memo, x){
     return memo || f(x);
   }, false, xs);
 });
-exports.all = __curry(function(f, xs){
+exports.all = all = __curry(function(f, xs){
   return fold(function(memo, x){
     return memo && f(x);
   }, true, xs);
 });
-exports.sum = function(xs){
+exports.sum = sum = function(xs){
   var result, x, __i, __len;
   result = 0;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -276,7 +276,7 @@ exports.sum = function(xs){
   }
   return result;
 };
-exports.product = function(xs){
+exports.product = product = function(xs){
   var result, x, __i, __len;
   result = 1;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -285,19 +285,19 @@ exports.product = function(xs){
   }
   return result;
 };
-exports.concat = function(xss){
+exports.concat = concat = function(xss){
   return fold(append, [], xss);
 };
-exports.concatMap = __curry(function(f, xs){
+exports.concatMap = concatMap = __curry(function(f, xs){
   return concat(map(f, xs));
 });
-exports.maximum = function(xs){
+exports.maximum = maximum = function(xs){
   return Math.max.apply(this, xs);
 };
-exports.minimum = function(xs){
+exports.minimum = minimum = function(xs){
   return Math.min.apply(this, xs);
 };
-exports.scan = exports.scanl = __curry(function(f, memo, xs){
+exports.scan = scan = exports.scanl = scanl = __curry(function(f, memo, xs){
   var result, last, x, __i, __len;
   result = [memo];
   last = memo;
@@ -307,18 +307,18 @@ exports.scan = exports.scanl = __curry(function(f, memo, xs){
   }
   return result;
 });
-exports.scan1 = exports.scanl1 = __curry(function(f, xs){
+exports.scan1 = scan1 = exports.scanl1 = scanl1 = __curry(function(f, xs){
   return scan(f, xs[0], xs.slice(1));
 });
-exports.scanr = __curry(function(f, memo, xs){
+exports.scanr = scanr = __curry(function(f, memo, xs){
   xs.reverse();
   return scan(f, memo, xs).reverse();
 });
-exports.scanr1 = __curry(function(f, xs){
+exports.scanr1 = scanr1 = __curry(function(f, xs){
   xs.reverse();
   return scan(f, xs[0], xs.slice(1)).reverse();
 });
-exports.replicate = __curry(function(n, x){
+exports.replicate = replicate = __curry(function(n, x){
   var result, i;
   result = [];
   i = 0;
@@ -327,7 +327,7 @@ exports.replicate = __curry(function(n, x){
   }
   return result;
 });
-exports.take = __curry(function(n, xs){
+exports.take = take = __curry(function(n, xs){
   switch (false) {
   case !(n <= 0):
     return xs;
@@ -337,7 +337,7 @@ exports.take = __curry(function(n, xs){
     return xs.slice(0, n);
   }
 });
-exports.drop = __curry(function(n, xs){
+exports.drop = drop = __curry(function(n, xs){
   switch (false) {
   case !(n <= 0):
     return xs;
@@ -347,10 +347,10 @@ exports.drop = __curry(function(n, xs){
     return xs.slice(n);
   }
 });
-exports.splitAt = __curry(function(n, xs){
+exports.splitAt = splitAt = __curry(function(n, xs){
   return [take(n, xs), drop(n, xs)];
 });
-exports.takeWhile = __curry(function(p, xs){
+exports.takeWhile = takeWhile = __curry(function(p, xs){
   var i, x, __i, __len;
   if (!xs.length) {
     return [];
@@ -365,7 +365,7 @@ exports.takeWhile = __curry(function(p, xs){
   }
   return take(i, xs);
 });
-exports.dropWhile = __curry(function(p, xs){
+exports.dropWhile = dropWhile = __curry(function(p, xs){
   var i, x, __i, __len;
   if (!xs.length) {
     return [];
@@ -380,22 +380,22 @@ exports.dropWhile = __curry(function(p, xs){
   }
   return drop(i, xs);
 });
-exports.span = __curry(function(p, xs){
+exports.span = span = __curry(function(p, xs){
   return [takeWhile(p, xs), dropWhile(p, xs)];
 });
-exports.breakList = __curry(function(p, xs){
+exports.breakList = breakList = __curry(function(p, xs){
   return span(__compose((contradict),(p)), xs);
 });
-exports.elem = __curry(function(x, ys){
+exports.elem = elem = __curry(function(x, ys){
   return __in(x, ys);
 });
-exports.notElem = __curry(function(x, ys){
+exports.notElem = notElem = __curry(function(x, ys){
   return !__in(x, ys);
 });
-exports.lookup = __curry(function(key, xs){
+exports.lookup = lookup = __curry(function(key, xs){
   return xs != null ? xs[key] : void 8;
 });
-exports.zip = function(){
+exports.zip = zip = function(){
   var xss, result, i, xs, j, x, __len, __len1, __ref;
   xss = __slice.call(arguments);
   result = [];
@@ -413,7 +413,7 @@ exports.zip = function(){
   }
   return result;
 };
-exports.zipWith = function(f){
+exports.zipWith = zipWith = function(f){
   var xss, result, xs, __i, __ref, __len;
   xss = __slice.call(arguments, 1);
   if (!xss[0].length || !xss[1].length) {
@@ -427,16 +427,16 @@ exports.zipWith = function(f){
     return result;
   }
 };
-exports.lines = function(str){
+exports.lines = lines = function(str){
   return str.split('\n');
 };
-exports.unlines = function(str){
+exports.unlines = unlines = function(str){
   return str.join('\n');
 };
-exports.words = function(str){
+exports.words = words = function(str){
   return str.split(' ');
 };
-exports.unwords = function(str){
+exports.unwords = unwords = function(str){
   return str.join(' ');
 };
 function __curry(f, args){

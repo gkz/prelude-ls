@@ -46,6 +46,11 @@ task \build:browser 'build prelude-min.js' ->
     #{ minify js };
   """
 
+task \build:all 'build prelude.js, build prelude-min.js, and test' ->
+  invoke \build
+  invoke \build:browser
+  invoke \test
+
 task \test 'run test/' -> runTests require \../LiveScript/lib/livescript
 
 function runTests global.LiveScript

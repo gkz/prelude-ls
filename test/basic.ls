@@ -1,7 +1,6 @@
-global <<< exports
-
 # contradict
 ok contradict false
+ok not contradict true
 
 # equals
 ok equals 1 1
@@ -53,6 +52,7 @@ eq 0 min 9 0 1 5
 # negate
 eq -2 negate 2
 eq 3  negate -3
+eq 0  negate 0
 
 # abs
 eq 4 abs -4
@@ -95,12 +95,15 @@ eq 4 pow -2 2
 
 # sin
 eq 0.8414709848078965 sin 1
+eq 0 sin 0
 
 # tan
 eq 1.5574077246549023 tan 1
+eq 0 tan 0
 
 # cos
 eq 0.5403023058681398 cos 1
+eq 1 cos 0
 
 # asin
 eq 1.5707963267948966 asin 1
@@ -161,10 +164,12 @@ eq 0.5 divideBy 8 4
 # even
 ok even -2
 ok not even 7
+ok even 0
 
 # odd
 ok odd 3
 ok not odd -4
+ok not odd 0
 
 # gcd
 eq 6 gcd 12 18
@@ -176,9 +181,11 @@ eq 36 lcm 12 18
 eq 5 id 5
 
 # each
+eq 0 (each -> []).length
 eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
 
 # map
+eq 0 (map -> []).length
 eq '2,3,4' "#{ map (add 1), [1 2 3] }"
 
 # cons 
