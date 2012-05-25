@@ -1,5 +1,41 @@
+global <<< exports
+
 # contradict
 ok contradict false
+
+# equals
+ok equals 1 1
+ok not equals true 'true'
+
+# notEquals
+ok notEquals 2 '2'
+ok not notEquals true !false
+
+# lt
+ok lt 3 1
+ok not lt 0 0
+
+# lte 
+ok lte 1 0
+ok lte 1 1
+ok not lte 1 2
+
+# gt
+ok gt 2 3
+ok not gt 3 3
+
+# gte
+ok gte -1 0
+ok gte 0 0
+ok not gte 1 0
+
+# andTest
+ok andTest true true
+ok not andTest true false
+
+# orTest
+ok orTest true false
+ok not orTest false false
 
 # compose
 addTwo = (x) -> x + 2
@@ -113,6 +149,9 @@ eq -2 minus 3 5
 # subtract
 eq 2 subtract 3 5
 
+# multiply
+eq 6 multiply 2 3
+
 # divide
 eq 2 divide 8 4
 
@@ -151,6 +190,14 @@ eq '1,2,3,4' "#{ append [1 2] [3 4] }"
 # filter 
 eq '2,4' "#{ filter even, [1 to 5] }"
 
+# reject
+eq '1,3,5' "#{ reject even, [1 to 5] }"
+
+# find
+eq 4 find even, [3 1 4 8 6]
+
+# pluck
+eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
 
 list = [1 2 3 4 5]
 # head
@@ -189,12 +236,12 @@ eq 7 foldr subtract, 0, [1 2 3 4 9]
 eq 7 foldr1 subtract, [1 2 3 4 9]
 
 # andTest
-ok andTest [true, 2 + 2 == 4]
-ok not andTest [true true false true]
+ok andList [true, 2 + 2 == 4]
+ok not andList [true true false true]
 
 # orTest
-ok orTest [false false false true false]
-ok not orTest [false, 2 + 2 == 3]
+ok orList [false false false true false]
+ok not orList [false, 2 + 2 == 3]
 
 # any
 ok any even, [1 4 3]

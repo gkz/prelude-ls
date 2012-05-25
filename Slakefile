@@ -33,11 +33,13 @@ task \build:browser 'build prelude-min.js' ->
   ls = "\n#{slurp \prelude.ls .replace /\n/g '\n ' }\n"
   js = """
   this.Prelude = function(){
+    exports = {};
     #{ LiveScript.compile ls, {+bare}}
+    return exports;
   }();
   """
   slobber \prelude-min.js """
-    // prelude-ls 0.1.0
+    // Prelude.ls 0.1.0
     // Copyright (c) 2012 George Zahariev
     // Released under the MIT License
     // raw.github.com/gkz/prelude-ls/master/LICNSE

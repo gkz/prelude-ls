@@ -1,65 +1,81 @@
-# This is very low level LiveScript, function calls -
-# have been reduced at the expense of code reuse.
-# This is to get the best performance possible out of 
-# functions potentially called very often.
+# This is low level LiveScript - this is not an 
+# example of how you should write LiveScript. 
+# Code reuse has taken a back seat to performance,
+# becuase the functions in this libaray will be 
+# called often, and the code here, once set, will
+# not change often. 
 
-contradict = (x) -> not x
+exports.contradict = (x) -> not x
 
-equals = (x, y) --> x == y
+exports.equals = (x, y) --> x == y
 
-compose = (...funcs) -> 
+exports.notEquals = (x, y) --> x != y
+
+exports.lt = (x, y) --> x > y
+
+exports.lte = (x, y) --> x >= y
+
+exports.gt = (x, y) --> x < y
+
+exports.gte = (x, y) --> x <= y
+
+exports.andTest = (x, y) --> x and y
+
+exports.orTest = (x, y) --> x or y
+
+exports.compose = (...funcs) -> 
   ->
     args = arguments
     for f in funcs
       args = [f.apply this, args]
     args.0
 
-max = Math.max
+exports.max = Math.max
 
-min = Math.min
+exports.min = Math.min
 
-negate = (x) -> -x
+exports.negate = (x) -> -x
 
-abs = Math.abs
+exports.abs = Math.abs
 
-signum = (x) -> 
+exports.signum = (x) -> 
   | x < 0     => -1
   | x > 0     =>  1
   | otherwise =>  0
 
-quot = (x, y) -> ~~(x / y)
+exports.quot = (x, y) --> ~~(x / y)
 
-rem = (x, y) -> x % y
+exports.rem = (x, y) --> x % y
 
-div = (x, y) -> Math.floor x / y
+exports.div = (x, y) --> Math.floor x / y
 
-mod = (x, y) -> x %% y
+exports.mod = (x, y) --> x %% y
 
-recip = (x) -> 1 / x
+exports.recip = (x) -> 1 / x
 
-pi = Math.PI
+exports.pi = Math.PI
 
-exp = Math.exp
+exports.exp = Math.exp
 
-sqrt = Math.sqrt
+exports.sqrt = Math.sqrt
 
-log = Math.log
+exports.log = Math.log
 
-pow = Math.pow
+exports.pow = (x, y) --> x ^ y
 
-sin = Math.sin
+exports.sin = Math.sin
 
-tan = Math.tan
+exports.tan = Math.tan
 
-cos = Math.cos
+exports.cos = Math.cos
 
-asin = Math.asin
+exports.asin = Math.asin
 
-atan = Math.atan
+exports.atan = Math.atan
 
-atan2 = Math.atan2
+exports.atan2 = (x, y) --> Math.atan2 x, y
 
-acos = Math.acos
+exports.acos = Math.acos
 
 # sinh
 # tanh
@@ -68,33 +84,33 @@ acos = Math.acos
 # atanh
 # acosh
 
-truncate = (x) -> ~~x
+exports.truncate = (x) -> ~~x
 
-round = Math.round
+exports.round = Math.round
 
-ceiling = Math.ceil
+exports.ceiling = Math.ceil
 
-floor = Math.floor
+exports.floor = Math.floor
 
-isItNaN = (x) -> x isnt x
+exports.isItNaN = (x) -> x isnt x
 
-add = (x, y) --> x + y
+exports.add = (x, y) --> x + y
 
-minus = (x, y) --> x - y
+exports.minus = (x, y) --> x - y
 
-subtract = (x, y) --> y - x
+exports.subtract = (x, y) --> y - x
 
-multiply = (x, y) --> x * y
+exports.multiply = exports.times = (x, y) --> x * y
 
-divide = (x, y) --> x / y
+exports.divide = (x, y) --> x / y
 
-divideBy = (x, y) --> y / x
+exports.divideBy = (x, y) --> y / x
 
-even = (x) -> x % 2 == 0
+exports.even = (x) -> x % 2 == 0
 
-odd = (x) -> x % 2 != 0
+exports.odd = (x) -> x % 2 != 0
 
-gcd = (x, y) --> 
+exports.gcd = (x, y) --> 
   x = Math.abs x
   y = Math.abs y
   until y is 0
@@ -104,87 +120,100 @@ gcd = (x, y) -->
   x
 
 # depends on gcd
-lcm = (x, y) -->
+exports.lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
 
-id = (x) -> x
+exports.id = (x) -> x
 
-flip = (f, x, y) --> f y, x
+exports.flip = (f, x, y) --> f y, x
 
-error = (msg) -> throw msg
+exports.error = (msg) -> throw msg
 
-# collection
-each = (f, xs) --> 
+exports.each = (f, xs) --> 
   for x in xs then f x
   xs
 
-map = (f, xs) --> 
+exports.map = (f, xs) --> 
   result = []
   for x in xs then result.push f x
   result
 
-cons = (x, xs) --> x & xs
+exports.cons = (x, xs) --> x & xs
 
-append = (xs, ys) --> xs +++ ys
+exports.append = (xs, ys) --> xs +++ ys
 
-filter = (f, xs) --> 
+exports.filter = (f, xs) --> 
   result = []
   for x in xs when f x then result.push x
   result
 
-head = (xs) -> xs.slice 0, 1
+exports.reject = (f, xs) -->
+  result = []
+  for x in xs when not f x then result.push x
+  result
 
-tail = (xs) -> xs.slice 1
+exports.find = (f, xs) -->
+  for x in xs when f x then return x
+  void
 
-last = (xs) -> xs.slice xs.length - 1
+exports.pluck = (prop, xs) -->
+  result = []
+  for x in xs when x[prop]? then result.push x[prop]
+  result
 
-initial = (xs) -> xs.slice 0, xs.length - 1
+exports.head = (xs) -> xs.slice 0, 1
 
-empty = (xs) -> not xs.length
+exports.tail = (xs) -> xs.slice 1
 
-length = (xs) -> xs.length
+exports.last = (xs) -> xs.slice xs.length - 1
 
-reverse = (xs) -> xs.slice!reverse!
+exports.initial = (xs) -> xs.slice 0, xs.length - 1
 
-fold = foldl = (f, memo, xs) -->
+exports.empty = (xs) -> not xs.length
+
+exports.length = (xs) -> xs.length
+
+exports.reverse = (xs) -> xs.slice!reverse!
+
+exports.fold = exports.foldl = (f, memo, xs) -->
   for x in xs then memo = f memo, x
   memo
 
-fold1 = foldl1 = (f, xs) --> fold f, xs.0, xs.slice 1
+exports.fold1 = exports.foldl1 = (f, xs) --> fold f, xs.0, xs.slice 1
 
-foldr = (f, memo, xs) --> fold f, memo, xs.reverse!
+exports.foldr = (f, memo, xs) --> fold f, memo, xs.reverse!
 
-foldr1 = (f, xs) --> 
+exports.foldr1 = (f, xs) --> 
   xs.reverse!
   fold f, xs.0, xs.slice 1
 
-andTest = (xs) -> fold ((memo, x) -> memo and x), true, xs
+exports.andList = (xs) -> fold ((memo, x) -> memo and x), true, xs
 
-orTest = (xs) -> fold ((memo, x) -> memo or x), false, xs
+exports.orList = (xs) -> fold ((memo, x) -> memo or x), false, xs
 
-any = (f, xs) --> fold ((memo, x) -> memo or f x), false, xs
+exports.any = (f, xs) --> fold ((memo, x) -> memo or f x), false, xs
 
-all = (f, xs) --> fold ((memo, x) -> memo and f x), true, xs
+exports.all = (f, xs) --> fold ((memo, x) -> memo and f x), true, xs
 
-sum = (xs) ->
+exports.sum = (xs) ->
   result = 0 
   for x in xs then result += x
   result
 
-product = (xs) ->
+exports.product = (xs) ->
   result = 1
   for x in xs then result *= x
   result
 
-concat = (xss) -> fold append, [], xss
+exports.concat = (xss) -> fold append, [], xss
 
-concatMap = (f, xs) --> concat map f, xs
+exports.concatMap = (f, xs) --> concat map f, xs
 
-maximum = (xs) -> Math.max.apply(this, xs)
+exports.maximum = (xs) -> Math.max.apply(this, xs)
 
-minimum = (xs) -> Math.min.apply(this, xs)
+exports.minimum = (xs) -> Math.min.apply(this, xs)
 
-scan = scanl = (f, memo, xs) --> 
+exports.scan = exports.scanl = (f, memo, xs) --> 
   result = [memo]
   last = memo
   for x in xs
@@ -192,35 +221,35 @@ scan = scanl = (f, memo, xs) -->
   result
 
 
-scan1 = scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
+exports.scan1 = exports.scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
 
-scanr = (f, memo, xs) --> 
+exports.scanr = (f, memo, xs) --> 
   xs.reverse!
   scan f, memo, xs .reverse!
 
-scanr1 = (f, xs) -->
+exports.scanr1 = (f, xs) -->
   xs.reverse!
   scan f, xs.0, xs.slice 1 .reverse!
 
-replicate = (n, x) --> 
+exports.replicate = (n, x) --> 
   result = []
   i = 0
   while i < n, ++i then result.push x
   result
 
-take = (n, xs) -->
+exports.take = (n, xs) -->
   | n <= 0        => xs
   | not xs.length => []
   | otherwise     => xs.slice 0, n
 
-drop = (n, xs) -->
+exports.drop = (n, xs) -->
   | n <= 0        => xs
   | not xs.length => []
   | otherwise     => xs.slice n
 
-splitAt = (n, xs) --> [(take n, xs), (drop n, xs)]
+exports.splitAt = (n, xs) --> [(take n, xs), (drop n, xs)]
 
-takeWhile = (p, xs) -->
+exports.takeWhile = (p, xs) -->
   return [] if not xs.length
   i = 0
   for x in xs
@@ -228,7 +257,7 @@ takeWhile = (p, xs) -->
     ++i
   take i, xs
 
-dropWhile = (p, xs) -->
+exports.dropWhile = (p, xs) -->
   return [] if not xs.length
   i = 0
   for x in xs
@@ -236,17 +265,17 @@ dropWhile = (p, xs) -->
     ++i
   drop i, xs
 
-span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
+exports.span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
-breakList = (p, xs) --> span (contradict << p), xs
+exports.breakList = (p, xs) --> span (contradict << p), xs
 
-elem = (x, ys) --> x in ys
+exports.elem = (x, ys) --> x in ys
 
-notElem = (x, ys) --> x not in ys
+exports.notElem = (x, ys) --> x not in ys
 
-lookup = (key, xs) --> xs?[key]
+exports.lookup = (key, xs) --> xs?[key]
 
-zip = (...xss) -> 
+exports.zip = (...xss) -> 
   result = []
   for xs, i in xss
     for x, j in xs
@@ -254,7 +283,7 @@ zip = (...xss) ->
       result[j]?.push x
   result
 
-zipWith = (f, ...xss) ->
+exports.zipWith = (f, ...xss) ->
   if not xss.0.length or not xss.1.length
     []
   else
@@ -262,10 +291,12 @@ zipWith = (f, ...xss) ->
     for xs in zip.apply(this, xss) then result.push f.apply(this, xs) 
     result
 
-lines = (str) -> str.split \\n
+# string
 
-unlines = (str) -> str.join \\n
+exports.lines = (str) -> str.split \\n
 
-words = (str) -> str.split ' '
+exports.unlines = (str) -> str.join \\n
 
-unwords = (str) -> str.join ' '
+exports.words = (str) -> str.split ' '
+
+exports.unwords = (str) -> str.join ' '
