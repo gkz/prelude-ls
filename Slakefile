@@ -1,5 +1,7 @@
 {spawn, exec} = require \child_process
 
+LiveScript = require \LiveScript
+
 # ANSI Terminal Colors.
 bold  = '\33[0;1m'
 red   = '\33[0;31m'
@@ -7,12 +9,6 @@ green = '\33[0;32m'
 reset = '\33[0m'
 
 tint = (text, color ? green) -> color + text + reset
-
-# Run our node/livescript interpreter.
-run = (args) ->
-  proc = spawn \node \../LiveScript/bin/livescript & args
-  proc.stderr.on \data say
-  proc       .on \exit -> process.exit it if it
 
 slobber = (path, code) ->
   spit path, code
@@ -25,35 +21,51 @@ minify = ->
   ast = uglify.ast_squeeze ast
   uglify.gen_code ast
 
-task \build 'build prelude.js from prelude.ls' ->
-  run [\-cb \prelude.ls]
-
-task \build:browser 'build prelude-min.js' ->
-  LiveScript = require \../LiveScript/lib/livescript
+build = (browser = false) ->
   ls = "\n#{slurp \prelude.ls .replace /\n/g '\n ' }\n"
-  js = """
-  this.Prelude = function(){
-    exports = {};
-    #{ LiveScript.compile ls, {+bare}}
-    return exports;
-  }();
-  """
-  slobber \prelude-min.js """
-    // Prelude.ls 0.1.0
+  js = "#{ LiveScript.compile ls, {+bare}}"
+  name = \prelude
+  name += \-min if browser
+
+  if browser 
+    js = """
+    this.prelude = function(){
+      exports = {};
+      #{ js }
+      exports.prelude = function(target) {
+        if (typeof target != 'undefined' && target !== null) {
+          for (var key in exports) {
+            target[key] = exports[key];
+          }
+        }
+        return exports;
+      }
+      return exports;
+    }();
+    """
+  slobber "#{name}.js" """
+    // prelude.ls 0.1.0
     // Copyright (c) 2012 George Zahariev
     // Released under the MIT License
     // raw.github.com/gkz/prelude-ls/master/LICNSE
-    #{ minify js };
+    #{ if browser then minify js else js}
   """
+
+task \build 'build prelude.js from prelude.ls' ->
+  build!
+
+task \build:browser 'build prelude-min.js' ->
+  build true
 
 task \build:all 'build prelude.js, build prelude-min.js, and test' ->
   invoke \build
   invoke \build:browser
   invoke \test
 
-task \test 'run test/' -> runTests require \../LiveScript/lib/livescript
+task \test 'run test/' -> runTests!
 
-function runTests global.LiveScript
+function runTests
+  global.LiveScript = LiveScript
   startTime = Date.now!
   passedTests = failedTests = 0
   for name, func of require \assert then let

@@ -1,4 +1,4 @@
-# Prelude.ls
+# prelude.ls
 is the recommended standard library when using [LiveScript](http://gkz.github.com/LiveScript/), but will work in any JavaScript environment. The library is somewhat based of off Haskell's Prelude - thus the name. 
 
 Any functions which take more than one argument (and a limited amount of arguments) can be partially applied. For instance, `add 4` will return a function which adds 4 to its argument.
