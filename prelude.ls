@@ -161,13 +161,21 @@ exports.pluck = pluck = (prop, xs) -->
   for x in xs when x[prop]? then result.push x[prop]
   result
 
-exports.head = head = (xs) -> xs.slice 0, 1
+exports.head = head = (xs) -> 
+  return void if not xs.length
+  xs.slice 0, 1
 
-exports.tail = tail = (xs) -> xs.slice 1
+exports.tail = tail = (xs) -> 
+  return void if not xs.length
+  xs.slice 1
 
-exports.last = last = (xs) -> xs.slice xs.length - 1
+exports.last = last = (xs) ->
+  return void if not xs.length
+  xs.slice xs.length - 1
 
-exports.initial = initial = (xs) -> xs.slice 0, xs.length - 1
+exports.initial = initial = (xs) -> 
+  return void if not xs.length
+  xs.slice 0, xs.length - 1
 
 exports.empty = empty = (xs) -> not xs.length
 
@@ -205,13 +213,22 @@ exports.product = product = (xs) ->
   for x in xs then result *= x
   result
 
+exports.mean = mean = exports.average = average = (xs) ->
+  sum = 0
+  for x in xs then sum += x
+  sum / xs.length
+
 exports.concat = concat = (xss) -> fold append, [], xss
 
 exports.concatMap = concatMap = (f, xs) --> concat map f, xs
 
-exports.maximum = maximum = (xs) -> Math.max.apply(this, xs)
+exports.maximum = maximum = (xs) -> 
+  return void if not xs.length
+  Math.max.apply(this, xs)
 
-exports.minimum = minimum = (xs) -> Math.min.apply(this, xs)
+exports.minimum = minimum = (xs) -> 
+  return void if not xs.length
+  Math.min.apply(this, xs)
 
 exports.scan = scan = exports.scanl = scanl = (f, memo, xs) --> 
   result = [memo]
@@ -219,7 +236,6 @@ exports.scan = scan = exports.scanl = scanl = (f, memo, xs) -->
   for x in xs
     result.push (last = f last, x)
   result
-
 
 exports.scan1 = scan1 = exports.scanl1 = scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
 
@@ -238,7 +254,7 @@ exports.replicate = replicate = (n, x) -->
   result
 
 exports.take = take = (n, xs) -->
-  | n <= 0        => xs
+  | n <= 0        => []
   | not xs.length => []
   | otherwise     => xs.slice 0, n
 
@@ -293,10 +309,14 @@ exports.zipWith = zipWith = (f, ...xss) ->
 
 # string
 
-exports.lines = lines = (str) -> str.split \\n
+exports.lines = lines = (str) -> 
+  return [] if not str.length
+  str.split \\n
 
 exports.unlines = unlines = (str) -> str.join \\n
 
-exports.words = words = (str) -> str.split ' '
+exports.words = words = (str) -> 
+  return [] if not str.length
+  str.split ' '
 
 exports.unwords = unwords = (str) -> str.join ' '

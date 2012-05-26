@@ -181,11 +181,11 @@ eq 36 lcm 12 18
 eq 5 id 5
 
 # each
-eq 0 (each -> []).length
+ok isEmptyList each ->, [] 
 eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
 
 # map
-eq 0 (map -> []).length
+ok isEmptyList map ->, []
 eq '2,3,4' "#{ map (add 1), [1 2 3] }"
 
 # cons 
@@ -195,6 +195,7 @@ eq '1,2,3' "#{ cons 1 [2 3] }"
 eq '1,2,3,4' "#{ append [1 2] [3 4] }"
 
 # filter 
+ok isEmptyList filter id, []
 eq '2,4' "#{ filter even, [1 to 5] }"
 
 # reject
@@ -209,15 +210,19 @@ eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
 list = [1 2 3 4 5]
 # head
 eq '1' "#{ head list }"
+ok (head [])!?
 
 # tail
 eq '2,3,4,5' "#{ tail list }"
+ok (tail [])!?
 
 # last
 eq '5' "#{ last list }"
+ok (last [])!?
 
 # initial
 eq '1,2,3,4' "#{ initial list }"
+ok (initial [])!?
 
 # empty
 ok empty []
@@ -225,13 +230,16 @@ ok not empty [1]
 
 # length
 eq 5 length list
+eq 0 length []
 
 # reverse
 eq '5,4,3,2,1' "#{ reverse list }"
 eq '1,2,3,4,5' "#{ list }" # list is unmodified
+ok isEmptyList reverse []
 
 # fold
 eq 12 fold add, 0, [1 2 3 6]
+eq 0 fold add, 0, []
 
 # fold1
 eq 12 fold1 add, [1 2 3 6]
@@ -245,39 +253,55 @@ eq 7 foldr1 subtract, [1 2 3 4 9]
 # andTest
 ok andList [true, 2 + 2 == 4]
 ok not andList [true true false true]
+ok andList []
 
 # orTest
 ok orList [false false false true false]
 ok not orList [false, 2 + 2 == 3]
+ok not orList []
 
 # any
 ok any even, [1 4 3]
 ok not any even, [1 3 7 5]
+ok not any even, []
 
 # all
 ok all even, [2 4 6]
 ok not all even, [2 5 6]
+ok all even, []
 
 # sum
 eq 10 sum [1 2 3 4]
+eq 0 sum []
 
 # product
 eq 24 product [1 2 3 4]
+eq 1 product []
+
+# mean
+eq 4 mean [2 3 4 5 6]
+ok isItNaN mean []
 
 # concat
 eq '1,2,3,4,5,6' "#{ concat [[1 2] [3 4] [5 6]] }"
+ok isEmptyList concat []
 
 # concatMap
 eq '1,1,2,1,2,3' "#{ concatMap (-> [1 to it]), [1 2 3] }"
+ok isEmptyList concatMap ->, []
 
 # maximum
 eq 6 maximum [1 2 6 4 5]
+ok (maximum [])!?
 
 # minimum
 eq 2 minimum [4 3 2 6 9]
+ok (minimum [])!?
 
 # scan
 eq '4,9,20,43' "#{ scan ((x, y) -> 2 * x + y), 4, [1 2 3] }"
+eq 1 (res = scan add, 0, []).length
+eq '0' "#res"
 
 # scan1
 eq '1,3,6,10' "#{ scan1 add, [1 2 3 4] }"
@@ -290,53 +314,84 @@ eq '10,9,7,4' "#{ scanr1 add, [1 2 3 4] }"
 
 # replicate
 eq '3,3,3,3' "#{ replicate 4 3 }"
+ok isEmptyList replicate 0 0
 
 # take
 eq '1,2,3' "#{ take 3 [1 2 3 4 5] }"
+ok isEmptyList take 3 []
+ok isEmptyList take -1 [1 to 5]
 
 # drop
 eq '4,5' "#{ drop 3 [1 2 3 4 5] }"
+ok isEmptyList drop 3 []
+ok '1,2,3,4,5' "#{ drop 0 [1 to 5] }"
 
 # splitAt
 eq '1,2,3|4,5' "#{ splitAt 3, [1 2 3 4 5] .join \| }"
+eq 2 (res = splitAt 3 []).length
+ok isEmptyList res.0
+ok isEmptyList res.1
 
 # takeWhile
 eq '1,3,5' "#{ takeWhile odd, [1 3 5 4 8 7 9] }"
+ok isEmptyList takeWhile odd, []
 
 # dropWhile
 eq '7,9,10' "#{ dropWhile even, [2 4 6 7 9 10] }"
+ok isEmptyList dropWhile odd, []
 
 # span
 eq '2,4,6|7,9,10' "#{ span even, [2 4 6 7 9 10] .join \|}"
+eq 2 (res = span even, []).length
+ok isEmptyList res.0
+ok isEmptyList res.1
 
 # breakList
 eq '1,2|3,4,5' "#{ breakList (equals 3), [1 2 3 4 5] .join \|}"
+eq 2 (res = span even, []).length
+ok isEmptyList res.0
+ok isEmptyList res.1
 
 # elem
 ok elem 2 [1 to 5]
 ok not elem 6 [1 to 5]
+ok not elem 3 []
 
 # notElem
 ok notElem 0 [1 to 5]
 ok not notElem 3 [1 to 5]
+ok notElem 3 []
 
 # lookup
 eq 2 lookup \two, two: 2
+ok (lookup \two, {})!?
 
 # zip
 eq '1,4,7|2,5,8|3,6,9' "#{ zip [1 2 3] [4 5 6] [7 8 9] .join \| }"
+ok isEmptyList zip [] []
 
 # zipWith
 eq '4,4,4' "#{ zipWith add, [1 2 3], [3 2 1] }"
+ok isEmptyList zipWith id, [], []
 
 # lines
 eq 'one|two|three' "#{ lines 'one\ntwo\nthree' .join \| }"
+ok isEmptyList lines ''
 
 # unlines
 eq 'one\ntwo\nthree' unlines [\one \two \three]
+eq '' unlines []
 
 # words
 eq 'what|is|this' "#{ words 'what is this' .join \| }"
+ok isEmptyList words '' 
 
 # unwords
 eq 'what is this' unwords [\what \is \this]
+eq '' unwords []
+
+
+# functions for testing
+function isEmptyList(x)
+  '[object Array]' is {}.toString.call x and not x.length
+  
