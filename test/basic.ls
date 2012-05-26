@@ -364,7 +364,12 @@ ok notElem 3 []
 
 # lookup
 eq 2 lookup \two, two: 2
+eq 4 lookup 2, [2, 3, 4]
 ok (lookup \two, {})!?
+
+# call
+eq 4 call \four, four: -> 4
+ok (call \four, {})!?
 
 # zip
 eq '1,4,7|2,5,8|3,6,9' "#{ zip [1 2 3] [4 5 6] [7 8 9] .join \| }"

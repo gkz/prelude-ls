@@ -327,7 +327,10 @@ Least common multiple.
     :: x -> [y] -> Bool
     
 #### lookup
-    :: String -> Obj -> x
+    :: x -> (Obj | [y]) -> z
+
+### call
+    :: x -> Obj -> z
     
 #### zip
     :: ...[x] -> [[x]]

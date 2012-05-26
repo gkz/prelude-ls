@@ -291,6 +291,8 @@ exports.notElem = notElem = (x, ys) --> x not in ys
 
 exports.lookup = lookup = (key, xs) --> xs?[key]
 
+exports.call = call = (key, xs) --> xs?[key]?!
+
 exports.zip = zip = (...xss) -> 
   result = []
   for xs, i in xss
