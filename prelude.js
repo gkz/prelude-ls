@@ -464,8 +464,8 @@ exports.lines = lines = function(str){
   }
   return str.split('\n');
 };
-exports.unlines = unlines = function(str){
-  return str.join('\n');
+exports.unlines = unlines = function(strs){
+  return strs.join('\n');
 };
 exports.words = words = function(str){
   if (!str.length) {
@@ -473,8 +473,8 @@ exports.words = words = function(str){
   }
   return str.split(' ');
 };
-exports.unwords = unwords = function(str){
-  return str.join(' ');
+exports.unwords = unwords = function(strs){
+  return strs.join(' ');
 };
 function __curry(f, args){
   return f.length ? function(){

@@ -313,10 +313,10 @@ exports.lines = lines = (str) ->
   return [] if not str.length
   str.split \\n
 
-exports.unlines = unlines = (str) -> str.join \\n
+exports.unlines = unlines = (strs) -> strs.join \\n
 
 exports.words = words = (str) -> 
   return [] if not str.length
   str.split ' '
 
-exports.unwords = unwords = (str) -> str.join ' '
+exports.unwords = unwords = (strs) -> strs.join ' '
