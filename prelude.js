@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var contradict, equals, notEquals, lt, lte, gt, gte, andTest, orTest, compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, add, minus, subtract, times, multiply, divide, divideBy, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, sum, product, concat, concatMap, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, elem, notElem, lookup, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice;
+var contradict, equals, notEquals, lt, lte, gt, gte, andTest, orTest, compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, add, minus, subtract, times, multiply, divide, divideBy, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, sum, product, average, mean, concat, concatMap, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, elem, notElem, lookup, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice;
 exports.contradict = contradict = function(x){
   return !x;
 };
@@ -213,15 +213,27 @@ exports.pluck = pluck = __curry(function(prop, xs){
   return result;
 });
 exports.head = head = function(xs){
+  if (!xs.length) {
+    return;
+  }
   return xs.slice(0, 1);
 };
 exports.tail = tail = function(xs){
+  if (!xs.length) {
+    return;
+  }
   return xs.slice(1);
 };
 exports.last = last = function(xs){
+  if (!xs.length) {
+    return;
+  }
   return xs.slice(xs.length - 1);
 };
 exports.initial = initial = function(xs){
+  if (!xs.length) {
+    return;
+  }
   return xs.slice(0, xs.length - 1);
 };
 exports.empty = empty = function(xs){
@@ -289,6 +301,15 @@ exports.product = product = function(xs){
   }
   return result;
 };
+exports.mean = mean = exports.average = average = function(xs){
+  var sum, x, __i, __len;
+  sum = 0;
+  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+    x = xs[__i];
+    sum += x;
+  }
+  return sum / xs.length;
+};
 exports.concat = concat = function(xss){
   return fold(append, [], xss);
 };
@@ -296,9 +317,15 @@ exports.concatMap = concatMap = __curry(function(f, xs){
   return concat(map(f, xs));
 });
 exports.maximum = maximum = function(xs){
+  if (!xs.length) {
+    return;
+  }
   return Math.max.apply(this, xs);
 };
 exports.minimum = minimum = function(xs){
+  if (!xs.length) {
+    return;
+  }
   return Math.min.apply(this, xs);
 };
 exports.scan = scan = exports.scanl = scanl = __curry(function(f, memo, xs){
@@ -334,7 +361,7 @@ exports.replicate = replicate = __curry(function(n, x){
 exports.take = take = __curry(function(n, xs){
   switch (false) {
   case !(n <= 0):
-    return xs;
+    return [];
   case !!xs.length:
     return [];
   default:
@@ -432,12 +459,18 @@ exports.zipWith = zipWith = function(f){
   }
 };
 exports.lines = lines = function(str){
+  if (!str.length) {
+    return [];
+  }
   return str.split('\n');
 };
 exports.unlines = unlines = function(str){
   return str.join('\n');
 };
 exports.words = words = function(str){
+  if (!str.length) {
+    return [];
+  }
   return str.split(' ');
 };
 exports.unwords = unwords = function(str){
