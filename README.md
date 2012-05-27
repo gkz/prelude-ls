@@ -311,7 +311,7 @@ Least common multiple.
 #### takeWhile
     :: Func -> [x] -> [x]
     
-#### dropWHile
+#### dropWhile
     :: Func -> [x] -> [x]
     
 #### span
