@@ -43,8 +43,12 @@ exports.compose = compose = function(){
     return args[0];
   };
 };
-exports.max = max = Math.max;
-exports.min = min = Math.min;
+exports.max = max = __curry(function(x, y){
+  return Math.max(x, y);
+});
+exports.min = min = __curry(function(x, y){
+  return Math.min(x, y);
+});
 exports.negate = negate = function(x){
   return -x;
 };

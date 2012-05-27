@@ -30,9 +30,9 @@ exports.compose = compose = (...funcs) ->
       args = [f.apply this, args]
     args.0
 
-exports.max = max = Math.max
+exports.max = max = (x, y) --> Math.max x, y
 
-exports.min = min = Math.min
+exports.min = min = (x, y) --> Math.min x, y
 
 exports.negate = negate = (x) -> -x
 

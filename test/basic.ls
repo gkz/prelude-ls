@@ -44,10 +44,10 @@ composed = compose addTwo, timesTwo, minusOne
 eq 9, composed 3
 
 # max
-eq 3 max 2 3 -4
+eq 3 max 2 3
 
 # min
-eq 0 min 9 0 1 5
+eq 0 min 9 0
 
 # negate
 eq -2 negate 2

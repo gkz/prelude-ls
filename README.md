@@ -58,15 +58,11 @@ prelude.ls is preloaded on the [LiveScript website](http://gkz.github.com/LiveSc
     (...funcs) -> f1 >> f2 >> ... >> fn
     
 #### max
-    :: ...Nums -> Num
+    :: Num -> Num -> Num
     
-Maxium number of the numbers.
-
 #### min
-    :: ...Nums -> Num
+    :: Num -> Num -> Num
     
-Minimum number of the numbers.
-
 #### negate
     :: Num -> Num
     (x) -> -x
