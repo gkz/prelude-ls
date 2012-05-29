@@ -6,53 +6,17 @@ Any functions which take more than one argument (and a limited amount of argumen
 ## Examples
 Using LiveScript:
 
-    [1 2 3] |> map times 2 |> filter lt 5 |> fold1 add
+    [1 2 3] |> map (* 2) |> filter (< 5) |> fold1 (+)
     #=> 6
-
-Using JavaScript:
-
-    fold1(add)(filter(lt(5))(map(times(2))([1, 2, 3])));
-    //=> 6
 
 prelude.ls is preloaded on the [LiveScript website](http://gkz.github.com/LiveScript/), you can play around with its functions there if you please.
 
+## Usage
+In the browser use `prelude-min.js` - it attaches itself to `window` as `prelude`. I like to import all its functions to `window`.
+
+You can install via npm `npm install prelude-ls`
+
 ## Functions
-#### contradict
-    :: x -> Bool
-    (x) -> not x`
-    
-#### equals
-    :: x -> y -> Bool
-    (x, y) --> x == y
-    
-#### notEquals
-    :: x -> y -> Bool
-    (x, y) --> x != y
-    
-#### lt
-    :: x -> y -> Bool
-    (x, y) --> x > y
-    
-#### lte
-    :: x -> y -> Bool
-    (x, y) --> x >= y
-    
-#### gt
-    :: x -> y -> Bool
-    (x, y) --> x < y
-    
-#### gte
-    :: x -> y -> Bool
-    (x, y) --> x <= y
-    
-#### andTest
-    :: Bool -> Bool -> Bool
-    (x, y) --> x and y
-    
-#### orTest
-    :: Bool -> Bool -> Bool
-    (x, y) --> x or y
-    
 #### compose
     :: ...Funcs -> Func
     (...funcs) -> f1 >> f2 >> ... >> fn
@@ -150,30 +114,6 @@ Returns -1, 0, or 1 depending on the sign of the number.
     
 #### isItNaN
     :: x -> Bool
-    
-#### add
-    :: Num -> Num -> Num
-    (x, y) --> x + y
-    
-#### minus
-    :: Num -> Num -> Num
-    (x, y) --> x - y
-    
-#### subtract
-    :: Num -> Num -> Num
-    (x, y) --> y - x
-    
-#### multiply (times)
-    :: Num -> Num -> Num
-    (x, y) --> x * y
-    
-#### divide
-    :: Num -> Num -> Num
-    (x, y) --> x / y
-    
-#### divideBy
-    :: Num -> Num -> Num
-    (x, y) --> y / x
     
 #### even
     :: Num -> Bool
