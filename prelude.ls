@@ -193,7 +193,10 @@ exports.concat = concat = (xss) -> fold append, [], xss
 exports.concatMap = concatMap = (f, xs) --> concat map f, xs
 
 exports.unique = unique = (xs) ->
-  fold ((memo, x) -> memo +++ (if memo.indexOf(x) < 0 then [x] else [])), [], xs
+  result = []
+  for x in xs when x not in result
+    result.push x
+  result
 
 exports.listToObject = listToObject = (xs) ->
   result = {}
