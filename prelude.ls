@@ -192,6 +192,15 @@ exports.concat = concat = (xss) -> fold append, [], xss
 
 exports.concatMap = concatMap = (f, xs) --> concat map f, xs
 
+exports.unique = unique = (xs) ->
+  fold ((memo, x) -> memo +++ (if memo.indexOf(x) < 0 then [x] else [])), [], xs
+
+exports.listToObject = listToObject = (xs) ->
+  result = {}
+  for x in xs
+    result[x[0]] = x[1]
+  result
+
 exports.maximum = maximum = (xs) -> 
   return void if not xs.length
   Math.max.apply(this, xs)
