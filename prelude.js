@@ -2,34 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var contradict, equals, notEquals, lt, lte, gt, gte, andTest, orTest, compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, add, minus, subtract, times, multiply, divide, divideBy, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, sum, product, average, mean, concat, concatMap, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice;
-exports.contradict = contradict = function(x){
-  return !x;
-};
-exports.equals = equals = __curry(function(x, y){
-  return x === y;
-});
-exports.notEquals = notEquals = __curry(function(x, y){
-  return x !== y;
-});
-exports.lt = lt = __curry(function(x, y){
-  return x > y;
-});
-exports.lte = lte = __curry(function(x, y){
-  return x >= y;
-});
-exports.gt = gt = __curry(function(x, y){
-  return x < y;
-});
-exports.gte = gte = __curry(function(x, y){
-  return x <= y;
-});
-exports.andTest = andTest = __curry(function(x, y){
-  return x && y;
-});
-exports.orTest = orTest = __curry(function(x, y){
-  return x || y;
-});
+var compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, sum, product, average, mean, concat, concatMap, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice;
 exports.compose = compose = function(){
   var funcs;
   funcs = __slice.call(arguments);
@@ -104,24 +77,6 @@ exports.floor = floor = Math.floor;
 exports.isItNaN = isItNaN = function(x){
   return x !== x;
 };
-exports.add = add = __curry(function(x, y){
-  return x + y;
-});
-exports.minus = minus = __curry(function(x, y){
-  return x - y;
-});
-exports.subtract = subtract = __curry(function(x, y){
-  return y - x;
-});
-exports.multiply = multiply = exports.times = times = __curry(function(x, y){
-  return x * y;
-});
-exports.divide = divide = __curry(function(x, y){
-  return x / y;
-});
-exports.divideBy = divideBy = __curry(function(x, y){
-  return y / x;
-});
 exports.even = even = function(x){
   return x % 2 === 0;
 };
@@ -419,7 +374,9 @@ exports.span = span = __curry(function(p, xs){
   return [takeWhile(p, xs), dropWhile(p, xs)];
 });
 exports.breakList = breakList = __curry(function(p, xs){
-  return span(__compose((contradict),(p)), xs);
+  return span(__compose((function(it){
+    return !it;
+  }),(p)), xs);
 });
 exports.elem = elem = __curry(function(x, ys){
   return __in(x, ys);

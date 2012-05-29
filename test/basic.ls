@@ -1,41 +1,3 @@
-# contradict
-ok contradict false
-ok not contradict true
-
-# equals
-ok equals 1 1
-ok not equals true 'true'
-
-# notEquals
-ok notEquals 2 '2'
-ok not notEquals true !false
-
-# lt
-ok lt 3 1
-ok not lt 0 0
-
-# lte 
-ok lte 1 0
-ok lte 1 1
-ok not lte 1 2
-
-# gt
-ok gt 2 3
-ok not gt 3 3
-
-# gte
-ok gte -1 0
-ok gte 0 0
-ok not gte 1 0
-
-# andTest
-ok andTest true true
-ok not andTest true false
-
-# orTest
-ok orTest true false
-ok not orTest false false
-
 # compose
 addTwo = (x) -> x + 2
 timesTwo = (x) -> x * 2
@@ -139,27 +101,9 @@ eq 1 ceiling 0.1
 # floor
 eq 0 floor 0.9
 
-# isNaN
+# isItNaN
 ok isItNaN Math.sqrt -1
 ok not isItNaN '0'
-
-# add 
-eq 5 add 2 3
-
-# minus
-eq -2 minus 3 5
-
-# subtract
-eq 2 subtract 3 5
-
-# multiply
-eq 6 multiply 2 3
-
-# divide
-eq 2 divide 8 4
-
-# divideBy
-eq 0.5 divideBy 8 4
 
 # even
 ok even -2
@@ -186,7 +130,7 @@ eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
 
 # map
 ok isEmptyList map ->, []
-eq '2,3,4' "#{ map (add 1), [1 2 3] }"
+eq '2,3,4' "#{ map (+ 1), [1 2 3] }"
 
 # cons 
 eq '1,2,3' "#{ cons 1 [2 3] }"
@@ -238,17 +182,17 @@ eq '1,2,3,4,5' "#{ list }" # list is unmodified
 ok isEmptyList reverse []
 
 # fold
-eq 12 fold add, 0, [1 2 3 6]
-eq 0 fold add, 0, []
+eq 12 fold (+), 0, [1 2 3 6]
+eq 0 fold (+), 0, []
 
 # fold1
-eq 12 fold1 add, [1 2 3 6]
+eq 12 fold1 (+), [1 2 3 6]
 
 # foldr
-eq 7 foldr subtract, 0, [1 2 3 4 9]
+eq -1 foldr (-), 9, [1 2 3 4]
 
 # foldr1
-eq 7 foldr1 subtract, [1 2 3 4 9]
+eq -1 foldr1 (-), [1 2 3 4 9]
 
 # andTest
 ok andList [true, 2 + 2 == 4]
@@ -300,17 +244,17 @@ ok (minimum [])!?
 
 # scan
 eq '4,9,20,43' "#{ scan ((x, y) -> 2 * x + y), 4, [1 2 3] }"
-eq 1 (res = scan add, 0, []).length
+eq 1 (res = scan (+), 0, []).length
 eq '0' "#res"
 
 # scan1
-eq '1,3,6,10' "#{ scan1 add, [1 2 3 4] }"
+eq '1,3,6,10' "#{ scan1 (+), [1 2 3 4] }"
 
 # scanr
-eq '15,14,12,9,5' "#{ scanr add, 5, [1 2 3 4] }"
+eq '15,14,12,9,5' "#{ scanr (+), 5, [1 2 3 4] }"
 
 # scanr1
-eq '10,9,7,4' "#{ scanr1 add, [1 2 3 4] }"
+eq '10,9,7,4' "#{ scanr1 (+), [1 2 3 4] }"
 
 # replicate
 eq '3,3,3,3' "#{ replicate 4 3 }"
@@ -347,7 +291,7 @@ ok isEmptyList res.0
 ok isEmptyList res.1
 
 # breakList
-eq '1,2|3,4,5' "#{ breakList (equals 3), [1 2 3 4 5] .join \|}"
+eq '1,2|3,4,5' "#{ breakList (== 3), [1 2 3 4 5] .join \|}"
 eq 2 (res = span even, []).length
 ok isEmptyList res.0
 ok isEmptyList res.1
@@ -376,7 +320,7 @@ eq '1,4,7|2,5,8|3,6,9' "#{ zip [1 2 3] [4 5 6] [7 8 9] .join \| }"
 ok isEmptyList zip [] []
 
 # zipWith
-eq '4,4,4' "#{ zipWith add, [1 2 3], [3 2 1] }"
+eq '4,4,4' "#{ zipWith (+), [1 2 3], [3 2 1] }"
 ok isEmptyList zipWith id, [], []
 
 # lines

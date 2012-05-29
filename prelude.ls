@@ -5,24 +5,6 @@
 # called often, and the code here, once set, will
 # not change often. 
 
-exports.contradict = contradict = (x) -> not x
-
-exports.equals = equals = (x, y) --> x == y
-
-exports.notEquals = notEquals = (x, y) --> x != y
-
-exports.lt = lt = (x, y) --> x > y
-
-exports.lte = lte = (x, y) --> x >= y
-
-exports.gt = gt = (x, y) --> x < y
-
-exports.gte = gte = (x, y) --> x <= y
-
-exports.andTest = andTest = (x, y) --> x and y
-
-exports.orTest = orTest = (x, y) --> x or y
-
 exports.compose = compose = (...funcs) -> 
   ->
     args = arguments
@@ -93,18 +75,6 @@ exports.ceiling = ceiling = Math.ceil
 exports.floor = floor = Math.floor
 
 exports.isItNaN = isItNaN = (x) -> x isnt x
-
-exports.add = add = (x, y) --> x + y
-
-exports.minus = minus = (x, y) --> x - y
-
-exports.subtract = subtract = (x, y) --> y - x
-
-exports.multiply = multiply = exports.times = times = (x, y) --> x * y
-
-exports.divide = divide = (x, y) --> x / y
-
-exports.divideBy = divideBy = (x, y) --> y / x
 
 exports.even = even = (x) -> x % 2 == 0
 
@@ -283,7 +253,7 @@ exports.dropWhile = dropWhile = (p, xs) -->
 
 exports.span = span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
-exports.breakList = breakList = (p, xs) --> span (contradict << p), xs
+exports.breakList = breakList = (p, xs) --> span (not) << p, xs
 
 exports.elem = elem = (x, ys) --> x in ys
 
