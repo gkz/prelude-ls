@@ -234,6 +234,13 @@ ok isEmptyList concat []
 eq '1,1,2,1,2,3' "#{ concatMap (-> [1 to it]), [1 2 3] }"
 ok isEmptyList concatMap ->, []
 
+# unique
+eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"
+
+# listToObject
+objEq {a: b, c: 'd', e: 1}, listToObject [['a' 'b'] ['c' 'd'] ['e' 1]]
+ok isEmptyObject listToObject []
+
 # maximum
 eq 6 maximum [1 2 6 4 5]
 ok (maximum [])!?
@@ -343,4 +350,13 @@ eq '' unwords []
 # functions for testing
 function isEmptyList(x)
   '[object Array]' is {}.toString.call x and not x.length
-  
+
+function objEq(xs, ys)
+  for xk, xv of xs
+    for yk, yv of ys
+      return no if xk isnt yk or xv isnt yv
+  yes
+
+function isEmptyObject(xs)
+  for x of xs then return no
+  yes
