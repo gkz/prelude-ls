@@ -16,6 +16,8 @@ In the browser use `prelude-min.js` - it attaches itself to `window` as `prelude
 
 You can install via npm `npm install prelude-ls`
 
+For developers looking to contribute you must have [LiveScript](http://gkz.github.com/LiveScript/) - install via npm using `sudo npm install -g LiveScript`. Use the commands `slake test` to run tests (always write any tests for any additions). Run `slake build:all` to build everything and run tests.
+
 ## Functions
 #### compose
     :: ...Funcs -> Func
