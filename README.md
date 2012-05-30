@@ -199,7 +199,10 @@ Least common multiple.
     
 #### foldr1
     :: Func -> [y] -> z
-    
+
+#### unique
+    :: [x] -> [y]
+
 #### andList
     :: [Bool] -> Bool
     
@@ -226,7 +229,7 @@ Least common multiple.
     
 #### concatMap
     :: Func -> [[x]] -> [y]
-    
+
 #### maximum
     :: [Num] -> Num
     
@@ -299,3 +302,5 @@ Least common multiple.
 #### unwords
     :: [String] -> String
     
+#### listToObject
+    :: [[a, b], [x, y]] -> {a: b, x: y}
