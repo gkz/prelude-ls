@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, sum, product, average, mean, concat, concatMap, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice;
+var compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, objToFunc, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice;
 exports.compose = compose = function(){
   var funcs;
   funcs = __slice.call(arguments);
@@ -242,6 +242,17 @@ exports.all = all = __curry(function(f, xs){
     return memo && f(x);
   }, true, xs);
 });
+exports.unique = unique = function(xs){
+  var result, x, __i, __len;
+  result = [];
+  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+    x = xs[__i];
+    if (!__in(x, result)) {
+      result.push(x);
+    }
+  }
+  return result;
+};
 exports.sum = sum = function(xs){
   var result, x, __i, __len;
   result = 0;
@@ -275,6 +286,20 @@ exports.concat = concat = function(xss){
 exports.concatMap = concatMap = __curry(function(f, xs){
   return concat(map(f, xs));
 });
+exports.listToObj = listToObj = function(xs){
+  var result, x, __i, __len;
+  result = {};
+  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+    x = xs[__i];
+    result[x[0]] = x[1];
+  }
+  return result;
+};
+exports.objToFunc = objToFunc = function(obj){
+  return function(key){
+    return obj[key];
+  };
+};
 exports.maximum = maximum = function(xs){
   if (!xs.length) {
     return;
@@ -447,13 +472,13 @@ function __curry(f, args){
       __curry.call(this, f, params) : f.apply(this, params);
   } : f;
 }
-function __compose(f, g){
-  return function(){
-    return f(g.apply(this, arguments)); 
-  }
-}
 function __in(x, arr){
   var i = 0, l = arr.length >>> 0;
   while (i < l) if (x === arr[i++]) return true;
   return false;
+}
+function __compose(f, g){
+  return function(){
+    return f(g.apply(this, arguments)); 
+  }
 }

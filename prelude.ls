@@ -173,6 +173,12 @@ exports.any = any = (f, xs) --> fold ((memo, x) -> memo or f x), false, xs
 
 exports.all = all = (f, xs) --> fold ((memo, x) -> memo and f x), true, xs
 
+exports.unique = unique = (xs) ->
+  result = []
+  for x in xs when x not in result
+    result.push x
+  result
+
 exports.sum = sum = (xs) ->
   result = 0 
   for x in xs then result += x
@@ -192,17 +198,14 @@ exports.concat = concat = (xss) -> fold append, [], xss
 
 exports.concatMap = concatMap = (f, xs) --> concat map f, xs
 
-exports.unique = unique = (xs) ->
-  result = []
-  for x in xs when x not in result
-    result.push x
-  result
-
-exports.listToObject = listToObject = (xs) ->
+exports.listToObj = listToObj = (xs) ->
   result = {}
   for x in xs
     result[x[0]] = x[1]
   result
+
+exports.objToFunc = objToFunc = (obj) ->
+  (key) -> obj[key] 
 
 exports.maximum = maximum = (xs) -> 
   return void if not xs.length

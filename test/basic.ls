@@ -214,6 +214,9 @@ ok all even, [2 4 6]
 ok not all even, [2 5 6]
 ok all even, []
 
+# unique
+eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"
+
 # sum
 eq 10 sum [1 2 3 4]
 eq 0 sum []
@@ -233,13 +236,6 @@ ok isEmptyList concat []
 # concatMap
 eq '1,1,2,1,2,3' "#{ concatMap (-> [1 to it]), [1 2 3] }"
 ok isEmptyList concatMap ->, []
-
-# unique
-eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"
-
-# listToObject
-objEq {a: b, c: 'd', e: 1}, listToObject [['a' 'b'] ['c' 'd'] ['e' 1]]
-ok isEmptyObject listToObject []
 
 # maximum
 eq 6 maximum [1 2 6 4 5]
@@ -321,6 +317,13 @@ ok (lookup \two, {})!?
 # call
 eq 4 call \four, four: -> 4
 ok (call \four, {})!?
+
+# listToObj
+objEq {a: 'b', c: 'd', e: 1}, listToObj [['a' 'b'] ['c' 'd'] ['e' 1]]
+ok isEmptyObject listToObj []
+
+# objToFunc
+eq 2 (objToFunc {one: 1, two: 2})(\two)
 
 # zip
 eq '1,4,7|2,5,8|3,6,9' "#{ zip [1 2 3] [4 5 6] [7 8 9] .join \| }"
