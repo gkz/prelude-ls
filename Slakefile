@@ -81,26 +81,24 @@ function runTests
     say if failedTests
     then tint "failed #failedTests and #message" red
     else tint message
-  dir(\test)forEach (file) ->
-    return unless /\.ls$/i.test file
-    code = slurp \prelude.ls
-    code += slurp filename = path.join \test file
-    try LiveScript.run code, {filename} catch
-      ++failedTests
-      return say e unless stk = e?stack
-      msg = e.message or ''+ /^[^]+?(?=\n    at )/exec stk
-      if m = /^(AssertionError:) "(.+)" (===) "(.+)"$/exec msg
-        for i in [2 4] then m[i] = tint m[i]replace(/\\n/g \\n), bold 
-        msg  = m.slice(1)join \\n
-      [, row, col]? = //#filename:(\d+):(\d+)\)?$//m.exec stk
-      if row and col
-        say tint "#msg\n#{red}at #filename:#{row--}:#{col--}" red
-        code = LiveScript.compile code, {+bare}
-      else if /\bon line (\d+)\b/exec msg
-        say tint msg, red
-        row = that.1 - 1
-        col = 0
-      else return say stk
-      {(row): line} = lines = code.split \\n
-      lines[row] = line.slice(0 col) + tint line.slice(col), bold
-      say lines.slice(row-8 >? 0, row+9)join \\n
+  code = slurp \prelude.ls
+  code += slurp filename = path.join \test.ls
+  try LiveScript.run code, {filename} catch
+    ++failedTests
+    return say e unless stk = e?stack
+    msg = e.message or ''+ /^[^]+?(?=\n    at )/exec stk
+    if m = /^(AssertionError:) "(.+)" (===) "(.+)"$/exec msg
+      for i in [2 4] then m[i] = tint m[i]replace(/\\n/g \\n), bold 
+      msg  = m.slice(1)join \\n
+    [, row, col]? = //#filename:(\d+):(\d+)\)?$//m.exec stk
+    if row and col
+      say tint "#msg\n#{red}at #filename:#{row--}:#{col--}" red
+      code = LiveScript.compile code, {+bare}
+    else if /\bon line (\d+)\b/exec msg
+      say tint msg, red
+      row = that.1 - 1
+      col = 0
+    else return say stk
+    {(row): line} = lines = code.split \\n
+    lines[row] = line.slice(0 col) + tint line.slice(col), bold
+    say lines.slice(row-8 >? 0, row+9)join \\n
