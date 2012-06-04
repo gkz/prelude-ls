@@ -129,13 +129,25 @@ exports.map = map = __curry(function(f, xs){
     x = xs[__i];
     result.push(f(x));
   }
-  return result;
+  if (__toString.call(xs).slice(8, -1) === 'String') {
+    return result.join('');
+  } else {
+    return result;
+  }
 });
 exports.cons = cons = __curry(function(x, xs){
-  return [(x)].concat(xs);
+  if (__toString.call(xs).slice(8, -1) === 'String') {
+    return x + xs;
+  } else {
+    return [(x)].concat(xs);
+  }
 });
 exports.append = append = __curry(function(xs, ys){
-  return (xs).concat(ys);
+  if (__toString.call(ys).slice(8, -1) === 'String') {
+    return xs + ys;
+  } else {
+    return (xs).concat(ys);
+  }
 });
 exports.filter = filter = __curry(function(f, xs){
   var result, x, __i, __len;
@@ -146,7 +158,11 @@ exports.filter = filter = __curry(function(f, xs){
       result.push(x);
     }
   }
-  return result;
+  if (__toString.call(xs).slice(8, -1) === 'String') {
+    return result.join('');
+  } else {
+    return result;
+  }
 });
 exports.reject = reject = __curry(function(f, xs){
   var result, x, __i, __len;
@@ -157,7 +173,11 @@ exports.reject = reject = __curry(function(f, xs){
       result.push(x);
     }
   }
-  return result;
+  if (__toString.call(xs).slice(8, -1) === 'String') {
+    return result.join('');
+  } else {
+    return result;
+  }
 });
 exports.find = find = __curry(function(f, xs){
   var x, __i, __len;

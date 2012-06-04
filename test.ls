@@ -128,64 +128,89 @@ eq 5 id 5
 ok isEmptyList each ->, [] 
 eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
 
+testTarget = 0
+eq 'hello' each (-> ++testTarget), 'hello'
+eq 5 testTarget
+eq '' each (->), ''
+
 # map
 ok isEmptyList map ->, []
 eq '2,3,4' "#{ map (+ 1), [1 2 3] }"
 
+eq 'ABC' map (-> it.toUpperCase!), 'abc'
+
 # cons 
 eq '1,2,3' "#{ cons 1 [2 3] }"
 
+eq 'abc' cons \a 'bc'
+
 # append
 eq '1,2,3,4' "#{ append [1 2] [3 4] }"
+
+eq 'abcdef' append 'abc' 'def'
 
 # filter 
 ok isEmptyList filter id, []
 eq '2,4' "#{ filter even, [1 to 5] }"
 
+eq 'abcc' filter (-> it in [\a to \c]), 'abcdefcf'
+
 # reject
 eq '1,3,5' "#{ reject even, [1 to 5] }"
+
+eq 'deff' reject (-> it in [\a to \c]), 'abcdefcf'
 
 # find
 eq 4 find even, [3 1 4 8 6]
 
+eq 'b' find (== \b), 'abs'
+
 # pluck
 eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
 
+
 list = [1 2 3 4 5]
 string = 'abcde'
+
 # head
 eq '1' "#{ head list }"
 ok (head [])!?
+
 eq 'a' head string
 ok (head '')!?
 
 # tail
 eq '2,3,4,5' "#{ tail list }"
 ok (tail [])!?
+
 eq 'bcde' tail string
 ok (tail '')!?
 
 # last
 eq '5' "#{ last list }"
 ok (last [])!?
+
 eq 'e' last string
 ok (last '')!?
 
 # initial
 eq '1,2,3,4' "#{ initial list }"
 ok (initial [])!?
+
 eq 'abcd' initial string
 ok (initial '')!?
 
 # empty
 ok empty []
 ok not empty [1]
+
 ok empty ''
 ok not empty '1'
 
 # length
 eq 5 length list
 eq 0 length []
+
 eq 4 length 'abcd'
 eq 0 length ''
 
@@ -193,12 +218,16 @@ eq 0 length ''
 eq '5,4,3,2,1' "#{ reverse list }"
 eq '1,2,3,4,5' "#{ list }" # list is unmodified
 ok isEmptyList reverse []
+
 eq 'dcba' reverse 'abcd'
-eq '' reverse ''
+eq ''     reverse ''
 
 # fold
 eq 12 fold (+), 0, [1 2 3 6]
 eq 0 fold (+), 0, []
+
+eq 'abc' fold (+), '', 'abc'
+eq '' fold (+), '', ''
 
 # fold1
 eq 12 fold1 (+), [1 2 3 6]
@@ -224,10 +253,18 @@ ok any even, [1 4 3]
 ok not any even, [1 3 7 5]
 ok not any even, []
 
+ok any (== \M), 'mmmhMmm'
+ok not any (== \Z), 'mmmhMmm'
+ok not any (== \Z), ''
+
 # all
 ok all even, [2 4 6]
 ok not all even, [2 5 6]
 ok all even, []
+
+ok all (== \M), 'MMMMMM'
+ok not all (== \M), 'MMMmMM'
+ok all (== \M), ''
 
 # unique
 eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"

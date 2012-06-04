@@ -106,21 +106,25 @@ exports.each = each = (f, xs) -->
 exports.map = map = (f, xs) --> 
   result = []
   for x in xs then result.push f x
-  result
+  if typeof! xs is \String 
+  then result.join ''
+  else result
 
-exports.cons = cons = (x, xs) --> x & xs
+exports.cons = cons = (x, xs) --> 
+  if typeof! xs is \String then x + xs else x & xs
 
-exports.append = append = (xs, ys) --> xs +++ ys
+exports.append = append = (xs, ys) --> 
+  if typeof! ys is \String then xs + ys else xs +++ ys
 
 exports.filter = filter = (f, xs) --> 
   result = []
   for x in xs when f x then result.push x
-  result
+  if typeof! xs is \String then result.join '' else result
 
 exports.reject = reject = (f, xs) -->
   result = []
   for x in xs when not f x then result.push x
-  result
+  if typeof! xs is \String then result.join '' else result
 
 exports.find = find = (f, xs) -->
   for x in xs when f x then return x
