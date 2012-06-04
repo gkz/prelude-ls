@@ -12,9 +12,9 @@ exports.compose = compose = (...funcs) ->
       args = [f.apply this, args]
     args.0
 
-exports.max = max = (x, y) --> Math.max x, y
+exports.max = max = (x, y) --> if x > y then x else y
 
-exports.min = min = (x, y) --> Math.min x, y
+exports.min = min = (x, y) --> if x > y then y else x
 
 exports.negate = negate = (x) -> -x
 
@@ -151,7 +151,10 @@ exports.empty = empty = (xs) -> not xs.length
 
 exports.length = length = (xs) -> xs.length
 
-exports.reverse = reverse = (xs) -> xs.slice!reverse!
+exports.reverse = reverse = (xs) -> 
+  if typeof! xs is \String 
+  then xs.split '' .reverse!join ''
+  else xs.slice!reverse!
 
 exports.fold = fold = exports.foldl = foldl = (f, memo, xs) -->
   for x in xs then memo = f memo, x
@@ -239,19 +242,20 @@ exports.replicate = replicate = (n, x) -->
   result
 
 exports.take = take = (n, xs) -->
-  | n <= 0        => []
-  | not xs.length => []
+  | n <= 0        
+    if typeof! xs is \String then '' else []
+  | not xs.length => xs
   | otherwise     => xs.slice 0, n
 
 exports.drop = drop = (n, xs) -->
   | n <= 0        => xs
-  | not xs.length => []
+  | not xs.length => xs
   | otherwise     => xs.slice n
 
 exports.splitAt = splitAt = (n, xs) --> [(take n, xs), (drop n, xs)]
 
 exports.takeWhile = takeWhile = (p, xs) -->
-  return [] if not xs.length
+  return xs if not xs.length
   i = 0
   for x in xs
     break if not p x
@@ -259,7 +263,7 @@ exports.takeWhile = takeWhile = (p, xs) -->
   take i, xs
 
 exports.dropWhile = dropWhile = (p, xs) -->
-  return [] if not xs.length
+  return xs if not xs.length
   i = 0
   for x in xs
     break if not p x
@@ -268,7 +272,7 @@ exports.dropWhile = dropWhile = (p, xs) -->
 
 exports.span = span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
-exports.breakList = breakList = (p, xs) --> span (not) << p, xs
+exports.breakIt = breakIt = (p, xs) --> span (not) << p, xs
 
 exports.elem = elem = (x, ys) --> x in ys
 

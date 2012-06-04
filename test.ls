@@ -152,34 +152,49 @@ eq 4 find even, [3 1 4 8 6]
 eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
 
 list = [1 2 3 4 5]
+string = 'abcde'
 # head
 eq '1' "#{ head list }"
 ok (head [])!?
+eq 'a' head string
+ok (head '')!?
 
 # tail
 eq '2,3,4,5' "#{ tail list }"
 ok (tail [])!?
+eq 'bcde' tail string
+ok (tail '')!?
 
 # last
 eq '5' "#{ last list }"
 ok (last [])!?
+eq 'e' last string
+ok (last '')!?
 
 # initial
 eq '1,2,3,4' "#{ initial list }"
 ok (initial [])!?
+eq 'abcd' initial string
+ok (initial '')!?
 
 # empty
 ok empty []
 ok not empty [1]
+ok empty ''
+ok not empty '1'
 
 # length
 eq 5 length list
 eq 0 length []
+eq 4 length 'abcd'
+eq 0 length ''
 
 # reverse
 eq '5,4,3,2,1' "#{ reverse list }"
 eq '1,2,3,4,5' "#{ list }" # list is unmodified
 ok isEmptyList reverse []
+eq 'dcba' reverse 'abcd'
+eq '' reverse ''
 
 # fold
 eq 12 fold (+), 0, [1 2 3 6]
@@ -268,10 +283,18 @@ eq '1,2,3' "#{ take 3 [1 2 3 4 5] }"
 ok isEmptyList take 3 []
 ok isEmptyList take -1 [1 to 5]
 
+eq 'ab' take 2 string
+eq ''   take 3 ''
+eq ''   take 0 string
+
 # drop
 eq '4,5' "#{ drop 3 [1 2 3 4 5] }"
 ok isEmptyList drop 3 []
 ok '1,2,3,4,5' "#{ drop 0 [1 to 5] }"
+
+eq 'cde' drop 2 string
+eq ''    drop 2 ''
+eq 'abcde' drop 0 string
 
 # splitAt
 eq '1,2,3|4,5' "#{ splitAt 3, [1 2 3 4 5] .join \| }"
@@ -279,13 +302,24 @@ eq 2 (res = splitAt 3 []).length
 ok isEmptyList res.0
 ok isEmptyList res.1
 
+eq 'abc|de' "#{ splitAt 3, 'abcde' .join \| }"
+eq 2 (res = splitAt 3 '').length
+eq '' res.0
+eq '' res.1
+
 # takeWhile
 eq '1,3,5' "#{ takeWhile odd, [1 3 5 4 8 7 9] }"
 ok isEmptyList takeWhile odd, []
 
+eq 'mmmmm' takeWhile (is 'm'), 'mmmmmhmm'
+eq '' takeWhile (is 'm'), ''
+
 # dropWhile
 eq '7,9,10' "#{ dropWhile even, [2 4 6 7 9 10] }"
 ok isEmptyList dropWhile odd, []
+
+eq 'hmm' dropWhile (is \m), 'mmmmmhmm'
+eq '' dropWhile (is \m), ''
 
 # span
 eq '2,4,6|7,9,10' "#{ span even, [2 4 6 7 9 10] .join \|}"
@@ -293,11 +327,21 @@ eq 2 (res = span even, []).length
 ok isEmptyList res.0
 ok isEmptyList res.1
 
-# breakList
-eq '1,2|3,4,5' "#{ breakList (== 3), [1 2 3 4 5] .join \|}"
-eq 2 (res = span even, []).length
+eq 'mmmmm|hmm' "#{ span (is \m), 'mmmmmhmm' .join \|}"
+eq 2 (res = span (is \m), '').length
+eq '' res.0
+eq '' res.1
+
+# breakIt
+eq '1,2|3,4,5' "#{ breakIt (== 3), [1 2 3 4 5] .join \|}"
+eq 2 (res = breakIt even, []).length
 ok isEmptyList res.0
 ok isEmptyList res.1
+
+eq 'mmmmm|hmm' "#{ breakIt (== \h), 'mmmmmhmm' .join \|}"
+eq 2 (res = breakIt (== \h), '').length
+eq ''  res.0
+eq '' res.1
 
 # elem
 ok elem 2 [1 to 5]

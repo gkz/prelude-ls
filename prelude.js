@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, objToFunc, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice;
+var compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, objToFunc, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice, __toString = {}.toString, __not = __curry(function(x){ return !x; });
 exports.compose = compose = function(){
   var funcs;
   funcs = __slice.call(arguments);
@@ -17,10 +17,18 @@ exports.compose = compose = function(){
   };
 };
 exports.max = max = __curry(function(x, y){
-  return Math.max(x, y);
+  if (x > y) {
+    return x;
+  } else {
+    return y;
+  }
 });
 exports.min = min = __curry(function(x, y){
-  return Math.min(x, y);
+  if (x > y) {
+    return y;
+  } else {
+    return x;
+  }
 });
 exports.negate = negate = function(x){
   return -x;
@@ -202,7 +210,11 @@ exports.length = length = function(xs){
   return xs.length;
 };
 exports.reverse = reverse = function(xs){
-  return xs.slice().reverse();
+  if (__toString.call(xs).slice(8, -1) === 'String') {
+    return xs.split('').reverse().join('');
+  } else {
+    return xs.slice().reverse();
+  }
 };
 exports.fold = fold = exports.foldl = foldl = __curry(function(f, memo, xs){
   var x, __i, __len;
@@ -345,9 +357,14 @@ exports.replicate = replicate = __curry(function(n, x){
 exports.take = take = __curry(function(n, xs){
   switch (false) {
   case !(n <= 0):
-    return [];
+    if (__toString.call(xs).slice(8, -1) === 'String') {
+      return '';
+    } else {
+      return [];
+    }
+    break;
   case !!xs.length:
-    return [];
+    return xs;
   default:
     return xs.slice(0, n);
   }
@@ -357,7 +374,7 @@ exports.drop = drop = __curry(function(n, xs){
   case !(n <= 0):
     return xs;
   case !!xs.length:
-    return [];
+    return xs;
   default:
     return xs.slice(n);
   }
@@ -368,7 +385,7 @@ exports.splitAt = splitAt = __curry(function(n, xs){
 exports.takeWhile = takeWhile = __curry(function(p, xs){
   var i, x, __i, __len;
   if (!xs.length) {
-    return [];
+    return xs;
   }
   i = 0;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -383,7 +400,7 @@ exports.takeWhile = takeWhile = __curry(function(p, xs){
 exports.dropWhile = dropWhile = __curry(function(p, xs){
   var i, x, __i, __len;
   if (!xs.length) {
-    return [];
+    return xs;
   }
   i = 0;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -398,10 +415,8 @@ exports.dropWhile = dropWhile = __curry(function(p, xs){
 exports.span = span = __curry(function(p, xs){
   return [takeWhile(p, xs), dropWhile(p, xs)];
 });
-exports.breakList = breakList = __curry(function(p, xs){
-  return span(__compose((function(it){
-    return !it;
-  }),(p)), xs);
+exports.breakIt = breakIt = __curry(function(p, xs){
+  return span(__compose((__not),(p)), xs);
 });
 exports.elem = elem = __curry(function(x, ys){
   return __in(x, ys);
