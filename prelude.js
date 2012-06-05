@@ -283,7 +283,11 @@ exports.unique = unique = function(xs){
       result.push(x);
     }
   }
-  return result;
+  if (__toString.call(xs).slice(8, -1) === 'String') {
+    return result.join('');
+  } else {
+    return result;
+  }
 };
 exports.sum = sum = function(xs){
   var result, x, __i, __len;
@@ -333,16 +337,10 @@ exports.objToFunc = objToFunc = function(obj){
   };
 };
 exports.maximum = maximum = function(xs){
-  if (!xs.length) {
-    return;
-  }
-  return Math.max.apply(this, xs);
+  return fold1(max, xs);
 };
 exports.minimum = minimum = function(xs){
-  if (!xs.length) {
-    return;
-  }
-  return Math.min.apply(this, xs);
+  return fold1(min, xs);
 };
 exports.scan = scan = exports.scanl = scanl = __curry(function(f, memo, xs){
   var result, last, x, __i, __len;
@@ -372,7 +370,11 @@ exports.replicate = replicate = __curry(function(n, x){
   for (; i < n; ++i) {
     result.push(x);
   }
-  return result;
+  if (__toString.call(x).slice(8, -1) === 'String') {
+    return result.join('');
+  } else {
+    return result;
+  }
 });
 exports.take = take = __curry(function(n, xs){
   switch (false) {

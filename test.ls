@@ -7,9 +7,11 @@ eq 9, composed 3
 
 # max
 eq 3 max 2 3
+eq \b max \a \b
 
 # min
 eq 0 min 9 0
+eq \a min \a \b
 
 # negate
 eq -2 negate 2
@@ -269,6 +271,8 @@ ok all (== \M), ''
 # unique
 eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"
 
+eq 'abcd' unique 'aaabbbcccdd'
+
 # sum
 eq 10 sum [1 2 3 4]
 eq 0 sum []
@@ -285,16 +289,24 @@ ok isItNaN mean []
 eq '1,2,3,4,5,6' "#{ concat [[1 2] [3 4] [5 6]] }"
 ok isEmptyList concat []
 
+eq 'aabbccdd' concat ['aa' 'bb' 'cc' 'dd']
+
 # concatMap
 eq '1,1,2,1,2,3' "#{ concatMap (-> [1 to it]), [1 2 3] }"
 ok isEmptyList concatMap ->, []
+
+eq 'AABBCCDD' concatMap (-> it.toUpperCase!), ['aa' 'bb' 'cc' 'dd']
 
 # maximum
 eq 6 maximum [1 2 6 4 5]
 ok (maximum [])!?
 
+eq \f maximum [\a to \f]
+
 # minimum
 eq 2 minimum [4 3 2 6 9]
+
+eq \a minimum [\a to \f]
 ok (minimum [])!?
 
 # scan
@@ -314,6 +326,9 @@ eq '10,9,7,4' "#{ scanr1 (+), [1 2 3 4] }"
 # replicate
 eq '3,3,3,3' "#{ replicate 4 3 }"
 ok isEmptyList replicate 0 0
+
+eq 'aaaa' replicate 4 \a
+eq '' replicate 0 \a
 
 # take
 eq '1,2,3' "#{ take 3 [1 2 3 4 5] }"
@@ -385,10 +400,14 @@ ok elem 2 [1 to 5]
 ok not elem 6 [1 to 5]
 ok not elem 3 []
 
+ok elem \a 'bad'
+
 # notElem
 ok notElem 0 [1 to 5]
 ok not notElem 3 [1 to 5]
 ok notElem 3 []
+
+ok notElem \z 'bad'
 
 # lookup
 eq 2 lookup \two, two: 2

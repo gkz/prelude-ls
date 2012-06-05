@@ -106,9 +106,7 @@ exports.each = each = (f, xs) -->
 exports.map = map = (f, xs) --> 
   result = []
   for x in xs then result.push f x
-  if typeof! xs is \String 
-  then result.join ''
-  else result
+  if typeof! xs is \String then result.join '' else result
 
 exports.cons = cons = (x, xs) --> 
   if typeof! xs is \String then x + xs else x & xs
@@ -184,7 +182,7 @@ exports.unique = unique = (xs) ->
   result = []
   for x in xs when x not in result
     result.push x
-  result
+  if typeof! xs is \String then result.join '' else result
 
 exports.sum = sum = (xs) ->
   result = 0 
@@ -215,12 +213,10 @@ exports.objToFunc = objToFunc = (obj) ->
   (key) -> obj[key] 
 
 exports.maximum = maximum = (xs) -> 
-  return void if not xs.length
-  Math.max.apply(this, xs)
+  fold1 max, xs
 
 exports.minimum = minimum = (xs) -> 
-  return void if not xs.length
-  Math.min.apply(this, xs)
+  fold1 min, xs
 
 exports.scan = scan = exports.scanl = scanl = (f, memo, xs) --> 
   result = [memo]
@@ -243,7 +239,7 @@ exports.replicate = replicate = (n, x) -->
   result = []
   i = 0
   while i < n, ++i then result.push x
-  result
+  if typeof! x is \String then result.join '' else result
 
 exports.take = take = (n, xs) -->
   | n <= 0        
