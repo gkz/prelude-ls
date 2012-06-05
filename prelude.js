@@ -123,12 +123,13 @@ exports.each = each = __curry(function(f, xs){
   return xs;
 });
 exports.map = map = __curry(function(f, xs){
-  var result, x, __i, __len;
-  result = [];
+  var x, result, __res, __i, __len;
+  __res = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
-    result.push(f(x));
+    __res.push(f(x));
   }
+  result = __res;
   if (__toString.call(xs).slice(8, -1) === 'String') {
     return result.join('');
   } else {
@@ -150,14 +151,15 @@ exports.append = append = __curry(function(xs, ys){
   }
 });
 exports.filter = filter = __curry(function(f, xs){
-  var result, x, __i, __len;
-  result = [];
+  var x, result, __res, __i, __len;
+  __res = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
     if (f(x)) {
-      result.push(x);
+      __res.push(x);
     }
   }
+  result = __res;
   if (__toString.call(xs).slice(8, -1) === 'String') {
     return result.join('');
   } else {
@@ -165,14 +167,15 @@ exports.filter = filter = __curry(function(f, xs){
   }
 });
 exports.reject = reject = __curry(function(f, xs){
-  var result, x, __i, __len;
-  result = [];
+  var x, result, __res, __i, __len;
+  __res = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
     if (!f(x)) {
-      result.push(x);
+      __res.push(x);
     }
   }
+  result = __res;
   if (__toString.call(xs).slice(8, -1) === 'String') {
     return result.join('');
   } else {
@@ -189,15 +192,14 @@ exports.find = find = __curry(function(f, xs){
   }
 });
 exports.pluck = pluck = __curry(function(prop, xs){
-  var result, x, __i, __len;
-  result = [];
+  var x, __i, __len, __results = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
     if (x[prop] != null) {
-      result.push(x[prop]);
+      __results.push(x[prop]);
     }
   }
-  return result;
+  return __results;
 });
 exports.head = head = function(xs){
   if (!xs.length) {
@@ -471,17 +473,16 @@ exports.zip = zip = function(){
   return result;
 };
 exports.zipWith = zipWith = function(f){
-  var xss, result, xs, __i, __ref, __len;
+  var xss, xs, __i, __ref, __len, __results = [];
   xss = __slice.call(arguments, 1);
   if (!xss[0].length || !xss[1].length) {
     return [];
   } else {
-    result = [];
     for (__i = 0, __len = (__ref = zip.apply(this, xss)).length; __i < __len; ++__i) {
       xs = __ref[__i];
-      result.push(f.apply(this, xs));
+      __results.push(f.apply(this, xs));
     }
-    return result;
+    return __results;
   }
 };
 exports.lines = lines = function(str){

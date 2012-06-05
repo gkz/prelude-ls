@@ -104,8 +104,7 @@ exports.each = each = (f, xs) -->
   xs
 
 exports.map = map = (f, xs) --> 
-  result = []
-  for x in xs then result.push f x
+  result = [f x for x in xs]
   if typeof! xs is \String then result.join '' else result
 
 exports.cons = cons = (x, xs) --> 
@@ -115,13 +114,11 @@ exports.append = append = (xs, ys) -->
   if typeof! ys is \String then xs + ys else xs +++ ys
 
 exports.filter = filter = (f, xs) --> 
-  result = []
-  for x in xs when f x then result.push x
+  result = [x for x in xs when f x]
   if typeof! xs is \String then result.join '' else result
 
 exports.reject = reject = (f, xs) -->
-  result = []
-  for x in xs when not f x then result.push x
+  result = [x for x in xs when not f x]
   if typeof! xs is \String then result.join '' else result
 
 exports.find = find = (f, xs) -->
@@ -129,9 +126,7 @@ exports.find = find = (f, xs) -->
   void
 
 exports.pluck = pluck = (prop, xs) -->
-  result = []
-  for x in xs when x[prop]? then result.push x[prop]
-  result
+  [x[prop] for x in xs when x[prop]?]
 
 exports.head = head = (xs) -> 
   return void if not xs.length
@@ -180,8 +175,7 @@ exports.all = all = (f, xs) --> fold ((memo, x) -> memo and f x), true, xs
 
 exports.unique = unique = (xs) ->
   result = []
-  for x in xs when x not in result
-    result.push x
+  for x in xs when x not in result then result.push x
   if typeof! xs is \String then result.join '' else result
 
 exports.sum = sum = (xs) ->
@@ -294,9 +288,7 @@ exports.zipWith = zipWith = (f, ...xss) ->
   if not xss.0.length or not xss.1.length
     []
   else
-    result = []
-    for xs in zip.apply(this, xss) then result.push f.apply(this, xs) 
-    result
+    [f.apply this, xs for xs in zip.apply this, xss]
 
 # string
 
