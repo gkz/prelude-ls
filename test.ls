@@ -141,6 +141,10 @@ eq '2,3,4' "#{ map (+ 1), [1 2 3] }"
 
 eq 'ABC' map (-> it.toUpperCase!), 'abc'
 
+obj = map (-> it * 2), {a:1, b:2}
+eq 2 obj.a
+eq 4 obj.b
+
 # cons 
 eq '1,2,3' "#{ cons 1 [2 3] }"
 
@@ -157,15 +161,25 @@ eq '2,4' "#{ filter even, [1 to 5] }"
 
 eq 'abcc' filter (-> it in [\a to \c]), 'abcdefcf'
 
+obj = filter (==2), {a:1, b:2}
+eq 2 obj.b
+ok obj.a!?
+
 # reject
 eq '1,3,5' "#{ reject even, [1 to 5] }"
 
 eq 'deff' reject (-> it in [\a to \c]), 'abcdefcf'
 
+obj = reject (==2), {a:1, b:2}
+eq 1 obj.a
+ok obj.b!?
+
 # find
 eq 4 find even, [3 1 4 8 6]
 
 eq 'b' find (== \b), 'abs'
+
+eq 2, find (==2), {a:1, b:2}
 
 # pluck
 eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
@@ -230,6 +244,9 @@ eq 0 fold (+), 0, []
 
 eq 'abc' fold (+), '', 'abc'
 eq '' fold (+), '', ''
+
+eq 12 fold (+), 0, {a: 1, b: 2, c: 3, d: 6}
+eq 0 fold (+), 0, {}
 
 # fold1
 eq 12 fold1 (+), [1 2 3 6]

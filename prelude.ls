@@ -104,8 +104,12 @@ exports.each = each = (f, xs) -->
   xs
 
 exports.map = map = (f, xs) --> 
-  result = [f x for x in xs]
-  if typeof! xs is \String then result.join '' else result
+  type = typeof! xs
+  if type is \Object
+    {[key, f x] for key, x of xs}
+  else
+    result = [f x for x in xs]
+    if type is \String then result.join '' else result
 
 exports.cons = cons = (x, xs) --> 
   if typeof! xs is \String then x + xs else x & xs
@@ -114,15 +118,26 @@ exports.append = append = (xs, ys) -->
   if typeof! ys is \String then xs + ys else xs +++ ys
 
 exports.filter = filter = (f, xs) --> 
-  result = [x for x in xs when f x]
-  if typeof! xs is \String then result.join '' else result
+  type = typeof! xs
+  if type is \Object
+    {[key, x] for key, x of xs when f x}
+  else
+    result = [x for x in xs when f x]
+    if type is \String then result.join '' else result
 
 exports.reject = reject = (f, xs) -->
-  result = [x for x in xs when not f x]
-  if typeof! xs is \String then result.join '' else result
+  type = typeof! xs
+  if type is \Object
+    {[key, x] for key, x of xs when not f x}
+  else
+    result = [x for x in xs when not f x]
+    if type is \String then result.join '' else result
 
 exports.find = find = (f, xs) -->
-  for x in xs when f x then return x
+  if typeof! xs is \Object 
+    for , x of xs when f x then return x
+  else
+    for x in xs when f x then return x
   void
 
 exports.pluck = pluck = (prop, xs) -->
@@ -154,7 +169,10 @@ exports.reverse = reverse = (xs) ->
   else xs.slice!reverse!
 
 exports.fold = fold = exports.foldl = foldl = (f, memo, xs) -->
-  for x in xs then memo = f memo, x
+  if typeof! xs is \Object 
+    for , x of xs then memo = f memo, x
+  else 
+    for x in xs then memo = f memo, x
   memo
 
 exports.fold1 = fold1 = exports.foldl1 = foldl1 = (f, xs) --> fold f, xs.0, xs.slice 1
@@ -178,20 +196,11 @@ exports.unique = unique = (xs) ->
   for x in xs when x not in result then result.push x
   if typeof! xs is \String then result.join '' else result
 
-exports.sum = sum = (xs) ->
-  result = 0 
-  for x in xs then result += x
-  result
+exports.sum = sum = (xs) -> fold (+), 0, xs
 
-exports.product = product = (xs) ->
-  result = 1
-  for x in xs then result *= x
-  result
+exports.product = product = (xs) -> fold (*), 1, xs
 
-exports.mean = mean = exports.average = average = (xs) ->
-  sum = 0
-  for x in xs then sum += x
-  sum / xs.length
+exports.mean = mean = exports.average = average = (xs) -> (sum xs) / xs.length
 
 exports.concat = concat = (xss) -> fold append, [], xss
 

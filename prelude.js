@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, objToFunc, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice, __toString = {}.toString, __not = __curry(function(x){ return !x; });
+var compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, objToFunc, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice, __toString = {}.toString, __add = __curry(function(x, y){ return x + y; }), __multiply = __curry(function(x, y){ return x * y; });
 exports.compose = compose = function(){
   var funcs;
   funcs = __slice.call(arguments);
@@ -123,17 +123,26 @@ exports.each = each = __curry(function(f, xs){
   return xs;
 });
 exports.map = map = __curry(function(f, xs){
-  var x, result, __res, __i, __len;
-  __res = [];
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    __res.push(f(x));
-  }
-  result = __res;
-  if (__toString.call(xs).slice(8, -1) === 'String') {
-    return result.join('');
+  var type, key, x, result, __res, __i, __len, __results = {};
+  type = __toString.call(xs).slice(8, -1);
+  if (type === 'Object') {
+    for (key in xs) {
+      x = xs[key];
+      __results[key] = f(x);
+    }
+    return __results;
   } else {
-    return result;
+    __res = [];
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      __res.push(f(x));
+    }
+    result = __res;
+    if (type === 'String') {
+      return result.join('');
+    } else {
+      return result;
+    }
   }
 });
 exports.cons = cons = __curry(function(x, xs){
@@ -151,43 +160,74 @@ exports.append = append = __curry(function(xs, ys){
   }
 });
 exports.filter = filter = __curry(function(f, xs){
-  var x, result, __res, __i, __len;
-  __res = [];
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    if (f(x)) {
-      __res.push(x);
+  var type, key, x, result, __res, __i, __len, __results = {};
+  type = __toString.call(xs).slice(8, -1);
+  if (type === 'Object') {
+    for (key in xs) {
+      x = xs[key];
+if (f(x)) {
+        __results[key] = x;
+      }
     }
-  }
-  result = __res;
-  if (__toString.call(xs).slice(8, -1) === 'String') {
-    return result.join('');
+    return __results;
   } else {
-    return result;
+    __res = [];
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      if (f(x)) {
+        __res.push(x);
+      }
+    }
+    result = __res;
+    if (type === 'String') {
+      return result.join('');
+    } else {
+      return result;
+    }
   }
 });
 exports.reject = reject = __curry(function(f, xs){
-  var x, result, __res, __i, __len;
-  __res = [];
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    if (!f(x)) {
-      __res.push(x);
+  var type, key, x, result, __res, __i, __len, __results = {};
+  type = __toString.call(xs).slice(8, -1);
+  if (type === 'Object') {
+    for (key in xs) {
+      x = xs[key];
+if (!f(x)) {
+        __results[key] = x;
+      }
     }
-  }
-  result = __res;
-  if (__toString.call(xs).slice(8, -1) === 'String') {
-    return result.join('');
+    return __results;
   } else {
-    return result;
+    __res = [];
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      if (!f(x)) {
+        __res.push(x);
+      }
+    }
+    result = __res;
+    if (type === 'String') {
+      return result.join('');
+    } else {
+      return result;
+    }
   }
 });
 exports.find = find = __curry(function(f, xs){
   var x, __i, __len;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    if (f(x)) {
-      return x;
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    for (__i in xs) {
+      x = xs[__i];
+      if (f(x)) {
+        return x;
+      }
+    }
+  } else {
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      if (f(x)) {
+        return x;
+      }
     }
   }
 });
@@ -240,9 +280,16 @@ exports.reverse = reverse = function(xs){
 };
 exports.fold = fold = exports.foldl = foldl = __curry(function(f, memo, xs){
   var x, __i, __len;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    memo = f(memo, x);
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    for (__i in xs) {
+      x = xs[__i];
+      memo = f(memo, x);
+    }
+  } else {
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      memo = f(memo, x);
+    }
   }
   return memo;
 });
@@ -292,31 +339,13 @@ exports.unique = unique = function(xs){
   }
 };
 exports.sum = sum = function(xs){
-  var result, x, __i, __len;
-  result = 0;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    result += x;
-  }
-  return result;
+  return fold(__add, 0, xs);
 };
 exports.product = product = function(xs){
-  var result, x, __i, __len;
-  result = 1;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    result *= x;
-  }
-  return result;
+  return fold(__multiply, 1, xs);
 };
 exports.mean = mean = exports.average = average = function(xs){
-  var sum, x, __i, __len;
-  sum = 0;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    sum += x;
-  }
-  return sum / xs.length;
+  return sum(xs) / xs.length;
 };
 exports.concat = concat = function(xss){
   return fold(append, [], xss);
@@ -520,3 +549,4 @@ function __compose(f, g){
     return f(g.apply(this, arguments)); 
   }
 }
+function __not(x){ return !x; }
