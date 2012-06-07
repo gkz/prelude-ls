@@ -100,8 +100,6 @@ exports.id = id = (x) -> x
 
 exports.flip = flip = (f, x, y) --> f y, x
 
-exports.error = error = (msg) -> throw msg
-
 exports.each = each = (f, xs) --> 
   for x in xs then f x
   xs
