@@ -100,6 +100,12 @@ exports.id = id = (x) -> x
 
 exports.flip = flip = (f, x, y) --> f y, x
 
+exports.cons = cons = (x, xs) --> 
+  if typeof! xs is \String then x + xs else x & xs
+
+exports.append = append = (xs, ys) --> 
+  if typeof! ys is \String then xs + ys else xs +++ ys
+
 exports.each = each = (f, xs) --> 
   for x in xs then f x
   xs
@@ -112,12 +118,6 @@ exports.map = map = (f, xs) -->
   else
     result = [f x for x in xs]
     if type is \String then result.join '' else result
-
-exports.cons = cons = (x, xs) --> 
-  if typeof! xs is \String then x + xs else x & xs
-
-exports.append = append = (xs, ys) --> 
-  if typeof! ys is \String then xs + ys else xs +++ ys
 
 exports.filter = filter = (f, xs) --> 
   f = objToFunc f if typeof! f isnt \Function

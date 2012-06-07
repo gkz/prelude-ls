@@ -126,6 +126,14 @@ eq 36 lcm 12 18
 # id 
 eq 5 id 5
 
+# cons 
+eq '1,2,3' "#{ cons 1 [2 3] }"
+
+eq 'abc' cons \a 'bc'
+
+# append
+eq '1,2,3,4' "#{ append [1 2] [3 4] }"
+
 # each
 ok isEmptyList each ->, [] 
 eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
@@ -146,14 +154,6 @@ eq 2 obj.a
 eq 4 obj.b
 
 eq '1,2,3,4' "#{ map {one: 1, two: 2, three: 3, four: 4}, <[ one two three four ]> }"
-
-# cons 
-eq '1,2,3' "#{ cons 1 [2 3] }"
-
-eq 'abc' cons \a 'bc'
-
-# append
-eq '1,2,3,4' "#{ append [1 2] [3 4] }"
 
 eq 'abcdef' append 'abc' 'def'
 
