@@ -5,6 +5,9 @@
 # called often, and the code here, once set, will
 # not change often. 
 
+exports.objToFunc = objToFunc = (obj) ->
+  (key) -> obj[key] 
+
 exports.compose = compose = (...funcs) -> 
   ->
     args = arguments
@@ -104,6 +107,7 @@ exports.each = each = (f, xs) -->
   xs
 
 exports.map = map = (f, xs) --> 
+  f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
     {[key, f x] for key, x of xs}
@@ -118,6 +122,7 @@ exports.append = append = (xs, ys) -->
   if typeof! ys is \String then xs + ys else xs +++ ys
 
 exports.filter = filter = (f, xs) --> 
+  f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
     {[key, x] for key, x of xs when f x}
@@ -126,6 +131,7 @@ exports.filter = filter = (f, xs) -->
     if type is \String then result.join '' else result
 
 exports.reject = reject = (f, xs) -->
+  f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
     {[key, x] for key, x of xs when not f x}
@@ -134,6 +140,7 @@ exports.reject = reject = (f, xs) -->
     if type is \String then result.join '' else result
 
 exports.find = find = (f, xs) -->
+  f = objToFunc f if typeof! f isnt \Function
   if typeof! xs is \Object 
     for , x of xs when f x then return x
   else
@@ -169,6 +176,7 @@ exports.reverse = reverse = (xs) ->
   else xs.slice!reverse!
 
 exports.fold = fold = exports.foldl = foldl = (f, memo, xs) -->
+  f = objToFunc f if typeof! f isnt \Function
   if typeof! xs is \Object 
     for , x of xs then memo = f memo, x
   else 
@@ -211,9 +219,6 @@ exports.listToObj = listToObj = (xs) ->
   for x in xs
     result[x[0]] = x[1]
   result
-
-exports.objToFunc = objToFunc = (obj) ->
-  (key) -> obj[key] 
 
 exports.maximum = maximum = (xs) -> 
   fold1 max, xs
@@ -259,6 +264,7 @@ exports.splitAt = splitAt = (n, xs) --> [(take n, xs), (drop n, xs)]
 
 exports.takeWhile = takeWhile = (p, xs) -->
   return xs if not xs.length
+  p = objToFunc p if typeof! p isnt \Function
   i = 0
   for x in xs
     break if not p x
@@ -267,6 +273,7 @@ exports.takeWhile = takeWhile = (p, xs) -->
 
 exports.dropWhile = dropWhile = (p, xs) -->
   return xs if not xs.length
+  p = objToFunc p if typeof! p isnt \Function
   i = 0
   for x in xs
     break if not p x
@@ -294,6 +301,7 @@ exports.zip = zip = (...xss) ->
   result
 
 exports.zipWith = zipWith = (f, ...xss) ->
+  f = objToFunc f if typeof! f isnt \Function
   if not xss.0.length or not xss.1.length
     []
   else

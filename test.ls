@@ -145,6 +145,8 @@ obj = map (-> it * 2), {a:1, b:2}
 eq 2 obj.a
 eq 4 obj.b
 
+eq '1,2,3,4' "#{ map {one: 1, two: 2, three: 3, four: 4}, <[ one two three four ]> }"
+
 # cons 
 eq '1,2,3' "#{ cons 1 [2 3] }"
 
