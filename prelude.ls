@@ -233,11 +233,11 @@ exports.minimum = minimum = (xs) ->
   fold1 min, xs
 
 exports.scan = scan = exports.scanl = scanl = (f, memo, xs) --> 
-  result = [memo]
+  f = objToFunc f if typeof! f isnt \Function
   last = memo
-  for x in xs
-    result.push (last = f last, x)
-  result
+  if typeof! xs is \Object
+  then [memo] +++ [last = f last, x for , x of xs]
+  else [memo] +++ [last = f last, x for x in xs]
 
 exports.scan1 = scan1 = exports.scanl1 = scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
 
