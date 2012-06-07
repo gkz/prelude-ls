@@ -2,7 +2,12 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, objToFunc, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice, __toString = {}.toString, __add = __curry(function(x, y){ return x + y; }), __multiply = __curry(function(x, y){ return x * y; });
+var objToFunc, compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice, __toString = {}.toString;
+exports.objToFunc = objToFunc = function(obj){
+  return function(key){
+    return obj[key];
+  };
+};
 exports.compose = compose = function(){
   var funcs;
   funcs = __slice.call(arguments);
@@ -124,6 +129,9 @@ exports.each = each = __curry(function(f, xs){
 });
 exports.map = map = __curry(function(f, xs){
   var type, key, x, result, __res, __i, __len, __results = {};
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
   type = __toString.call(xs).slice(8, -1);
   if (type === 'Object') {
     for (key in xs) {
@@ -161,6 +169,9 @@ exports.append = append = __curry(function(xs, ys){
 });
 exports.filter = filter = __curry(function(f, xs){
   var type, key, x, result, __res, __i, __len, __results = {};
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
   type = __toString.call(xs).slice(8, -1);
   if (type === 'Object') {
     for (key in xs) {
@@ -188,6 +199,9 @@ if (f(x)) {
 });
 exports.reject = reject = __curry(function(f, xs){
   var type, key, x, result, __res, __i, __len, __results = {};
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
   type = __toString.call(xs).slice(8, -1);
   if (type === 'Object') {
     for (key in xs) {
@@ -215,6 +229,9 @@ if (!f(x)) {
 });
 exports.find = find = __curry(function(f, xs){
   var x, __i, __len;
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
   if (__toString.call(xs).slice(8, -1) === 'Object') {
     for (__i in xs) {
       x = xs[__i];
@@ -280,6 +297,9 @@ exports.reverse = reverse = function(xs){
 };
 exports.fold = fold = exports.foldl = foldl = __curry(function(f, memo, xs){
   var x, __i, __len;
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
   if (__toString.call(xs).slice(8, -1) === 'Object') {
     for (__i in xs) {
       x = xs[__i];
@@ -339,10 +359,22 @@ exports.unique = unique = function(xs){
   }
 };
 exports.sum = sum = function(xs){
-  return fold(__add, 0, xs);
+  var result, x, __i, __len;
+  result = 0;
+  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+    x = xs[__i];
+    result += x;
+  }
+  return result;
 };
 exports.product = product = function(xs){
-  return fold(__multiply, 1, xs);
+  var result, x, __i, __len;
+  result = 1;
+  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+    x = xs[__i];
+    result *= x;
+  }
+  return result;
 };
 exports.mean = mean = exports.average = average = function(xs){
   return sum(xs) / xs.length;
@@ -361,11 +393,6 @@ exports.listToObj = listToObj = function(xs){
     result[x[0]] = x[1];
   }
   return result;
-};
-exports.objToFunc = objToFunc = function(obj){
-  return function(key){
-    return obj[key];
-  };
 };
 exports.maximum = maximum = function(xs){
   return fold1(max, xs);
@@ -440,6 +467,9 @@ exports.takeWhile = takeWhile = __curry(function(p, xs){
   if (!xs.length) {
     return xs;
   }
+  if (__toString.call(p).slice(8, -1) !== 'Function') {
+    p = objToFunc(p);
+  }
   i = 0;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
@@ -454,6 +484,9 @@ exports.dropWhile = dropWhile = __curry(function(p, xs){
   var i, x, __i, __len;
   if (!xs.length) {
     return xs;
+  }
+  if (__toString.call(p).slice(8, -1) !== 'Function') {
+    p = objToFunc(p);
   }
   i = 0;
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
@@ -504,6 +537,9 @@ exports.zip = zip = function(){
 exports.zipWith = zipWith = function(f){
   var xss, xs, __i, __ref, __len, __results = [];
   xss = __slice.call(arguments, 1);
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
   if (!xss[0].length || !xss[1].length) {
     return [];
   } else {

@@ -204,9 +204,15 @@ exports.unique = unique = (xs) ->
   for x in xs when x not in result then result.push x
   if typeof! xs is \String then result.join '' else result
 
-exports.sum = sum = (xs) -> fold (+), 0, xs
+exports.sum = sum = (xs) ->
+  result = 0
+  for x in xs then result += x
+  result
 
-exports.product = product = (xs) -> fold (*), 1, xs
+exports.product = product = (xs) -> 
+  result = 1
+  for x in xs then result *= x
+  result
 
 exports.mean = mean = exports.average = average = (xs) -> (sum xs) / xs.length
 
