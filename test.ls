@@ -126,6 +126,9 @@ eq 36 lcm 12 18
 # id 
 eq 5 id 5
 
+# flip
+eq 10 (flip (-)) 5 15
+
 # cons 
 eq '1,2,3' "#{ cons 1 [2 3] }"
 
