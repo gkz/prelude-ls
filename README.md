@@ -66,6 +66,10 @@ Returns -1, 0, or 1 depending on the sign of the number.
 #### pi
     :: Num
     3.1415...
+
+#### tau
+    :: Num
+    6.2831...
     
 #### exp
     :: Num -> Num

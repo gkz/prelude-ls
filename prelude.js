@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice, __toString = {}.toString;
+var objToFunc, compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice, __toString = {}.toString;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
@@ -66,6 +66,7 @@ exports.recip = recip = function(x){
   return 1 / x;
 };
 exports.pi = pi = Math.PI;
+exports.tau = tau = pi * 2;
 exports.exp = exp = Math.exp;
 exports.sqrt = sqrt = Math.sqrt;
 exports.log = log = Math.log;
@@ -401,14 +402,30 @@ exports.minimum = minimum = function(xs){
   return fold1(min, xs);
 };
 exports.scan = scan = exports.scanl = scanl = __curry(function(f, memo, xs){
-  var result, last, x, __i, __len;
-  result = [memo];
-  last = memo;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    result.push(last = f(last, x));
+  var last, x;
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
   }
-  return result;
+  last = memo;
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    return ([memo]).concat((function(){
+      var __i, __ref, __results = [];
+      for (__i in __ref = xs) {
+        x = __ref[__i];
+        __results.push(last = f(last, x));
+      }
+      return __results;
+    }()));
+  } else {
+    return ([memo]).concat((function(){
+      var __i, __ref, __len, __results = [];
+      for (__i = 0, __len = (__ref = xs).length; __i < __len; ++__i) {
+        x = __ref[__i];
+        __results.push(last = f(last, x));
+      }
+      return __results;
+    }()));
+  }
 });
 exports.scan1 = scan1 = exports.scanl1 = scanl1 = __curry(function(f, xs){
   return scan(f, xs[0], xs.slice(1));

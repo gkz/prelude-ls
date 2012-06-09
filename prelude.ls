@@ -40,6 +40,8 @@ exports.recip = recip = (x) -> 1 / x
 
 exports.pi = pi = Math.PI
 
+exports.tau = tau = pi * 2
+
 exports.exp = exp = Math.exp
 
 exports.sqrt = sqrt = Math.sqrt
