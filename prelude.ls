@@ -8,104 +8,6 @@
 exports.objToFunc = objToFunc = (obj) ->
   (key) -> obj[key] 
 
-exports.compose = compose = (...funcs) -> 
-  ->
-    args = arguments
-    for f in funcs
-      args = [f.apply this, args]
-    args.0
-
-exports.max = max = (x, y) --> if x > y then x else y
-
-exports.min = min = (x, y) --> if x > y then y else x
-
-exports.negate = negate = (x) -> -x
-
-exports.abs = abs = Math.abs
-
-exports.signum = signum = (x) -> 
-  | x < 0     => -1
-  | x > 0     =>  1
-  | otherwise =>  0
-
-exports.quot = quot = (x, y) --> ~~(x / y)
-
-exports.rem = rem = (x, y) --> x % y
-
-exports.div = div = (x, y) --> Math.floor x / y
-
-exports.mod = mod = (x, y) --> x %% y
-
-exports.recip = recip = (x) -> 1 / x
-
-exports.pi = pi = Math.PI
-
-exports.exp = exp = Math.exp
-
-exports.sqrt = sqrt = Math.sqrt
-
-exports.log = log = Math.log
-
-exports.pow = pow = (x, y) --> x ^ y
-
-exports.sin = sin = Math.sin
-
-exports.tan = tan = Math.tan
-
-exports.cos = cos = Math.cos
-
-exports.asin = asin = Math.asin
-
-exports.atan = atan = Math.atan
-
-exports.atan2 = atan2 = (x, y) --> Math.atan2 x, y
-
-exports.acos = acos = Math.acos
-
-# sinh
-# tanh
-# cosh
-# asinh
-# atanh
-# acosh
-
-exports.truncate = truncate = (x) -> ~~x
-
-exports.round = round = Math.round
-
-exports.ceiling = ceiling = Math.ceil
-
-exports.floor = floor = Math.floor
-
-exports.isItNaN = isItNaN = (x) -> x isnt x
-
-exports.even = even = (x) -> x % 2 == 0
-
-exports.odd = odd = (x) -> x % 2 != 0
-
-exports.gcd = gcd = (x, y) --> 
-  x = Math.abs x
-  y = Math.abs y
-  until y is 0
-    z = x % y
-    x = y
-    y = z
-  x
-
-# depends on gcd
-exports.lcm = lcm = (x, y) -->
-  Math.abs Math.floor (x / (gcd x, y) * y)
-
-exports.id = id = (x) -> x
-
-exports.flip = flip = (f, x, y) --> f y, x
-
-exports.cons = cons = (x, xs) --> 
-  if typeof! xs is \String then x + xs else x & xs
-
-exports.append = append = (xs, ys) --> 
-  if typeof! ys is \String then xs + ys else xs +++ ys
-
 exports.each = each = (f, xs) --> 
   for x in xs then f x
   xs
@@ -167,6 +69,13 @@ exports.initial = initial = (xs) ->
 exports.empty = empty = (xs) -> not xs.length
 
 exports.length = length = (xs) -> xs.length
+
+
+exports.cons = cons = (x, xs) --> 
+  if typeof! xs is \String then x + xs else x & xs
+
+exports.append = append = (xs, ys) --> 
+  if typeof! ys is \String then xs + ys else xs +++ ys
 
 exports.reverse = reverse = (xs) -> 
   if typeof! xs is \String 
@@ -311,7 +220,16 @@ exports.zipWith = zipWith = (f, ...xss) ->
   else
     [f.apply this, xs for xs in zip.apply this, xss]
 
-# string
+exports.compose = compose = (...funcs) -> 
+  ->
+    args = arguments
+    for f in funcs
+      args = [f.apply this, args]
+    args.0
+
+exports.id = id = (x) -> x
+
+exports.flip = flip = (f, x, y) --> f y, x
 
 exports.lines = lines = (str) -> 
   return [] if not str.length
@@ -324,3 +242,85 @@ exports.words = words = (str) ->
   str.split ' '
 
 exports.unwords = unwords = (strs) -> strs.join ' '
+
+exports.max = max = (x, y) --> if x > y then x else y
+
+exports.min = min = (x, y) --> if x > y then y else x
+
+exports.negate = negate = (x) -> -x
+
+exports.abs = abs = Math.abs
+
+exports.signum = signum = (x) -> 
+  | x < 0     => -1
+  | x > 0     =>  1
+  | otherwise =>  0
+
+exports.quot = quot = (x, y) --> ~~(x / y)
+
+exports.rem = rem = (x, y) --> x % y
+
+exports.div = div = (x, y) --> Math.floor x / y
+
+exports.mod = mod = (x, y) --> x %% y
+
+exports.recip = recip = (x) -> 1 / x
+
+exports.pi = pi = Math.PI
+
+exports.exp = exp = Math.exp
+
+exports.sqrt = sqrt = Math.sqrt
+
+exports.log = log = Math.log
+
+exports.pow = pow = (x, y) --> x ^ y
+
+exports.sin = sin = Math.sin
+
+exports.tan = tan = Math.tan
+
+exports.cos = cos = Math.cos
+
+exports.asin = asin = Math.asin
+
+exports.atan = atan = Math.atan
+
+exports.atan2 = atan2 = (x, y) --> Math.atan2 x, y
+
+exports.acos = acos = Math.acos
+
+# sinh
+# tanh
+# cosh
+# asinh
+# atanh
+# acosh
+
+exports.truncate = truncate = (x) -> ~~x
+
+exports.round = round = Math.round
+
+exports.ceiling = ceiling = Math.ceil
+
+exports.floor = floor = Math.floor
+
+exports.isItNaN = isItNaN = (x) -> x isnt x
+
+exports.even = even = (x) -> x % 2 == 0
+
+exports.odd = odd = (x) -> x % 2 != 0
+
+exports.gcd = gcd = (x, y) --> 
+  x = Math.abs x
+  y = Math.abs y
+  until y is 0
+    z = x % y
+    x = y
+    y = z
+  x
+
+# depends on gcd
+exports.lcm = lcm = (x, y) -->
+  Math.abs Math.floor (x / (gcd x, y) * y)
+
