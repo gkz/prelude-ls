@@ -8,9 +8,6 @@
 exports.objToFunc = objToFunc = (obj) ->
   (key) -> obj[key] 
 
-exports.values = values = (obj) ->
-  [x for , x of obj]
-
 exports.each = each = (f, xs) --> 
   for x in xs then f x
   xs
@@ -70,8 +67,13 @@ exports.initial = initial = (xs) ->
   xs.slice 0, xs.length - 1
 
 exports.empty = empty = (xs) -> 
-  xs = values xs if typeof! xs is \Object
+  if typeof! xs is \Object
+    for x of xs then return false
+    return true
   not xs.length
+
+exports.values = values = (obj) ->
+  [x for , x of obj]
 
 exports.length = length = (xs) ->
   xs = values xs if typeof! xs is \Object

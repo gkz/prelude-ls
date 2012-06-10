@@ -92,6 +92,9 @@ ok not empty {x: 1}
 ok empty ''
 ok not empty '1'
 
+# values
+eq '1,2,3' "#{ values sadf: 1, asdf: 2, fdas: 3 }"
+
 # length
 eq 5 length list
 eq 0 length []
@@ -112,9 +115,6 @@ eq '1,2,3,4' "#{ append [1 2] [3 4] }"
 
 # join
 eq '1,2,3' join \, [1 2 3]
-
-# values
-eq '1,2,3' "#{ values sadf: 1, asdf: 2, fdas: 3 }"
 
 # reverse
 eq '5,4,3,2,1' "#{ reverse list }"
