@@ -86,12 +86,18 @@ ok (initial '')!?
 ok empty []
 ok not empty [1]
 
+ok empty {}
+ok not empty {x: 1}
+
 ok empty ''
 ok not empty '1'
 
 # length
 eq 5 length list
 eq 0 length []
+
+eq 3 length {x: 1, y: 2, z: 3}
+eq 0 length {}
 
 eq 4 length 'abcd'
 eq 0 length ''
