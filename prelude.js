@@ -2,19 +2,11 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, values, each, map, filter, reject, find, pluck, head, tail, last, initial, empty, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
+var objToFunc, each, map, filter, reject, find, pluck, head, tail, last, initial, empty, values, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
   };
-};
-exports.values = values = function(obj){
-  var x, __i, __results = [];
-  for (__i in obj) {
-    x = obj[__i];
-    __results.push(x);
-  }
-  return __results;
 };
 exports.each = each = __curry(function(f, xs){
   var x, __i, __len;
@@ -166,10 +158,22 @@ exports.initial = initial = function(xs){
   return xs.slice(0, xs.length - 1);
 };
 exports.empty = empty = function(xs){
+  var x;
   if (__toString.call(xs).slice(8, -1) === 'Object') {
-    xs = values(xs);
+    for (x in xs) {
+      return false;
+    }
+    return true;
   }
   return !xs.length;
+};
+exports.values = values = function(obj){
+  var x, __i, __results = [];
+  for (__i in obj) {
+    x = obj[__i];
+    __results.push(x);
+  }
+  return __results;
 };
 exports.length = length = function(xs){
   if (__toString.call(xs).slice(8, -1) === 'Object') {
