@@ -13,24 +13,34 @@ body {
 .site {
   height: 100%;
 }
-.container-fluid {
-  padding: 0;
-}
 
 @dividing-border: 1px solid #ccc;
 
+.side-row {
+  margin-left: 0;
+}
+
 .sidebar {
+  background-image: url('images/groovepaper.png');
   height: 100%;
   border-right: @dividing-border;
   padding-top: 25px;
-  @margin-left: 20px;
-  position: static;
-  overflow-y: scroll;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  margin-left: 0;
 
   h1 {
     margin-bottom: 20px;
-    margin-left: @margin-left;
-    
+    margin-left: 20px;
+
+    img {
+      margin-top: -27px; 
+      margin-left: 5px;
+    }
     a {
       font-size: 34px;
       line-height: 40px;
@@ -43,7 +53,10 @@ body {
   }
 
   .nav {
-    margin-left: @margin-left;
+    margin-left: 20px;
+    li {
+      width: 25%;
+    }
   }
 }
 .content {
@@ -65,6 +78,15 @@ body {
 
   .section {
     margin-bottom: 20px;
+  }
+  .func {
+    margin-top: 15px;
+    
+    .func-type {
+      font-family: monospace;
+      font-size: 14px;
+      font-weight: bold;
+    }
   }
   p, ul { 
     margin-top: 5px;

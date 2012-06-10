@@ -5,6 +5,8 @@
 <title>prelude.ls - the recommended base libaray for LiveScript</title>
 <meta name='description' content="prelude.ls is the recommended base libaray for LiveScript. It is based off of Haskell's Prelude module.">
 
+<link rel="icon" type="image/png" href="images/icon.png">
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
 <link href="bootstrap/themes/cerulean.bootstrap.min.css" rel="stylesheet">
@@ -15,6 +17,7 @@
 
 <script src="google-code-prettify/prettify.js"></script>
 <link href="google-code-prettify/prettify.css" rel="stylesheet">
+<script src="lang-ls.js"></script>
 
 <script src="prelude-min.js"></script>
 
@@ -28,35 +31,344 @@
 </head>
 <body data-spy="scroll">
 <div class="site container-fluid">
-  <div class="row-fluid side-row">
-    <div class="span2 sidebar">
-      <h1><a href="#">prelude.ls</a></h1>
-      <ul class="nav nav-list">
-        <li><a href="#overview">Overview</a></li> 
+  <div class="row side-row">
+    <div class="span4 sidebar">
+      <h1><a href="#">prelude.ls</a><img src="images/icon.png"></h1>
+      <ul class="nav nav-pills">
+        <li class="active"><a href="#overview">Overview</a></li> 
         <li><a href="#installation">Installation</a></li> 
-        <li><a href="#compose">Compose</a></li> 
-        <li><a href="#max">Max</a></li> 
+        <li><a href="#usage">Usage</a></li> 
+        <li><a href="#contribute">Contribute</a></li> 
+        <li><a href="#f-each">each</a></li> 
+        <li><a href="#f-map">map</a></li> 
+        <li><a href="#f-filter">filter</a></li> 
+        <li><a href="#f-reject">reject</a></li> 
+        <li><a href="#f-find">find</a></li> 
+        <li><a href="#f-pluck">pluck</a></li> 
+        <li><a href="#f-head">head</a></li> 
+        <li><a href="#f-tail">tail</a></li> 
+        <li><a href="#f-initial">initial</a></li> 
+        <li><a href="#f-empty">empty</a></li> 
+        <li><a href="#f-length">length</a></li> 
+        <li><a href="#f-cons">cons</a></li> 
+        <li><a href="#f-append">append</a></li> 
+        <li><a href="#f-reverse">reverse</a></li> 
+        <li><a href="#f-fold">fold</a></li> 
+        <li><a href="#f-fold1">fold1</a></li> 
+        <li><a href="#f-foldr">foldr</a></li> 
+        <li><a href="#f-foldr1">foldr1</a></li> 
+        <li><a href="#f-andList">andList</a></li> 
+        <li><a href="#f-orList">orList</a></li> 
+        <li><a href="#f-any">any</a></li> 
+        <li><a href="#f-all">all</a></li> 
+        <li><a href="#f-unique">unique</a></li> 
+        <li><a href="#f-sum">sum</a></li> 
+        <li><a href="#f-product">product</a></li> 
+        <li><a href="#f-mean">mean</a></li> 
+        <li><a href="#f-concat">concat</a></li> 
+        <li><a href="#f-concatMap">concatMap</a></li> 
+        <li><a href="#f-listToObj">listToObj</a></li> 
+        <li><a href="#f-objToFunc">objToFunc</a></li> 
+        <li><a href="#f-maximum">maximum</a></li> 
+        <li><a href="#f-minimum">minimum</a></li> 
+        <li><a href="#f-scan">scan</a></li> 
+        <li><a href="#f-scan1">scan1</a></li> 
+        <li><a href="#f-scanr">scar</a></li> 
+        <li><a href="#f-scanr1">scanr1</a></li> 
+        <li><a href="#f-replicate">replicate</a></li> 
+        <li><a href="#f-take">take</a></li> 
+        <li><a href="#f-drop">drop</a></li> 
+        <li><a href="#f-splitAt">splitAt</a></li> 
+        <li><a href="#f-takeWhile">takeWhile</a></li> 
+        <li><a href="#f-dropWhile">dropWhile</a></li> 
+        <li><a href="#f-span">span</a></li> 
+        <li><a href="#f-breakIt">breakIt</a></li> 
+        <li><a href="#f-elem">elem</a></li> 
+        <li><a href="#f-notElem">notElem</a></li> 
+        <li><a href="#f-lookup">lookup</a></li> 
+        <li><a href="#f-call">call</a></li> 
+        <li><a href="#f-zip">zip</a></li> 
+        <li><a href="#f-zipWith">zipWith</a></li> 
+        <li><a href="#f-compose">compose</a></li> 
+        <li><a href="#f-id">id</a></li> 
+        <li><a href="#f-flip">flip</a></li> 
+        <li><a href="#f-lines">lines</a></li> 
+        <li><a href="#f-unlines">unlines</a></li> 
+        <li><a href="#f-words">words</a></li> 
+        <li><a href="#f-unwords">unwords</a></li> 
+        <li><a href="#f-max">max</a></li> 
+        <li><a href="#f-min">min</a></li> 
+        <li><a href="#f-negate">negate</a></li> 
+        <li><a href="#f-abs">abs</a></li> 
+        <li><a href="#f-signum">signum</a></li> 
+        <li><a href="#f-quot">quot</a></li> 
+        <li><a href="#f-rem">rem</a></li> 
+        <li><a href="#f-div">div</a></li> 
+        <li><a href="#f-mod">mod</a></li> 
+        <li><a href="#f-recip">recip</a></li> 
+        <li><a href="#f-pi">pi</a></li> 
+        <li><a href="#f-tau">tau</a></li> 
+        <li><a href="#f-exp">exp</a></li> 
+        <li><a href="#f-sqrt">sqrt</a></li> 
+        <li><a href="#f-log">log</a></li> 
+        <li><a href="#f-pow">pow</a></li> 
+        <li><a href="#f-sin">sin</a></li> 
+        <li><a href="#f-tan">tan</a></li> 
+        <li><a href="#f-cos">cos</a></li> 
+        <li><a href="#f-asin">asin</a></li> 
+        <li><a href="#f-atan">atan</a></li> 
+        <li><a href="#f-atan2">atan2</a></li> 
+        <li><a href="#f-acos">acos</a></li> 
+        <li><a href="#f-truncate">truncate</a></li> 
+        <li><a href="#f-round">round</a></li> 
+        <li><a href="#f-ceiling">ceiling</a></li> 
+        <li><a href="#f-floor">floor</a></li> 
+        <li><a href="#f-isItNaN">isItNaN</a></li> 
+        <li><a href="#f-even">even</a></li> 
+        <li><a href="#f-odd">odd</a></li> 
+        <li><a href="#f-gcd">gcd</a></li> 
+        <li><a href="#f-lcm">lcm</a></li> 
       </ul>
     </div>
-    <div class="span10 content">
+  </div>
+  <div class="row">
+    <div class="span4">&nbsp;</div>
+    <div class="span8 content">
       <div id="overview" class="section">
         <a name="overview"></a>
         <h2>Overview</h2>
-        <p>prelude.ls is the recommended base library for <a href="http://gkz.github.com/LiveScript/">LiveScript</a>. It is based off of Haskell's Prelude module.
+        <p>prelude.ls is a functional programming function library usable in any JavaScript environment. It is the recommended base library for, and is written in, <a href="http://gkz.github.com/LiveScript/">LiveScript</a>. It is based in part off of Haskell's Prelude module.
         <div class="major-actions">
           <h3 class="download">Download 0.3.0</h3>
           <a href="https://github.com/gkz/prelude-ls/zipball/0.3.0"><div class="btn btn-large btn">zip</div></a>
           <a href="https://github.com/gkz/prelude-ls/tarball/0.3.0"><div class="btn btn-large btn">tar.gz</div></a>
+          <a href="prelude-min.js"><div class="btn btn-large btn">prelude-min.js</div></a>
           <a href="https://github.com/gkz/prelude-ls"><div class="btn btn-large btn-primary">View project on GitHub</div></a>
           <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=large&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="140" height="40"></iframe>
         </div>
         <p>Install via <a href="http://npmjs.org">npm</a>: <strong><code>npm install prelude-ls</code></strong>
       </div>
+      <div id="installation" class="section">
+        <a name="installation"></a>
+          <h2>Installation</h2>
+      </div>
+      <div id="usage" class="section">
+        <a name="usage"></a>
+          <h2>Usage</h2>
+      </div>
+      <div id="contribute" class="section">
+        <a name="contribute"></a>
+          <h2>Contribute</h2>
+      </div>
+      <hr>
+      <div class="section">
+        <h2>Function Reference</h2>
+        <p>Examples of usage in LiveScript on the left, examples using JavaScript on the right. The examples may not be related. If you want to play around with prelude.ls, take a look at the <a href="http://gkz.github.com/LiveScript/">LiveScript site</a>, it has the library preloaded for use in the compiler. In LiveScript, you may call any camel cased functions using hyphens, eg. you may use <code>concat-map</code> instead of <code>concatMap</code>.
+        <p>All functions except those that take a variable number of arguments are 'curried' - if called with less than the specified number of arguments, they will return a partially applied function. Eg. <code>takeThree = take 3</code> and then <code>takeThree [1 to 10] #=> [1, 2, 3]</code>.
+        <a name="f-each"></a>
+        <a name="f-map"></a>
+        <a name="f-filter"></a>
+        <a name="f-reject"></a>
+        <a name="f-find"></a>
+        <a name="f-pluck"></a>
+        <a name="f-head"></a>
+        <a name="f-tail"></a>
+        <a name="f-initial"></a>
+        <a name="f-empty"></a>
+        <a name="f-values"></a>
+        <a name="f-length"></a>
+        <a name="f-join"></a>
+        <a name="f-cons"></a>
+        <a name="f-append"></a>
+        <a name="f-reverse"></a>
+        <a name="f-fold"></a>
+        <a name="f-fold1"></a>
+        <a name="f-foldr"></a>
+        <a name="f-foldr1"></a>
+        <a name="f-andList"></a>
+        <a name="f-orList"></a>
+        <a name="f-any"></a>
+        <a name="f-all"></a>
+        <a name="f-unique"></a>
+        <a name="f-sum"></a>
+        <a name="f-product"></a>
+        <a name="f-mean"></a>
+        <a name="f-concat"></a>
+        <a name="f-concatMap"></a>
+        <a name="f-listToObj"></a>
+        <a name="f-objToFunc"></a>
+        <a name="f-maximum"></a>
+        <a name="f-minimum"></a>
+        <a name="f-scan"></a>
+        <a name="f-scan1"></a>
+        <a name="f-scanr"></a>
+        <a name="f-scanr1"></a>
+        <a name="f-replicate"></a>
+        <a name="f-take"></a>
+        <a name="f-drop"></a>
+        <a name="f-splitAt"></a>
+        <a name="f-takeWhile"></a>
+        <a name="f-dropWhile"></a>
+        <a name="f-span"></a>
+        <a name="f-breakIt"></a>
+        <a name="f-elem"></a>
+        <a name="f-notElem"></a>
+        <a name="f-lookup"></a>
+        <a name="f-call"></a>
+        <a name="f-zip"></a>
+        <a name="f-zipWith"></a>
+        <a name="f-id"></a>
+        <div id="f-compose" class="func">
+          <a name="f-compose"></a>
+          <h3>compose</h3>
+          <div class="func-type">Functions... -> Function</div>
+          <p>Compose takes a series of functions as arguments, and composes them, returning a single function which when called will apply all the functions. This is an alternative to doing <code>f1 >> f2 >> f3 >> f4</code> in LiveScript. Note that compose composes function forwards. The first argument will be the function called first, then the second, etc. 
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+f = compose (+ 2), (* 2), (- 2)
+f 3 #=> 8
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+var g = compose(f1, f2, f3, f4);
+g();
+</pre>
+            </div>
+          </div>
+        </div>
+        <a name="f-flip"></a>
+        <a name="f-lines"></a>
+        <a name="f-unlines"></a>
+        <a name="f-words"></a>
+        <a name="f-unwords"></a>
+        <div id="f-max" class="func">
+          <a name="f-max"></a>
+          <h3>max</h3>
+          <div class="func-type">Comparable -> Comparable -> Value</div>
+          <p>Takes two arguments which can be compared using <code>&gt;</code>, returns the larger one.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+max 3 1   #=> 3
+max \a \c #=> "c"
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+max(4, 5);     //=> 5
+max('d', 'g'); //=> "g"
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-min" class="func">
+          <a name="f-min"></a>
+          <h3>min</h3>
+          <div class="func-type">Comparable -> Comparable -> Value</div>
+          <p>Takes two arguments which can be compared using <code>&gt;</code>, returns the smaller one.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+min 3 1   #=> 1
+min \a \c #=> "a"
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+min(4, 5);     //=> 4
+min('d', 'g'); //=> "d"
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-negate" class="func">
+          <a name="f-negate"></a>
+          <h3>negate</h3>
+          <div class="func-type">Negatable -> Number</div>
+          <p>Takes an argument, most often a number, but also anything that can be coerced into a number, eg. <code>'3'</code>, and returns it as a number, negated.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+negate 3  #=> -3
+negate -2 #=>  2
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+negate(-1);  //=>  1
+negate('5'); //=> -5
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-abs" class="func">
+          <a name="f-abs"></a>
+          <h3>abs</h3>
+          <div class="func-type">Number -> Number</div>
+          <p>Takes a number and returns its absolute value. A number's absolute value is 
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+negate 3  #=> -3
+negate -2 #=>  2
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+negate(-1);  //=>  1
+negate('5'); //=> -5
+</pre>
+            </div>
+          </div>
+        </div>
+        <a name="f-abs"></a>
+        <a name="f-signum"></a>
+        <a name="f-quot"></a>
+        <a name="f-rem"></a>
+        <a name="f-div"></a>
+        <a name="f-mod"></a>
+        <a name="f-recip"></a>
+        <a name="f-pi"></a>
+        <a name="f-tau"></a>
+        <a name="f-exp"></a>
+        <a name="f-sqrt"></a>
+        <a name="f-log"></a>
+        <a name="f-pow"></a>
+        <a name="f-sin"></a>
+        <a name="f-tan"></a>
+        <a name="f-cos"></a>
+        <a name="f-asin"></a>
+        <a name="f-atan"></a>
+        <a name="f-atan2"></a>
+        <a name="f-acos"></a>
+        <a name="f-truncate"></a>
+        <a name="f-round"></a>
+        <a name="f-ceiling"></a>
+        <a name="f-floor"></a>
+        <a name="f-isItNaN"></a>
+        <a name="f-even"></a>
+        <a name="f-odd"></a>
+        <a name="f-gcd"></a>
+        <a name="f-lcm"></a>
+      </div>
     </div>
   </div>
 </div>
 <script>
-  $('.nav-list').scrollspy();
+  prettyPrint();
+  $('.nav').scrollspy();
 </script>  
 </body>
 </html>
