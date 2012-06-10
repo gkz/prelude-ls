@@ -8,6 +8,9 @@
 exports.objToFunc = objToFunc = (obj) ->
   (key) -> obj[key] 
 
+exports.values = values = (obj) ->
+  [x for , x of obj]
+
 exports.each = each = (f, xs) --> 
   for x in xs then f x
   xs
@@ -66,16 +69,23 @@ exports.initial = initial = (xs) ->
   return void if not xs.length
   xs.slice 0, xs.length - 1
 
-exports.empty = empty = (xs) -> not xs.length
+exports.empty = empty = (xs) -> 
+  xs = values xs if typeof! xs is \Object
+  not xs.length
 
-exports.length = length = (xs) -> xs.length
-
+exports.length = length = (xs) ->
+  xs = values xs if typeof! xs is \Object
+  xs.length
 
 exports.cons = cons = (x, xs) --> 
   if typeof! xs is \String then x + xs else x & xs
 
 exports.append = append = (xs, ys) --> 
   if typeof! ys is \String then xs + ys else xs +++ ys
+
+exports.join = join = (sep, xs) -->
+  xs = values xs if typeof! xs is \Object
+  xs.join sep
 
 exports.reverse = reverse = (xs) -> 
   if typeof! xs is \String 
@@ -267,6 +277,8 @@ exports.mod = mod = (x, y) --> x %% y
 exports.recip = recip = (x) -> 1 / x
 
 exports.pi = pi = Math.PI
+
+exports.tau = tau = pi * 2
 
 exports.exp = exp = Math.exp
 

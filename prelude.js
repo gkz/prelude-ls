@@ -2,122 +2,19 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, compose, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, id, flip, error, each, map, cons, append, filter, reject, find, pluck, head, tail, last, initial, empty, length, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, lines, unlines, words, unwords, __slice = [].slice, __toString = {}.toString;
+var objToFunc, values, each, map, filter, reject, find, pluck, head, tail, last, initial, empty, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
   };
 };
-exports.compose = compose = function(){
-  var funcs;
-  funcs = __slice.call(arguments);
-  return function(){
-    var args, f, __i, __ref, __len;
-    args = arguments;
-    for (__i = 0, __len = (__ref = funcs).length; __i < __len; ++__i) {
-      f = __ref[__i];
-      args = [f.apply(this, args)];
-    }
-    return args[0];
-  };
-};
-exports.max = max = __curry(function(x, y){
-  if (x > y) {
-    return x;
-  } else {
-    return y;
+exports.values = values = function(obj){
+  var x, __i, __results = [];
+  for (__i in obj) {
+    x = obj[__i];
+    __results.push(x);
   }
-});
-exports.min = min = __curry(function(x, y){
-  if (x > y) {
-    return y;
-  } else {
-    return x;
-  }
-});
-exports.negate = negate = function(x){
-  return -x;
-};
-exports.abs = abs = Math.abs;
-exports.signum = signum = function(x){
-  switch (false) {
-  case !(x < 0):
-    return -1;
-  case !(x > 0):
-    return 1;
-  default:
-    return 0;
-  }
-};
-exports.quot = quot = __curry(function(x, y){
-  return ~~(x / y);
-});
-exports.rem = rem = __curry(function(x, y){
-  return x % y;
-});
-exports.div = div = __curry(function(x, y){
-  return Math.floor(x / y);
-});
-exports.mod = mod = __curry(function(x, y){
-  var __ref;
-  return ((x) % (__ref = y) + __ref) % __ref;
-});
-exports.recip = recip = function(x){
-  return 1 / x;
-};
-exports.pi = pi = Math.PI;
-exports.exp = exp = Math.exp;
-exports.sqrt = sqrt = Math.sqrt;
-exports.log = log = Math.log;
-exports.pow = pow = __curry(function(x, y){
-  return Math.pow(x, y);
-});
-exports.sin = sin = Math.sin;
-exports.tan = tan = Math.tan;
-exports.cos = cos = Math.cos;
-exports.asin = asin = Math.asin;
-exports.atan = atan = Math.atan;
-exports.atan2 = atan2 = __curry(function(x, y){
-  return Math.atan2(x, y);
-});
-exports.acos = acos = Math.acos;
-exports.truncate = truncate = function(x){
-  return ~~x;
-};
-exports.round = round = Math.round;
-exports.ceiling = ceiling = Math.ceil;
-exports.floor = floor = Math.floor;
-exports.isItNaN = isItNaN = function(x){
-  return x !== x;
-};
-exports.even = even = function(x){
-  return x % 2 === 0;
-};
-exports.odd = odd = function(x){
-  return x % 2 !== 0;
-};
-exports.gcd = gcd = __curry(function(x, y){
-  var z;
-  x = Math.abs(x);
-  y = Math.abs(y);
-  while (y !== 0) {
-    z = x % y;
-    x = y;
-    y = z;
-  }
-  return x;
-});
-exports.lcm = lcm = __curry(function(x, y){
-  return Math.abs(Math.floor(x / gcd(x, y) * y));
-});
-exports.id = id = function(x){
-  return x;
-};
-exports.flip = flip = __curry(function(f, x, y){
-  return f(y, x);
-});
-exports.error = error = function(msg){
-  throw msg;
+  return __results;
 };
 exports.each = each = __curry(function(f, xs){
   var x, __i, __len;
@@ -151,20 +48,6 @@ exports.map = map = __curry(function(f, xs){
     } else {
       return result;
     }
-  }
-});
-exports.cons = cons = __curry(function(x, xs){
-  if (__toString.call(xs).slice(8, -1) === 'String') {
-    return x + xs;
-  } else {
-    return [(x)].concat(xs);
-  }
-});
-exports.append = append = __curry(function(xs, ys){
-  if (__toString.call(ys).slice(8, -1) === 'String') {
-    return xs + ys;
-  } else {
-    return (xs).concat(ys);
   }
 });
 exports.filter = filter = __curry(function(f, xs){
@@ -283,11 +166,37 @@ exports.initial = initial = function(xs){
   return xs.slice(0, xs.length - 1);
 };
 exports.empty = empty = function(xs){
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    xs = values(xs);
+  }
   return !xs.length;
 };
 exports.length = length = function(xs){
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    xs = values(xs);
+  }
   return xs.length;
 };
+exports.cons = cons = __curry(function(x, xs){
+  if (__toString.call(xs).slice(8, -1) === 'String') {
+    return x + xs;
+  } else {
+    return [(x)].concat(xs);
+  }
+});
+exports.append = append = __curry(function(xs, ys){
+  if (__toString.call(ys).slice(8, -1) === 'String') {
+    return xs + ys;
+  } else {
+    return (xs).concat(ys);
+  }
+});
+exports.join = join = __curry(function(sep, xs){
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    xs = values(xs);
+  }
+  return xs.join(sep);
+});
 exports.reverse = reverse = function(xs){
   if (__toString.call(xs).slice(8, -1) === 'String') {
     return xs.split('').reverse().join('');
@@ -401,14 +310,30 @@ exports.minimum = minimum = function(xs){
   return fold1(min, xs);
 };
 exports.scan = scan = exports.scanl = scanl = __curry(function(f, memo, xs){
-  var result, last, x, __i, __len;
-  result = [memo];
-  last = memo;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    result.push(last = f(last, x));
+  var last, x;
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
   }
-  return result;
+  last = memo;
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    return ([memo]).concat((function(){
+      var __i, __ref, __results = [];
+      for (__i in __ref = xs) {
+        x = __ref[__i];
+        __results.push(last = f(last, x));
+      }
+      return __results;
+    }()));
+  } else {
+    return ([memo]).concat((function(){
+      var __i, __ref, __len, __results = [];
+      for (__i = 0, __len = (__ref = xs).length; __i < __len; ++__i) {
+        x = __ref[__i];
+        __results.push(last = f(last, x));
+      }
+      return __results;
+    }()));
+  }
 });
 exports.scan1 = scan1 = exports.scanl1 = scanl1 = __curry(function(f, xs){
   return scan(f, xs[0], xs.slice(1));
@@ -550,6 +475,25 @@ exports.zipWith = zipWith = function(f){
     return __results;
   }
 };
+exports.compose = compose = function(){
+  var funcs;
+  funcs = __slice.call(arguments);
+  return function(){
+    var args, f, __i, __ref, __len;
+    args = arguments;
+    for (__i = 0, __len = (__ref = funcs).length; __i < __len; ++__i) {
+      f = __ref[__i];
+      args = [f.apply(this, args)];
+    }
+    return args[0];
+  };
+};
+exports.id = id = function(x){
+  return x;
+};
+exports.flip = flip = __curry(function(f, x, y){
+  return f(y, x);
+});
 exports.lines = lines = function(str){
   if (!str.length) {
     return [];
@@ -568,6 +512,96 @@ exports.words = words = function(str){
 exports.unwords = unwords = function(strs){
   return strs.join(' ');
 };
+exports.max = max = __curry(function(x, y){
+  if (x > y) {
+    return x;
+  } else {
+    return y;
+  }
+});
+exports.min = min = __curry(function(x, y){
+  if (x > y) {
+    return y;
+  } else {
+    return x;
+  }
+});
+exports.negate = negate = function(x){
+  return -x;
+};
+exports.abs = abs = Math.abs;
+exports.signum = signum = function(x){
+  switch (false) {
+  case !(x < 0):
+    return -1;
+  case !(x > 0):
+    return 1;
+  default:
+    return 0;
+  }
+};
+exports.quot = quot = __curry(function(x, y){
+  return ~~(x / y);
+});
+exports.rem = rem = __curry(function(x, y){
+  return x % y;
+});
+exports.div = div = __curry(function(x, y){
+  return Math.floor(x / y);
+});
+exports.mod = mod = __curry(function(x, y){
+  var __ref;
+  return ((x) % (__ref = y) + __ref) % __ref;
+});
+exports.recip = recip = function(x){
+  return 1 / x;
+};
+exports.pi = pi = Math.PI;
+exports.tau = tau = pi * 2;
+exports.exp = exp = Math.exp;
+exports.sqrt = sqrt = Math.sqrt;
+exports.log = log = Math.log;
+exports.pow = pow = __curry(function(x, y){
+  return Math.pow(x, y);
+});
+exports.sin = sin = Math.sin;
+exports.tan = tan = Math.tan;
+exports.cos = cos = Math.cos;
+exports.asin = asin = Math.asin;
+exports.atan = atan = Math.atan;
+exports.atan2 = atan2 = __curry(function(x, y){
+  return Math.atan2(x, y);
+});
+exports.acos = acos = Math.acos;
+exports.truncate = truncate = function(x){
+  return ~~x;
+};
+exports.round = round = Math.round;
+exports.ceiling = ceiling = Math.ceil;
+exports.floor = floor = Math.floor;
+exports.isItNaN = isItNaN = function(x){
+  return x !== x;
+};
+exports.even = even = function(x){
+  return x % 2 === 0;
+};
+exports.odd = odd = function(x){
+  return x % 2 !== 0;
+};
+exports.gcd = gcd = __curry(function(x, y){
+  var z;
+  x = Math.abs(x);
+  y = Math.abs(y);
+  while (y !== 0) {
+    z = x % y;
+    x = y;
+    y = z;
+  }
+  return x;
+});
+exports.lcm = lcm = __curry(function(x, y){
+  return Math.abs(Math.floor(x / gcd(x, y) * y));
+});
 function __curry(f, args){
   return f.length ? function(){
     var params = args ? args.concat() : [];

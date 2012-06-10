@@ -1,142 +1,3 @@
-# compose
-addTwo = (x) -> x + 2
-timesTwo = (x) -> x * 2
-minusOne = (x) -> x - 1
-composed = compose addTwo, timesTwo, minusOne
-eq 9, composed 3
-
-# max
-eq 3 max 2 3
-eq \b max \a \b
-
-# min
-eq 0 min 9 0
-eq \a min \a \b
-
-# negate
-eq -2 negate 2
-eq 3  negate -3
-eq 0  negate 0
-
-# abs
-eq 4 abs -4
-eq 4 abs  4
-
-# signum
-eq 1  signum 8
-eq 0  signum 0
-eq -1 signum -5.3
-
-# quot
-eq -6 quot -20 3
-
-# rem
-eq -2 rem -20 3
-
-# div
-eq -7 div -20 3
-
-# mod
-eq 1 mod -20 3
-
-# recip
-eq 0.5 recip 2
-
-# pi
-eq 3.141592653589793 pi
-
-# exp
-eq 2.718281828459045 exp 1
-
-# sqrt
-eq 2 sqrt 4
-
-# log
-eq 0.6931471805599453 log 2
-
-# pow
-eq 4 pow -2 2
-
-# sin
-eq 0.8414709848078965 sin 1
-eq 0 sin 0
-
-# tan
-eq 1.5574077246549023 tan 1
-eq 0 tan 0
-
-# cos
-eq 0.5403023058681398 cos 1
-eq 1 cos 0
-
-# asin
-eq 1.5707963267948966 asin 1
-
-# atan
-eq 0.7853981633974483 atan 1
-
-# atan2
-eq 0.4636476090008061 atan2 1 2
-
-# acos
-eq 1.4706289056333368 acos 0.1
-
-# sinh
-# tanh
-# cosh
-# asinh
-# atanh
-# acosh
-
-# truncate
-eq -1 truncate -1.5
-eq  1 truncate  1.5
-
-# round
-eq 1 round 0.6
-eq 1 round 0.5
-eq 0 round 0.4
-
-# ceiling
-eq 1 ceiling 0.1
-
-# floor
-eq 0 floor 0.9
-
-# isItNaN
-ok isItNaN Math.sqrt -1
-ok not isItNaN '0'
-
-# even
-ok even -2
-ok not even 7
-ok even 0
-
-# odd
-ok odd 3
-ok not odd -4
-ok not odd 0
-
-# gcd
-eq 6 gcd 12 18
-
-# lcm
-eq 36 lcm 12 18
-
-# id 
-eq 5 id 5
-
-# flip
-eq 10 (flip (-)) 5 15
-
-# cons 
-eq '1,2,3' "#{ cons 1 [2 3] }"
-
-eq 'abc' cons \a 'bc'
-
-# append
-eq '1,2,3,4' "#{ append [1 2] [3 4] }"
-
 # each
 ok isEmptyList each ->, [] 
 eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
@@ -234,6 +95,20 @@ eq 0 length []
 
 eq 4 length 'abcd'
 eq 0 length ''
+
+# cons 
+eq '1,2,3' "#{ cons 1 [2 3] }"
+
+eq 'abc' cons \a 'bc'
+
+# append
+eq '1,2,3,4' "#{ append [1 2] [3 4] }"
+
+# join
+eq '1,2,3' join \, [1 2 3]
+
+# values
+eq '1,2,3' "#{ values sadf: 1, asdf: 2, fdas: 3 }"
 
 # reverse
 eq '5,4,3,2,1' "#{ reverse list }"
@@ -455,6 +330,19 @@ ok isEmptyList zip [] []
 eq '4,4,4' "#{ zipWith (+), [1 2 3], [3 2 1] }"
 ok isEmptyList zipWith id, [], []
 
+# compose
+addTwo = (x) -> x + 2
+timesTwo = (x) -> x * 2
+minusOne = (x) -> x - 1
+composed = compose addTwo, timesTwo, minusOne
+eq 9, composed 3
+
+# id 
+eq 5 id 5
+
+# flip
+eq 10 (flip (-)) 5 15
+
 # lines
 eq 'one|two|three' "#{ lines 'one\ntwo\nthree' .join \| }"
 ok isEmptyList lines ''
@@ -470,6 +358,127 @@ ok isEmptyList words ''
 # unwords
 eq 'what is this' unwords [\what \is \this]
 eq '' unwords []
+
+# max
+eq 3 max 2 3
+eq \b max \a \b
+
+# min
+eq 0 min 9 0
+eq \a min \a \b
+
+# negate
+eq -2 negate 2
+eq 3  negate -3
+eq 0  negate 0
+
+# abs
+eq 4 abs -4
+eq 4 abs  4
+
+# signum
+eq 1  signum 8
+eq 0  signum 0
+eq -1 signum -5.3
+
+# quot
+eq -6 quot -20 3
+
+# rem
+eq -2 rem -20 3
+
+# div
+eq -7 div -20 3
+
+# mod
+eq 1 mod -20 3
+
+# recip
+eq 0.5 recip 2
+
+# pi
+eq 3.141592653589793 pi
+
+# tau
+eq 6.283185307179586 tau
+
+# exp
+eq 2.718281828459045 exp 1
+
+# sqrt
+eq 2 sqrt 4
+
+# log
+eq 0.6931471805599453 log 2
+
+# pow
+eq 4 pow -2 2
+
+# sin
+eq 0.8414709848078965 sin 1
+eq 0 sin 0
+
+# tan
+eq 1.5574077246549023 tan 1
+eq 0 tan 0
+
+# cos
+eq 0.5403023058681398 cos 1
+eq 1 cos 0
+
+# asin
+eq 1.5707963267948966 asin 1
+
+# atan
+eq 0.7853981633974483 atan 1
+
+# atan2
+eq 0.4636476090008061 atan2 1 2
+
+# acos
+eq 1.4706289056333368 acos 0.1
+
+# sinh
+# tanh
+# cosh
+# asinh
+# atanh
+# acosh
+
+# truncate
+eq -1 truncate -1.5
+eq  1 truncate  1.5
+
+# round
+eq 1 round 0.6
+eq 1 round 0.5
+eq 0 round 0.4
+
+# ceiling
+eq 1 ceiling 0.1
+
+# floor
+eq 0 floor 0.9
+
+# isItNaN
+ok isItNaN Math.sqrt -1
+ok not isItNaN '0'
+
+# even
+ok even -2
+ok not even 7
+ok even 0
+
+# odd
+ok odd 3
+ok not odd -4
+ok not odd 0
+
+# gcd
+eq 6 gcd 12 18
+
+# lcm
+eq 36 lcm 12 18
 
 
 # functions for testing
