@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, each, map, filter, reject, find, pluck, head, tail, last, initial, empty, values, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
+var objToFunc, each, map, filter, reject, find, pluck, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
@@ -171,6 +171,13 @@ exports.values = values = function(obj){
   var x, __i, __results = [];
   for (__i in obj) {
     x = obj[__i];
+    __results.push(x);
+  }
+  return __results;
+};
+exports.keys = keys = function(obj){
+  var x, __results = [];
+  for (x in obj) {
     __results.push(x);
   }
   return __results;
@@ -490,6 +497,15 @@ exports.compose = compose = function(){
       args = [f.apply(this, args)];
     }
     return args[0];
+  };
+};
+exports.partial = partial = function(f){
+  var initArgs;
+  initArgs = __slice.call(arguments, 1);
+  return function(){
+    var args;
+    args = __slice.call(arguments);
+    return f.apply(this, (initArgs).concat(args));
   };
 };
 exports.id = id = function(x){

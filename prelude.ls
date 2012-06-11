@@ -75,6 +75,9 @@ exports.empty = empty = (xs) ->
 exports.values = values = (obj) ->
   [x for , x of obj]
 
+exports.keys = keys = (obj) ->
+  [x for x of obj]
+
 exports.length = length = (xs) ->
   xs = values xs if typeof! xs is \Object
   xs.length
@@ -238,6 +241,10 @@ exports.compose = compose = (...funcs) ->
     for f in funcs
       args = [f.apply this, args]
     args.0
+
+exports.partial = partial = (f, ...initArgs) ->
+  (...args) ->
+    f.apply this, (initArgs +++ args)
 
 exports.id = id = (x) -> x
 

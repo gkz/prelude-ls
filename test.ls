@@ -95,6 +95,9 @@ ok not empty '1'
 # values
 eq '1,2,3' "#{ values sadf: 1, asdf: 2, fdas: 3 }"
 
+# keys
+eq 'sadf,asdf,fdas' "#{ keys sadf: 1, asdf: 2, fdas: 3 }"
+
 # length
 eq 5 length list
 eq 0 length []
@@ -342,6 +345,20 @@ timesTwo = (x) -> x * 2
 minusOne = (x) -> x - 1
 composed = compose addTwo, timesTwo, minusOne
 eq 9, composed 3
+
+# partial
+addAdd = (x, y, z) -> x + y + z
+add9 = partial addAdd, 4, 5
+eq 17 add9 8
+
+add3 = partial addAdd, 3
+eq 17 add3 9 5
+
+add0 = partial addAdd
+eq 17 add0 0 0 17
+
+add17 = partial addAdd, 0, 0, 17
+eq 17 add17!
 
 # id 
 eq 5 id 5
