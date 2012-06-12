@@ -204,11 +204,11 @@ exports.splitAt = splitAt = (n, xs) --> [(take n, xs), (drop n, xs)]
 exports.takeWhile = takeWhile = (p, xs) -->
   return xs if not xs.length
   p = objToFunc p if typeof! p isnt \Function
-  i = 0
+  result = []
   for x in xs
     break if not p x
-    ++i
-  take i, xs
+    result.push x
+  if typeof! xs is \String then result.join '' else result
 
 exports.dropWhile = dropWhile = (p, xs) -->
   return xs if not xs.length
