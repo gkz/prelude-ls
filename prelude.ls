@@ -50,7 +50,9 @@ exports.find = find = (f, xs) -->
   void
 
 exports.pluck = pluck = (prop, xs) -->
-  [x[prop] for x in xs when x[prop]?]
+  if typeof! xs is \Object
+  then {[key, x[prop]] for key, x of xs when x[prop]?}
+  else [x[prop] for x in xs when x[prop]?]
 
 exports.head = head = (xs) -> 
   return void if not xs.length

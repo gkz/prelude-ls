@@ -55,7 +55,9 @@ eq 2, find (==2), {a:1, b:2}
 
 # pluck
 eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
-
+plucked = pluck \num {a: {num: 1}, b: {num: 2}}
+eq 1 plucked.a
+eq 2 plucked.b
 
 list = [1 2 3 4 5]
 string = 'abcde'
