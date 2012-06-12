@@ -3,7 +3,7 @@
 <head>
 <meta charset='utf-8'>
 <title>prelude.ls - the recommended base libaray for LiveScript</title>
-<meta name='description' content="prelude.ls is the recommended base libaray for LiveScript. It is based off of Haskell's Prelude module.">
+<meta name='description' content="prelude.ls is a funtional programming library usable in any JavaScript environment. It is the recommended base libaray for LiveScript. It is based off of Haskell's Prelude module.">
 
 <link rel="icon" type="image/png" href="images/icon.png">
 
@@ -49,6 +49,8 @@
         <li><a href="#f-tail">tail</a></li> 
         <li><a href="#f-initial">initial</a></li> 
         <li><a href="#f-empty">empty</a></li> 
+        <li><a href="#f-values">values</a></li> 
+        <li><a href="#f-keys">keys</a></li> 
         <li><a href="#f-length">length</a></li> 
         <li><a href="#f-cons">cons</a></li> 
         <li><a href="#f-append">append</a></li> 
@@ -90,6 +92,7 @@
         <li><a href="#f-zip">zip</a></li> 
         <li><a href="#f-zipWith">zipWith</a></li> 
         <li><a href="#f-compose">compose</a></li> 
+        <li><a href="#f-partial">partial</a></li> 
         <li><a href="#f-id">id</a></li> 
         <li><a href="#f-flip">flip</a></li> 
         <li><a href="#f-lines">lines</a></li> 
@@ -110,15 +113,15 @@
         <li><a href="#f-tau">tau</a></li> 
         <li><a href="#f-exp">exp</a></li> 
         <li><a href="#f-sqrt">sqrt</a></li> 
-        <li><a href="#f-log">log</a></li> 
+        <li><a href="#f-ln">ln</a></li> 
         <li><a href="#f-pow">pow</a></li> 
         <li><a href="#f-sin">sin</a></li> 
-        <li><a href="#f-tan">tan</a></li> 
         <li><a href="#f-cos">cos</a></li> 
+        <li><a href="#f-tan">tan</a></li> 
         <li><a href="#f-asin">asin</a></li> 
+        <li><a href="#f-acos">acos</a></li> 
         <li><a href="#f-atan">atan</a></li> 
         <li><a href="#f-atan2">atan2</a></li> 
-        <li><a href="#f-acos">acos</a></li> 
         <li><a href="#f-truncate">truncate</a></li> 
         <li><a href="#f-round">round</a></li> 
         <li><a href="#f-ceiling">ceiling</a></li> 
@@ -138,14 +141,23 @@
         <a name="overview"></a>
         <h2>Overview</h2>
         <p>prelude.ls is a functional programming function library usable in any JavaScript environment. It is the recommended base library for, and is written in, <a href="http://gkz.github.com/LiveScript/">LiveScript</a>. It is based in part off of Haskell's Prelude module.
+        <ul>
+          <li>All functions are curried
+          <li>Objects map to objects, strings map to strings
+          <li>You can use objects as functions
+        </ul>
         <div class="major-actions">
-          <h3 class="download">Download 0.3.0</h3>
+          <h3 class="download">0.3.0</h3>
           <a href="https://github.com/gkz/prelude-ls/zipball/0.3.0"><div class="btn btn-large btn">zip</div></a>
           <a href="https://github.com/gkz/prelude-ls/tarball/0.3.0"><div class="btn btn-large btn">tar.gz</div></a>
           <a href="prelude-min.js"><div class="btn btn-large btn">prelude-min.js</div></a>
           <a href="https://github.com/gkz/prelude-ls"><div class="btn btn-large btn-primary">View project on GitHub</div></a>
           <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=large&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="140" height="40"></iframe>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gkz.github.com/prelude-ls/" data-text="prelude.ls - a functional programming library for JavaScript - the recommended base library for LiveScript" data-via="gkzahariev" data-size="large">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </div>
+        <p><a href="https://twitter.com/gkzahariev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @gkzahariev</a> 
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> for updates on prelude.ls releases.
         <p>Install via <a href="http://npmjs.org">npm</a>: <strong><code>npm install prelude-ls</code></strong>
       </div>
       <div id="installation" class="section">
@@ -176,6 +188,7 @@
         <a name="f-initial"></a>
         <a name="f-empty"></a>
         <a name="f-values"></a>
+        <a name="f-keys"></a>
         <a name="f-length"></a>
         <a name="f-join"></a>
         <a name="f-cons"></a>
@@ -221,7 +234,7 @@
         <div id="f-compose" class="func">
           <a name="f-compose"></a>
           <h3>compose</h3>
-          <div class="func-type">Functions... -> Function</div>
+          <div class="func-type">...Functions -> Function</div>
           <p>Compose takes a series of functions as arguments, and composes them, returning a single function which when called will apply all the functions. This is an alternative to doing <code>f1 >> f2 >> f3 >> f4</code> in LiveScript. Note that compose composes function forwards. The first argument will be the function called first, then the second, etc. 
           <div class="example">
             <div class="example-ls">
@@ -333,35 +346,471 @@ negate('5'); //=> -5
             </div>
           </div>
         </div>
-        <a name="f-abs"></a>
-        <a name="f-signum"></a>
-        <a name="f-quot"></a>
-        <a name="f-rem"></a>
-        <a name="f-div"></a>
-        <a name="f-mod"></a>
-        <a name="f-recip"></a>
-        <a name="f-pi"></a>
-        <a name="f-tau"></a>
-        <a name="f-exp"></a>
-        <a name="f-sqrt"></a>
-        <a name="f-log"></a>
-        <a name="f-pow"></a>
-        <a name="f-sin"></a>
-        <a name="f-tan"></a>
-        <a name="f-cos"></a>
-        <a name="f-asin"></a>
-        <a name="f-atan"></a>
-        <a name="f-atan2"></a>
-        <a name="f-acos"></a>
-        <a name="f-truncate"></a>
-        <a name="f-round"></a>
-        <a name="f-ceiling"></a>
-        <a name="f-floor"></a>
-        <a name="f-isItNaN"></a>
-        <a name="f-even"></a>
-        <a name="f-odd"></a>
-        <a name="f-gcd"></a>
-        <a name="f-lcm"></a>
+        <div id="f-signum" class="func">
+          <a name="f-signum"></a>
+          <h3>signum</h3>
+          <div class="func-type">Number -> (-1 | 0 | 1)</div>
+          <p>Takes a number and returns either -1, 0, or 1 depending on the sign of the number.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+signum -5 #=> -1
+signum  0 #=>  0
+signum  9 #=>  1
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+signum(-1); //=> -1
+signum( 0); //=>  0
+signum( 1); //=>  1
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-quot" class="func">
+          <a name="f-quot"></a>
+          <h3>quot</h3>
+          <div class="func-type">Number -> Number -> Number</div>
+          <p>Division truncated toward 0.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+quot -20 3 #=> -6
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+quot(-20, 3); //=> -6
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-rem" class="func">
+          <a name="f-rem"></a>
+          <h3>rem</h3>
+          <div class="func-type">Number -> Number -> Number</div>
+          <p>Remainder, like the <code>%</code> operator.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+rem -20 3 #=> -2
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+rem(-20, 3); //=> -2
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-div" class="func">
+          <a name="f-div"></a>
+          <h3>div</h3>
+          <div class="func-type">Number -> Number -> Number</div>
+          <p>Division truncated down toward negative infinity.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+div -20 3 #=> -7
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+div(-20, 3); //=> -7
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-mod" class="func">
+          <a name="f-mod"></a>
+          <h3>mod</h3>
+          <div class="func-type">Number -> Number -> Number</div>
+          <p>Remainder, like the <code>%%</code> operator in LiveScript.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+mod -20 3 #=> 1
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+mod(-20, 3); //=> -1
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-recip" class="func">
+          <a name="f-recip"></a>
+          <h3>recip</h3>
+          <div class="func-type">Number -> Number</div>
+          <p>One over the number, ie <code>1 / x</code>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+recip 4 #=> 0.25
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+recip(0.5); //=> 2
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-pi" class="func">
+          <a name="f-pi"></a>
+          <h3>pi</h3>
+          <div class="func-type">Number</div>
+          <p>&pi;
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+pi #=> 3.141592653589793
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+pi; //=> 3.141592653589793
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-tau" class="func">
+          <a name="f-tau"></a>
+          <h3>tau</h3>
+          <div class="func-type">Number</div>
+          <p>&tau; - equal to 2 * &pi;
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+tau #=> 6.283185307179586
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+tau; //=> 6.283185307179586
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-exp" class="func">
+          <a name="f-exp"></a>
+          <h3>exp</h3>
+          <div class="func-type">Number -> Number</div>
+          <p>Returns e to the argument.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+exp 1 #=> 2.718281828459045 
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+exp(1); #=> 2.718281828459045 
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-sqrt" class="func">
+          <a name="f-sqrt"></a>
+          <h3>sqrt</h3>
+          <div class="func-type">Number -> Number</div>
+          <p>Square root.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+sqrt 4 #=> 2
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+sqrt(16); //=> 4
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-ln" class="func">
+          <a name="f-ln"></a>
+          <h3>ln</h3>
+          <p>Natural log.
+          <div class="func-type">Number -> Number</div>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+ln 10 #=> 2.302585092994046
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+ln(10); //=> 2.302585092994046
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-pow" class="func">
+          <a name="f-pow"></a>
+          <h3>pow</h3>
+          <div class="func-type">Number -> Number -> Number</div>
+          <p>Power. Equivalent to <code>x ^ y</code> or <code>x ** y</code> in LiveScript.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+pow -2 2 #=> 4
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+pow(4, 2) #=> 16
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-sin" class="func">
+          <a name="f-sin"></a>
+          <h3>sin</h3>
+          <div class="func-type">Number -> Number</div>
+        </div>
+        <div id="f-cos" class="func">
+          <a name="f-cos"></a>
+          <h3>cos</h3>
+          <div class="func-type">Number -> Number</div>
+        </div>
+        <div id="f-tan" class="func">
+          <a name="f-tan"></a>
+          <h3>tan</h3>
+          <div class="func-type">Number -> Number</div>
+        </div>
+        <div id="f-asin" class="func">
+          <a name="f-asin"></a>
+          <h3>asin</h3>
+          <div class="func-type">Number -> Number</div>
+        </div>
+        <div id="f-acos" class="func">
+          <a name="f-acos"></a>
+          <h3>acos</h3>
+          <div class="func-type">Number -> Number</div>
+        </div>
+        <div id="f-atan" class="func">
+          <a name="f-atan"></a>
+          <h3>atan</h3>
+          <div class="func-type">Number -> Number</div>
+        </div>
+        <div id="f-atan2" class="func">
+          <a name="f-atan2"></a>
+          <h3>atan2</h3>
+          <div class="func-type">Number -> Number -> Number</div>
+        </div>
+        <div id="f-truncate" class="func">
+          <a name="f-truncate"></a>
+          <h3>truncate</h3>
+          <div class="func-type">Number -> Number</div>
+          <p>Number truncated toward 0.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+truncate -1.5 #=> -1
+truncate  1.5 #=>  1
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+truncate(-1.8); //=> -1
+truncate( 1.2); //=>  1
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-round" class="func">
+          <a name="f-round"></a>
+          <h3>round</h3>
+          <div class="func-type">Number -> Number</div>
+          <p>Number rounded to nearest whole number.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+round 0.6 #=> 1
+round 0.5 #=> 1
+round 0.4 #=> 0
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+round(-1.3); //=> -1
+round(-1.8); //=> -2
+round( 9.5); //=>  10
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-ceiling" class="func">
+          <a name="f-ceiling"></a>
+          <h3>ceiling</h3>
+          <div class="func-type">Number -> Number</div>
+          <p>Number rounded up.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+ceiling 0.1 #=> 1
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+ceiling(-0.9); //=> 0
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-floor" class="func">
+          <a name="f-floor"></a>
+          <h3>floor</h3>
+          <div class="func-type">Number -> Number</div>
+          <p>Number rounded down.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+floor 0.9 #=> 0
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+floor(-0.1); //=> -1
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-isItNaN" class="func">
+          <a name="f-isItNaN"></a>
+          <h3>isItNaN</h3>
+          <div class="func-type">Number -> Boolean</div>
+          <p>Is it <code>NaN</code> (not a number)? More accurate than the native <code>isNaN</code> function.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+isItNaN sqrt -1 #=> true
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+isItNaN(undefined); //=> false
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-even" class="func">
+          <a name="f-even"></a>
+          <h3>even</h3>
+          <div class="func-type">Number -> Boolean</div>
+          <p>Is the number even?
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+even 4 #=> true
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+even(0); //=> true
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-odd" class="func">
+          <a name="f-odd"></a>
+          <h3>odd</h3>
+          <div class="func-type">Number -> Boolean</div>
+          <p>Is the number odd?
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+odd 3 #=> true
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+odd(0); //=> false
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-gcd" class="func">
+          <a name="f-gcd"></a>
+          <h3>gcd</h3>
+          <div class="func-type">Number -> Number -> Number</div>
+          <p>Greatest common denominator.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+gcd 12 18 #=> 6
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+gcd(12, 18); //=> 6
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-lcm" class="func">
+          <a name="f-lcm"></a>
+          <h3>lcm</h3>
+          <div class="func-type">Number -> Number -> Number</div>
+          <p>Least common multiple.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+lcm 12 18 #=> 36
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+lcm(12, 18); //=> 36
+</pre>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
