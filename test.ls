@@ -7,6 +7,10 @@ eq 'hello' each (-> ++testTarget), 'hello'
 eq 5 testTarget
 eq '' each (->), ''
 
+count = 4
+each (-> count += it), {a: 1, b: 2, c: 3}
+eq 10 count
+
 # map
 ok isEmptyList map ->, []
 eq '2,3,4' "#{ map (+ 1), [1 2 3] }"
@@ -449,6 +453,9 @@ eq 0 tan 0
 eq 0.5403023058681398 cos 1
 eq 1 cos 0
 
+# acos
+eq 1.4706289056333368 acos 0.1
+
 # asin
 eq 1.5707963267948966 asin 1
 
@@ -457,9 +464,6 @@ eq 0.7853981633974483 atan 1
 
 # atan2
 eq 0.4636476090008061 atan2 1 2
-
-# acos
-eq 1.4706289056333368 acos 0.1
 
 # sinh
 # tanh

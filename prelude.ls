@@ -9,7 +9,9 @@ exports.objToFunc = objToFunc = (obj) ->
   (key) -> obj[key] 
 
 exports.each = each = (f, xs) --> 
-  for x in xs then f x
+  if typeof! xs is \Object
+  then for , x of xs then f x
+  else for x in xs then f x
   xs
 
 exports.map = map = (f, xs) --> 
@@ -307,11 +309,11 @@ exports.cos = cos = Math.cos
 
 exports.asin = asin = Math.asin
 
+exports.acos = acos = Math.acos
+
 exports.atan = atan = Math.atan
 
 exports.atan2 = atan2 = (x, y) --> Math.atan2 x, y
-
-exports.acos = acos = Math.acos
 
 # sinh
 # tanh
