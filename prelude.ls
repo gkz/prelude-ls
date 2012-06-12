@@ -130,15 +130,19 @@ exports.unique = unique = (xs) ->
 
 exports.sum = sum = (xs) ->
   result = 0
-  for x in xs then result += x
+  if typeof! xs is \Object
+  then for , x of xs then result += x 
+  else for x   in xs then result += x
   result
 
 exports.product = product = (xs) -> 
   result = 1
-  for x in xs then result *= x
+  if typeof! xs is \Object
+  then for , x of xs then result *= x
+  else for x   in xs then result *= x
   result
 
-exports.mean = mean = exports.average = average = (xs) -> (sum xs) / xs.length
+exports.mean = mean = exports.average = average = (xs) -> (sum xs) / length xs
 
 exports.concat = concat = (xss) -> fold append, [], xss
 

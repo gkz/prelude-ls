@@ -185,15 +185,23 @@ eq 'abcd' unique 'aaabbbcccdd'
 
 # sum
 eq 10 sum [1 2 3 4]
-eq 0 sum []
+eq 0  sum []
+
+eq 10 sum {a: 1, b: 2, c: 3, d: 4}
+eq 0  sum {}
 
 # product
 eq 24 product [1 2 3 4]
-eq 1 product []
+eq 1  product []
+
+eq 24 product {a: 1, b: 2, c: 3, d: 4}
+eq 1  product {}
 
 # mean
 eq 4 mean [2 3 4 5 6]
 ok isItNaN mean []
+
+eq 4 mean {a: 2, b: 3, c: 4, d: 5, e: 6}
 
 # concat
 eq '1,2,3,4,5,6' "#{ concat [[1 2] [3 4] [5 6]] }"
