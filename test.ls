@@ -187,6 +187,8 @@ ok all (== \M), ''
 # unique
 eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"
 
+eq '2,3' "#{  unique {a: 2, b: 3, c: 2} }"
+
 eq 'abcd' unique 'aaabbbcccdd'
 
 # sum

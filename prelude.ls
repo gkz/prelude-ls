@@ -127,7 +127,10 @@ exports.all = all = (f, xs) --> fold ((memo, x) -> memo and f x), true, xs
 
 exports.unique = unique = (xs) ->
   result = []
-  for x in xs when x not in result then result.push x
+  if typeof! xs is \Object
+    for , x of xs when x not in result then result.push x 
+  else 
+    for x   in xs when x not in result then result.push x
   if typeof! xs is \String then result.join '' else result
 
 exports.sum = sum = (xs) ->
