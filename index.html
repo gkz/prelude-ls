@@ -38,7 +38,7 @@
         <li class="active"><a href="#overview">Overview</a></li> 
         <li><a href="#installation">Installation</a></li> 
         <li><a href="#usage">Usage</a></li> 
-        <li><a href="#contribute">Contribute</a></li> 
+        <li class="divider"><a>&nbsp;</a>
         <li><a href="#f-each">each</a></li> 
         <li><a href="#f-map">map</a></li> 
         <li><a href="#f-filter">filter</a></li> 
@@ -253,11 +253,169 @@ g();
             </div>
           </div>
         </div>
-        <a name="f-flip"></a>
-        <a name="f-lines"></a>
-        <a name="f-unlines"></a>
-        <a name="f-words"></a>
-        <a name="f-unwords"></a>
+        <div id="f-partial" class="func">
+          <a name="f-partial"></a>
+          <h3>partial</h3>
+          <div class="func-type">Function -> ...Args -> Function</div>
+          <p>Partially applies the function supplied with the arguments supplied, returns a function. For when you don't want to, or can't use, curried functions.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+times = -> x * y
+times2 = partial times, 2
+times2 4 #=> 8
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+var add = function(x, y){ return x + y; };
+var add2 = partial(add, 2);
+add2(4); //=> 8
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-id" class="func">
+          <a name="f-id"></a>
+          <h3>id</h3>
+          <div class="func-type">x -> x</div>
+          <p>A function which does nothing. It simply returns its argument.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+id 5 #=> 5
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+id('something'); //=> 'something'
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-flip" class="func">
+          <a name="f-flip"></a>
+          <h3>flip</h3>
+          <div class="func-type">Function -> Function</div>
+          <p>Returns a function with the arguments flipped. Works with binary functions.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+invertedPower = flip (^)
+invertedPower 2 3 #=> 9
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+var divide = function(x, y){ return x / y; };
+var divideBy = flip(divide);
+divideBy(2, 1); //=> 0.5
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-lines" class="func">
+          <a name="f-lines"></a>
+          <h3>lines</h3>
+          <div class="func-type">String -> [String]</div>
+          <p>Splits a string at newlines into a list.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+lines '''one
+         two
+         three'''
+#=> ['one', 'two', 'three']
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+lines('a\nb\nc'); //=> ['a', 'b', 'c']
+
+
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-unlines" class="func">
+          <a name="f-unlines"></a>
+          <h3>unlines</h3>
+          <div class="func-type">[String] -> String</div>
+          <p>Joins a list of strings into a single string using newlines.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+unlines [\one \two \three]
+#=> 'one
+#    two
+#    three'
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+unlines(['a', 'b', 'c']); #=> 'a\nb\nc'
+
+
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-words" class="func">
+          <a name="f-words"></a>
+          <h3>words</h3>
+          <div class="func-type">String -> [String]</div>
+          <p>Splits a string at spaces, returning a list of strings.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+words 'hello, what is that?'
+#=> ['hello,', 'what', 'is', 'that?']
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+words('at the end of the');
+//=> ['at', 'the', 'end', 'of', 'the']
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-unwords" class="func">
+          <a name="f-unwords"></a>
+          <h3>unwords</h3>
+          <div class="func-type">[String] -> String</div>
+          <p>Joins a list of strings into a single string using spaces.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+unwords [\one \two \three] #=> 'one two three'
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+unwords(['a', 'b', 'c']); //=> 'a b c'
+</pre>
+            </div>
+          </div>
+        </div>
         <div id="f-max" class="func">
           <a name="f-max"></a>
           <h3>max</h3>
