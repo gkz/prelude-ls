@@ -19,6 +19,11 @@ You can install via npm `npm install prelude-ls`
 For developers looking to contribute you must have [LiveScript](http://gkz.github.com/LiveScript/) - install via npm using `sudo npm install -g LiveScript`. Use the commands `slake test` to run tests (always write any tests for any additions). Run `slake build:all` to build everything and run tests.
 
 ## Functions
+
+
+**Following is out of date - gh-pages site is coming soon with fresh docs**
+
+
 #### compose
     :: ...Funcs -> Func
     (...funcs) -> f1 >> f2 >> ... >> fn
