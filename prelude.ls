@@ -293,7 +293,9 @@ exports.exp = exp = Math.exp
 
 exports.sqrt = sqrt = Math.sqrt
 
-exports.log = log = Math.log
+# changed from log as log is a 
+# common function for logging things
+exports.ln = ln = Math.log
 
 exports.pow = pow = (x, y) --> x ^ y
 
