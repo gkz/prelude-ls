@@ -579,7 +579,7 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <div class="func-type">Callable -> memo -> List &nbsp; -> x</div>
           <div class="func-type">Callable -> memo -> Object -> x</div>
           <div class="func-type">Callable -> memo -> String -> x</div>
-          <p>
+          <p>Takes a collection of items, and using the callable supplied, folds them into a single value. Requires an initial value (memo), which will be the result in case of an empty collection.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -601,7 +601,7 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <div class="func-type">Callable -> List &nbsp; -> x</div>
           <div class="func-type">Callable -> Object -> x</div>
           <div class="func-type">Callable -> String -> x</div>
-          <p>
+          <p>Like fold, except assumes a non-empty collection, and thus doesn't require an initial value.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -623,7 +623,7 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <div class="func-type">Callable -> memo -> List &nbsp; -> x</div>
           <div class="func-type">Callable -> memo -> Object -> x</div>
           <div class="func-type">Callable -> memo -> String -> x</div>
-          <p>
+          <p>Like fold, except from the right.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -645,7 +645,7 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <div class="func-type">Callable -> List &nbsp; -> x</div>
           <div class="func-type">Callable -> Object -> x</div>
           <div class="func-type">Callable -> String -> x</div>
-          <p>
+          <p>Like foldr, except assumes a non-empty collection, and thus doesn't require an initial value.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -855,10 +855,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-concatMap" class="func">
           <a name="f-concatMap"></a>
           <h3>concatMap</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Callable -> [List] -> List</div>
+          <p>Maps the callable on the list, then concats.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -877,10 +875,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-listToObj" class="func">
           <a name="f-listToObj"></a>
           <h3>listToObj</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Callable -> [List] -> Object</div>
+          <p>Converts a list of lists (pairs) into an object.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -899,10 +895,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-objToFunc" class="func">
           <a name="f-objToFunc"></a>
           <h3>objToFunc</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Object -> Function</div>
+          <p>Turns an object (anything with properties) into a function. This is used internally to allow objects to be accepted as callables. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -921,10 +915,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-maximum" class="func">
           <a name="f-maximum"></a>
           <h3>maximum</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">[Comparable] -> Comparable</div>
+          <p>Takes a list of comparable items, and returns the biggest of them.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -943,9 +935,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-minimum" class="func">
           <a name="f-minimum"></a>
           <h3>minimum</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
+          <div class="func-type">[Comparable] -> Comparable</div>
+          <p>Takes a list of comparable items, and returns the smallest of them.
           <p>
           <div class="example">
             <div class="example-ls">
@@ -965,10 +956,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-scan" class="func">
           <a name="f-scan"></a>
           <h3>scan</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Callable -> memo -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> memo -> Object -> List</div>
+          <p>Like a fold, except instead of just returning the final value, returns a list composed of the initial value, the intermediate values, and then the final value. Requires an initial value (memo) in case of an empty collection.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -988,9 +978,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <a name="f-scan1"></a>
           <h3>scan1</h3>
           <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Callable -> Object -> List</div>
+          <p>Like scan, except assumes non-empty collection, and thus doesn't require an initial value.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1009,10 +998,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-scanr" class="func">
           <a name="f-scanr"></a>
           <h3>scanr</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Callable -> memo -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> memo -> Object -> List</div>
+          <p>Like scan, except from the right.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1032,9 +1020,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <a name="f-scanr1"></a>
           <h3>scanr1</h3>
           <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Callable -> Object -> List</div>
+          <p>Like scanr, except assumes non-empty collection, and thus doesn't require an initial value. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1053,10 +1040,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-replicate" class="func">
           <a name="f-replicate"></a>
           <h3>replicate</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Number -> x &nbsp; &nbsp;&nbsp; -> List</div>
+          <div class="func-type">Number -> String -> String</div>
+          <p>Takes its second argument, and repeats it n times. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1075,10 +1061,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-take" class="func">
           <a name="f-take"></a>
           <h3>take</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Number -> List &nbsp; -> List</div>
+          <div class="func-type">Number -> String -> String</div>
+          <p>Returns the first n items in the list or string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1097,10 +1082,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-drop" class="func">
           <a name="f-drop"></a>
           <h3>drop</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Number -> List &nbsp; -> List</div>
+          <div class="func-type">Number -> String -> String</div>
+          <p>Returns the result of dropping the first n items of the list or string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1119,10 +1103,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-splitAt" class="func">
           <a name="f-splitAt"></a>
           <h3>splitAt</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Number -> List &nbsp; -> [List]</div>
+          <div class="func-type">Number -> String -> [String]</div>
+          <p>Equivalent to <code>[(take n, xs), (drop n, xs)]</code>
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1142,9 +1125,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <a name="f-takeWhile"></a>
           <h3>takeWhile</h3>
           <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
           <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <p>Takes the first items of the list or string which pass the test. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1164,9 +1146,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <a name="f-dropWhile"></a>
           <h3>dropWhile</h3>
           <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
           <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <p>Drops the first items of the list or string which pass the test. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1185,10 +1166,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-span" class="func">
           <a name="f-span"></a>
           <h3>span</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Callable -> List &nbsp; -> [List]</div>
+          <div class="func-type">Callable -> String -> [String]</div>
+          <p>Equivalent to <code>[(takeWhile f, xs), (dropWhile f, xs)]</code>
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1207,10 +1187,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-breakIt" class="func">
           <a name="f-breakIt"></a>
           <h3>breakIt</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Callable -> List &nbsp; -> [List]</div>
+          <div class="func-type">Callable -> String -> [String]</div>
+          <p>Equivalent to <code>span (not) << f, xs</code>
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1229,10 +1208,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-elem" class="func">
           <a name="f-elem"></a>
           <h3>elem</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">x &nbsp; &nbsp;&nbsp; -> List &nbsp; -> Boolean</div>
+          <div class="func-type">String -> String -> Boolean</div>
+          <p>Checks if x is in the list, or the character is in a string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1251,10 +1229,9 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-notElem" class="func">
           <a name="f-notElem"></a>
           <h3>notElem</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">x &nbsp; &nbsp;&nbsp; -> List &nbsp; -> Boolean</div>
+          <div class="func-type">String -> String -> Boolean</div>
+          <p>Same as <code>elem</code>, except checks if it is <em>not</em> in the list or string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1273,10 +1250,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-lookup" class="func">
           <a name="f-lookup"></a>
           <h3>lookup</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">property -> Object -> x</div>
+          <p>Returns the specified property of any object.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1295,10 +1270,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-call" class="func">
           <a name="f-call"></a>
           <h3>call</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">property -> Object -> x</div>
+          <p>Calls the specified property with no arguments. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1317,10 +1290,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-zip" class="func">
           <a name="f-zip"></a>
           <h3>zip</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">...Lists -> [List]</div>
+          <p>Zips together its arguments into a list of lists.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -1339,10 +1310,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-zipWith" class="func">
           <a name="f-zipWith"></a>
           <h3>zipWith</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> Object</div>
-          <div class="func-type">Callable -> String -> String</div>
-          <p>
+          <div class="func-type">Function -> ...Lists -> List</div>
+          <p>As <code>zip</code>, but applies the supplied function to the lists and creates a list of the results.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
