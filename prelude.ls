@@ -264,7 +264,7 @@ exports.unlines = unlines = (strs) -> strs.join \\n
 
 exports.words = words = (str) -> 
   return [] if not str.length
-  str.split ' '
+  str.split /[ ]+/
 
 exports.unwords = unwords = (strs) -> strs.join ' '
 

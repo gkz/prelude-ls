@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, each, map, filter, reject, find, pluck, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, log, pow, sin, tan, cos, asin, atan, atan2, acos, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
+var objToFunc, each, map, filter, reject, find, pluck, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
@@ -10,9 +10,16 @@ exports.objToFunc = objToFunc = function(obj){
 };
 exports.each = each = __curry(function(f, xs){
   var x, __i, __len;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    f(x);
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    for (__i in xs) {
+      x = xs[__i];
+      f(x);
+    }
+  } else {
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      f(x);
+    }
   }
   return xs;
 });
@@ -281,23 +288,37 @@ exports.unique = unique = function(xs){
 exports.sum = sum = function(xs){
   var result, x, __i, __len;
   result = 0;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    result += x;
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    for (__i in xs) {
+      x = xs[__i];
+      result += x;
+    }
+  } else {
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      result += x;
+    }
   }
   return result;
 };
 exports.product = product = function(xs){
   var result, x, __i, __len;
   result = 1;
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    result *= x;
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    for (__i in xs) {
+      x = xs[__i];
+      result *= x;
+    }
+  } else {
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      result *= x;
+    }
   }
   return result;
 };
 exports.mean = mean = exports.average = average = function(xs){
-  return sum(xs) / xs.length;
+  return sum(xs) / length(xs);
 };
 exports.concat = concat = function(xss){
   return fold(append, [], xss);
@@ -527,7 +548,7 @@ exports.words = words = function(str){
   if (!str.length) {
     return [];
   }
-  return str.split(' ');
+  return str.split(/[ ]+/);
 };
 exports.unwords = unwords = function(strs){
   return strs.join(' ');
@@ -580,7 +601,7 @@ exports.pi = pi = Math.PI;
 exports.tau = tau = pi * 2;
 exports.exp = exp = Math.exp;
 exports.sqrt = sqrt = Math.sqrt;
-exports.log = log = Math.log;
+exports.ln = ln = Math.log;
 exports.pow = pow = __curry(function(x, y){
   return Math.pow(x, y);
 });
@@ -588,11 +609,11 @@ exports.sin = sin = Math.sin;
 exports.tan = tan = Math.tan;
 exports.cos = cos = Math.cos;
 exports.asin = asin = Math.asin;
+exports.acos = acos = Math.acos;
 exports.atan = atan = Math.atan;
 exports.atan2 = atan2 = __curry(function(x, y){
   return Math.atan2(x, y);
 });
-exports.acos = acos = Math.acos;
 exports.truncate = truncate = function(x){
   return ~~x;
 };

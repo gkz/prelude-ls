@@ -23,7 +23,9 @@ eq 4 obj.b
 
 eq '1,2,3,4' "#{ map {one: 1, two: 2, three: 3, four: 4}, <[ one two three four ]> }"
 
-eq 'abcdef' append 'abc' 'def'
+switches = map [\off \on], {power: 1, light: 0}
+eq \on  switches.power 
+eq \off switches.light
 
 # filter 
 ok isEmptyList filter id, []
@@ -119,6 +121,8 @@ eq 'abc' cons \a 'bc'
 
 # append
 eq '1,2,3,4' "#{ append [1 2] [3 4] }"
+
+eq 'abcdef' append 'abc' 'def'
 
 # join
 eq '1,2,3' join \, [1 2 3]
@@ -389,6 +393,7 @@ eq '' unlines []
 # words
 eq 'what|is|this' "#{ words 'what is this' .join \| }"
 ok isEmptyList words '' 
+eq 'what|is|this' "#{ words 'what   is  this' .join \| }"
 
 # unwords
 eq 'what is this' unwords [\what \is \this]
