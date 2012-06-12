@@ -54,6 +54,7 @@
         <li><a href="#f-length">length</a></li> 
         <li><a href="#f-cons">cons</a></li> 
         <li><a href="#f-append">append</a></li> 
+        <li><a href="#f-join">join</a></li> 
         <li><a href="#f-reverse">reverse</a></li> 
         <li><a href="#f-fold">fold</a></li> 
         <li><a href="#f-fold1">fold1</a></li> 
@@ -177,60 +178,1186 @@
         <h2>Function Reference</h2>
         <p>Examples of usage in LiveScript on the left, examples using JavaScript on the right. The examples may not be related. If you want to play around with prelude.ls, take a look at the <a href="http://gkz.github.com/LiveScript/">LiveScript site</a>, it has the library preloaded for use in the compiler. In LiveScript, you may call any camel cased functions using hyphens, eg. you may use <code>concat-map</code> instead of <code>concatMap</code>.
         <p>All functions except those that take a variable number of arguments are 'curried' - if called with less than the specified number of arguments, they will return a partially applied function. Eg. <code>takeThree = take 3</code> and then <code>takeThree [1 to 10] #=> [1, 2, 3]</code>.
-        <a name="f-each"></a>
-        <a name="f-map"></a>
-        <a name="f-filter"></a>
-        <a name="f-reject"></a>
-        <a name="f-find"></a>
-        <a name="f-pluck"></a>
-        <a name="f-head"></a>
-        <a name="f-tail"></a>
-        <a name="f-initial"></a>
-        <a name="f-empty"></a>
-        <a name="f-values"></a>
-        <a name="f-keys"></a>
-        <a name="f-length"></a>
-        <a name="f-join"></a>
-        <a name="f-cons"></a>
-        <a name="f-append"></a>
-        <a name="f-reverse"></a>
-        <a name="f-fold"></a>
-        <a name="f-fold1"></a>
-        <a name="f-foldr"></a>
-        <a name="f-foldr1"></a>
-        <a name="f-andList"></a>
-        <a name="f-orList"></a>
-        <a name="f-any"></a>
-        <a name="f-all"></a>
-        <a name="f-unique"></a>
-        <a name="f-sum"></a>
-        <a name="f-product"></a>
-        <a name="f-mean"></a>
-        <a name="f-concat"></a>
-        <a name="f-concatMap"></a>
-        <a name="f-listToObj"></a>
-        <a name="f-objToFunc"></a>
-        <a name="f-maximum"></a>
-        <a name="f-minimum"></a>
-        <a name="f-scan"></a>
-        <a name="f-scan1"></a>
-        <a name="f-scanr"></a>
-        <a name="f-scanr1"></a>
-        <a name="f-replicate"></a>
-        <a name="f-take"></a>
-        <a name="f-drop"></a>
-        <a name="f-splitAt"></a>
-        <a name="f-takeWhile"></a>
-        <a name="f-dropWhile"></a>
-        <a name="f-span"></a>
-        <a name="f-breakIt"></a>
-        <a name="f-elem"></a>
-        <a name="f-notElem"></a>
-        <a name="f-lookup"></a>
-        <a name="f-call"></a>
-        <a name="f-zip"></a>
-        <a name="f-zipWith"></a>
-        <a name="f-id"></a>
+        <p>Iterating over a string only works on IE8+. "Callable" refers to either a function, or an object (anything with properties).
+        <div id="f-each" class="func">
+          <a name="f-each"></a>
+          <h3>each</h3>
+          <div class="func-type">Function -> List &nbsp; -> List</div>
+          <div class="func-type">Function -> Object -> Object</div>
+          <div class="func-type">Function -> String -> String</div>
+          <p>Applies function to each item in the collection (item in list or object, character in string), returns the original collection. Used for side effects.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+each (-> it.push \boom), [[\a] [\b] [\c]] 
+#=> [['a', 'boom'], ['b', 'boom'], ['c', 'boom']]
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+var count = 4;
+each(function(x){ count += x; }, {a: 1, b: 2, c: 3});
+count; //=> 
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-map" class="func">
+          <a name="f-map"></a>
+          <h3>map</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>Applies the supplied callable to each item in the collection, returns a new collection with the results. 
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+map (* 2), [1 to 5] #=> [2, 4, 6, 8, 10]
+map (call \toUpperCase), 'haha' #=> 'HAHA'
+map (+ 2), {a: 2, b: 3, c: 4} #=> {a: 4, b: 5, c: 6}
+map {one: 1, two: 2}, <[ one two ]> #=> [1, 2]
+map [\off, \on], {power: 1, light: 0}
+#=> {power: 'on', light: 'off'}
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-filter" class="func">
+          <a name="f-filter"></a>
+          <h3>filter</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>Filters a collection, removing all items that do not pass the test of applying the supplied callable to each item.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+filter (< 3), [1 to 5] #=> [1, 2]
+filter even, {a: 3, b: 4, c: 0} #=> {b: 4, c: 0}
+filter (== \a), 'hahaha' #=> 'aaa'
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-reject" class="func">
+          <a name="f-reject"></a>
+          <h3>reject</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>Like filter, but instead of adding item to results it passes the test, adds those items who <em>don't</em> pass the test.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+reject odd, [1 to 5] #=> [2, 4]
+reject (-> typeof! it is \String), {a: 2, b: \ha}
+#=> {a: 2}
+reject (== \h), 'mmhmm' #=> 'mmmm'
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-find" class="func">
+          <a name="f-find"></a>
+          <h3>find</h3>
+          <div class="func-type">Callable -> List &nbsp; -> x</div>
+          <div class="func-type">Callable -> Object -> x</div>
+          <div class="func-type">Callable -> String -> x</div>
+          <p>Returns the first item to pass the test.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+find odd, [2 4 6 7 8 9 10] #=> 7
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-pluck" class="func">
+          <a name="f-pluck"></a>
+          <h3>pluck</h3>
+          <div class="func-type">String -> [Object] -> [x]</div>
+          <div class="func-type">String -> {Object} -> {x}</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-head" class="func">
+          <a name="f-head"></a>
+          <h3>head</h3>
+          <div class="func-type">List &nbsp; -> x</div>
+          <div class="func-type">String -> String</div>
+          <p>The first item of the list, or first character of the string.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-tail" class="func">
+          <a name="f-tail"></a>
+          <h3>tail</h3>
+          <div class="func-type">List &nbsp; -> List</div>
+          <div class="func-type">String -> String</div>
+          <p>Everything but the first item of the list, or everything but the first character in the string.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-last" class="func">
+          <a name="f-last"></a>
+          <h3>last</h3>
+          <div class="func-type">List &nbsp; -> x</div>
+          <div class="func-type">String -> String</div>
+          <p>The last item of the list, or the last character of the string.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-initial" class="func">
+          <a name="f-initial"></a>
+          <h3>initial</h3>
+          <div class="func-type">List &nbsp; -> List</div>
+          <div class="func-type">String -> String</div>
+          <p>Everything but the last item of the list, or everything but the last character in the string.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-empty" class="func">
+          <a name="f-empty"></a>
+          <h3>empty</h3>
+          <div class="func-type">List &nbsp; -> Boolean</div>
+          <div class="func-type">Object -> Boolean</div>
+          <div class="func-type">String -> Boolean</div>
+          <p>Whether the collection is empty, eg. <code>[]</code>, <code>{}</code>, or <code>''</code>.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-values" class="func">
+          <a name="f-values"></a>
+          <h3>values</h3>
+          <div class="func-type">Object -> List</div>
+          <p>Returns a list of the values of the object.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-keys" class="func">
+          <a name="f-keys"></a>
+          <h3>keys</h3>
+          <div class="func-type">Object -> List</div>
+          <p>Returns a list of the keys of the object.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-length" class="func">
+          <a name="f-length"></a>
+          <h3>length</h3>
+          <div class="func-type">List &nbsp; -> Number</div>
+          <div class="func-type">Object -> Number</div>
+          <div class="func-type">String -> Number</div>
+          <p>Returns the number of items in the collection.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-cons" class="func">
+          <a name="f-cons"></a>
+          <h3>cons</h3>
+          <div class="func-type">x -> List -> List</div>
+          <p>Returns a new list made by adding the supplied item to the front of the given list.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-append" class="func">
+          <a name="f-append"></a>
+          <h3>append</h3>
+          <div class="func-type">List -> List -> List</div>
+          <div class="func-type">List -> x -> List</div>
+          <p>Returns a new list - either putting two lists together, or appending an item to a list.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-join" class="func">
+          <a name="f-join"></a>
+          <h3>join</h3>
+          <div class="func-type">List -> String -> String</div>
+          <p>Joins a list with the specified separator. 
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-reverse" class="func">
+          <a name="f-reverse"></a>
+          <h3>reverse</h3>
+          <div class="func-type">List &nbsp; -> List</div>
+          <div class="func-type">String -> String</div>
+          <p>Reverses a list of a string.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-fold" class="func">
+          <a name="f-fold"></a>
+          <h3>fold</h3>
+          <div class="func-type">Callable -> memo -> List &nbsp; -> x</div>
+          <div class="func-type">Callable -> memo -> Object -> x</div>
+          <div class="func-type">Callable -> memo -> String -> x</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-fold1" class="func">
+          <a name="f-fold1"></a>
+          <h3>fold1</h3>
+          <div class="func-type">Callable -> List &nbsp; -> x</div>
+          <div class="func-type">Callable -> Object -> x</div>
+          <div class="func-type">Callable -> String -> x</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-foldr" class="func">
+          <a name="f-foldr"></a>
+          <h3>foldr</h3>
+          <div class="func-type">Callable -> memo -> List &nbsp; -> x</div>
+          <div class="func-type">Callable -> memo -> Object -> x</div>
+          <div class="func-type">Callable -> memo -> String -> x</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-foldr1" class="func">
+          <a name="f-foldr1"></a>
+          <h3>foldr1</h3>
+          <div class="func-type">Callable -> List &nbsp; -> x</div>
+          <div class="func-type">Callable -> Object -> x</div>
+          <div class="func-type">Callable -> String -> x</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-andList" class="func">
+          <a name="f-andList"></a>
+          <h3>andList</h3>
+          <div class="func-type">List &nbsp; -> Boolean</div>
+          <div class="func-type">Object -> Boolean</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-orList" class="func">
+          <a name="f-orList"></a>
+          <h3>orList</h3>
+          <div class="func-type">List &nbsp; -> Boolean</div>
+          <div class="func-type">Object -> Boolean</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-any" class="func">
+          <a name="f-any"></a>
+          <h3>any</h3>
+          <div class="func-type">Callable -> List &nbsp; -> Boolean</div>
+          <div class="func-type">Callable -> Object -> Boolean</div>
+          <div class="func-type">Callable -> String -> Boolean</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-all" class="func">
+          <a name="f-all"></a>
+          <h3>all</h3>
+          <div class="func-type">Callable -> List &nbsp; -> Boolean</div>
+          <div class="func-type">Callable -> Object -> Boolean</div>
+          <div class="func-type">Callable -> String -> Boolean</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-unique" class="func">
+          <a name="f-unique"></a>
+          <h3>unique</h3>
+          <div class="func-type">List &nbsp; -> List</div>
+          <div class="func-type">Object -> List</div>
+          <div class="func-type">String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-sum" class="func">
+          <a name="f-sum"></a>
+          <h3>sum</h3>
+          <div class="func-type">[Number] -> Number</div>
+          <div class="func-type">{Number} -> Number</div>
+          <p>Sums up the values in the list or object. 0 if empty.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-product" class="func">
+          <a name="f-product"></a>
+          <h3>product</h3>
+          <div class="func-type">[Number] -> Number</div>
+          <div class="func-type">{Number} -> Number</div>
+          <p>Gets the product of all the items in the list or objects. 1 if empty.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-mean" class="func">
+          <a name="f-mean"></a>
+          <h3>mean</h3>
+          <div class="func-type">[Number] -> Number</div>
+          <div class="func-type">{Number} -> Number</div>
+          <p>Gets the mean of the values in the list or object.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-concat" class="func">
+          <a name="f-concat"></a>
+          <h3>concat</h3>
+          <div class="func-type">[List] -> List</div>
+          <p>Concatenates a list of lists together.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-concatMap" class="func">
+          <a name="f-concatMap"></a>
+          <h3>concatMap</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-listToObj" class="func">
+          <a name="f-listToObj"></a>
+          <h3>listToObj</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-objToFunc" class="func">
+          <a name="f-objToFunc"></a>
+          <h3>objToFunc</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-maximum" class="func">
+          <a name="f-maximum"></a>
+          <h3>maximum</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-minimum" class="func">
+          <a name="f-minimum"></a>
+          <h3>minimum</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-scan" class="func">
+          <a name="f-scan"></a>
+          <h3>scan</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-scan1" class="func">
+          <a name="f-scan1"></a>
+          <h3>scan1</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-scanr" class="func">
+          <a name="f-scanr"></a>
+          <h3>scanr</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-scanr1" class="func">
+          <a name="f-scanr1"></a>
+          <h3>scanr1</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-replicate" class="func">
+          <a name="f-replicate"></a>
+          <h3>replicate</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-take" class="func">
+          <a name="f-take"></a>
+          <h3>take</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-drop" class="func">
+          <a name="f-drop"></a>
+          <h3>drop</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-splitAt" class="func">
+          <a name="f-splitAt"></a>
+          <h3>splitAt</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-takeWhile" class="func">
+          <a name="f-takeWhile"></a>
+          <h3>takeWhile</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-dropWhile" class="func">
+          <a name="f-dropWhile"></a>
+          <h3>dropWhile</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-span" class="func">
+          <a name="f-span"></a>
+          <h3>span</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-breakIt" class="func">
+          <a name="f-breakIt"></a>
+          <h3>breakIt</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-elem" class="func">
+          <a name="f-elem"></a>
+          <h3>elem</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-notElem" class="func">
+          <a name="f-notElem"></a>
+          <h3>notElem</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-lookup" class="func">
+          <a name="f-lookup"></a>
+          <h3>lookup</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-call" class="func">
+          <a name="f-call"></a>
+          <h3>call</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-zip" class="func">
+          <a name="f-zip"></a>
+          <h3>zip</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-zipWith" class="func">
+          <a name="f-zipWith"></a>
+          <h3>zipWith</h3>
+          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> Object -> Object</div>
+          <div class="func-type">Callable -> String -> String</div>
+          <p>
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+</pre>
+            </div>
+          </div>
+        </div>
         <div id="f-compose" class="func">
           <a name="f-compose"></a>
           <h3>compose</h3>
@@ -390,7 +1517,7 @@ words 'hello, what is that?'
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-words('at the end of the');
+words('at the end  of   the');
 //=> ['at', 'the', 'end', 'of', 'the']
 </pre>
             </div>
