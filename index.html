@@ -25,6 +25,15 @@
 
 <script>
   if(window.location.host === "gkz.github.com") {
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7402515-6']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
   }
 </script>
 </head>
@@ -148,11 +157,12 @@
           <a href="prelude-min.js"><div class="btn btn-large btn">prelude-min.js</div></a>
           <a href="https://github.com/gkz/prelude-ls"><div class="btn btn-large btn-primary">View project on GitHub</div></a>
           <iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=large&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="140" height="40"></iframe>
-          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gkz.github.com/prelude-ls/" data-text="prelude.ls - a functional programming library for JavaScript - the recommended base library for LiveScript" data-via="gkzahariev" data-size="large">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         </div>
         <p><a href="https://twitter.com/gkzahariev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @gkzahariev</a> 
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> for updates on prelude.ls releases.
+          &nbsp;
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gkz.github.com/prelude-ls/" data-text="prelude.ls - a functional programming library for JavaScript - the recommended base library for LiveScript" data-via="gkzahariev" data-size="large">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         <p>Install via <a href="http://npmjs.org">npm</a>: <strong><code>npm install prelude-ls</code></strong>
         <h3>All functions are curried</h3>
         <p>Calling with less than the full number of arguments returns a partially applied function.
