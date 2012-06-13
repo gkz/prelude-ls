@@ -1,7 +1,7 @@
 name    : \prelude-ls
 version : \0.3.0
 
-description : "prelude.ls is the recommended base library for LiveScript, however it will work in any JavaScript environment. It provides a set of functions somewhat based off of Haskell's Prelude."
+description : "prelude.ls is a JavaScript functional programming library. It is the recommended base library for, and is written in, LiveScript. It is based off of Haskell's Prelude module."
 keywords    :
   \library
   \prelude
