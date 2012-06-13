@@ -1,131 +1,3 @@
-# compose
-addTwo = (x) -> x + 2
-timesTwo = (x) -> x * 2
-minusOne = (x) -> x - 1
-composed = compose addTwo, timesTwo, minusOne
-eq 9, composed 3
-
-# max
-eq 3 max 2 3
-eq \b max \a \b
-
-# min
-eq 0 min 9 0
-eq \a min \a \b
-
-# negate
-eq -2 negate 2
-eq 3  negate -3
-eq 0  negate 0
-
-# abs
-eq 4 abs -4
-eq 4 abs  4
-
-# signum
-eq 1  signum 8
-eq 0  signum 0
-eq -1 signum -5.3
-
-# quot
-eq -6 quot -20 3
-
-# rem
-eq -2 rem -20 3
-
-# div
-eq -7 div -20 3
-
-# mod
-eq 1 mod -20 3
-
-# recip
-eq 0.5 recip 2
-
-# pi
-eq 3.141592653589793 pi
-
-# exp
-eq 2.718281828459045 exp 1
-
-# sqrt
-eq 2 sqrt 4
-
-# log
-eq 0.6931471805599453 log 2
-
-# pow
-eq 4 pow -2 2
-
-# sin
-eq 0.8414709848078965 sin 1
-eq 0 sin 0
-
-# tan
-eq 1.5574077246549023 tan 1
-eq 0 tan 0
-
-# cos
-eq 0.5403023058681398 cos 1
-eq 1 cos 0
-
-# asin
-eq 1.5707963267948966 asin 1
-
-# atan
-eq 0.7853981633974483 atan 1
-
-# atan2
-eq 0.4636476090008061 atan2 1 2
-
-# acos
-eq 1.4706289056333368 acos 0.1
-
-# sinh
-# tanh
-# cosh
-# asinh
-# atanh
-# acosh
-
-# truncate
-eq -1 truncate -1.5
-eq  1 truncate  1.5
-
-# round
-eq 1 round 0.6
-eq 1 round 0.5
-eq 0 round 0.4
-
-# ceiling
-eq 1 ceiling 0.1
-
-# floor
-eq 0 floor 0.9
-
-# isItNaN
-ok isItNaN Math.sqrt -1
-ok not isItNaN '0'
-
-# even
-ok even -2
-ok not even 7
-ok even 0
-
-# odd
-ok odd 3
-ok not odd -4
-ok not odd 0
-
-# gcd
-eq 6 gcd 12 18
-
-# lcm
-eq 36 lcm 12 18
-
-# id 
-eq 5 id 5
-
 # each
 ok isEmptyList each ->, [] 
 eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
@@ -134,6 +6,10 @@ testTarget = 0
 eq 'hello' each (-> ++testTarget), 'hello'
 eq 5 testTarget
 eq '' each (->), ''
+
+count = 4
+each (-> count += it), {a: 1, b: 2, c: 3}
+eq 10 count
 
 # map
 ok isEmptyList map ->, []
@@ -145,15 +21,11 @@ obj = map (-> it * 2), {a:1, b:2}
 eq 2 obj.a
 eq 4 obj.b
 
-# cons 
-eq '1,2,3' "#{ cons 1 [2 3] }"
+eq '1,2,3,4' "#{ map {one: 1, two: 2, three: 3, four: 4}, <[ one two three four ]> }"
 
-eq 'abc' cons \a 'bc'
-
-# append
-eq '1,2,3,4' "#{ append [1 2] [3 4] }"
-
-eq 'abcdef' append 'abc' 'def'
+switches = map [\off \on], {power: 1, light: 0}
+eq \on  switches.power 
+eq \off switches.light
 
 # filter 
 ok isEmptyList filter id, []
@@ -183,7 +55,9 @@ eq 2, find (==2), {a:1, b:2}
 
 # pluck
 eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
-
+plucked = pluck \num {a: {num: 1}, b: {num: 2}}
+eq 1 plucked.a
+eq 2 plucked.b
 
 list = [1 2 3 4 5]
 string = 'abcde'
@@ -220,15 +94,43 @@ ok (initial '')!?
 ok empty []
 ok not empty [1]
 
+ok empty {}
+ok not empty {x: 1}
+
 ok empty ''
 ok not empty '1'
+
+# values
+eq '1,2,3' "#{ values sadf: 1, asdf: 2, fdas: 3 }"
+
+# keys
+eq 'sadf,asdf,fdas' "#{ keys sadf: 1, asdf: 2, fdas: 3 }"
+eq '0,1,2' "#{ keys [1 2 3] }"
 
 # length
 eq 5 length list
 eq 0 length []
 
+eq 3 length {x: 1, y: 2, z: 3}
+eq 0 length {}
+
 eq 4 length 'abcd'
 eq 0 length ''
+
+# cons 
+eq '1,2,3' "#{ cons 1 [2 3] }"
+eq '4,5' "#{ cons 4 5 }"
+
+eq 'abc' cons \a 'bc'
+
+# append
+eq '1,2,3,4' "#{ append [1 2] [3 4] }"
+eq '1,2,3' "#{ append [1 2] 3 }"
+
+eq 'abcdef' append 'abc' 'def'
+
+# join
+eq '1,2,3' join \, [1 2 3]
 
 # reverse
 eq '5,4,3,2,1' "#{ reverse list }"
@@ -288,19 +190,29 @@ ok all (== \M), ''
 # unique
 eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"
 
+eq '2,3' "#{  unique {a: 2, b: 3, c: 2} }"
+
 eq 'abcd' unique 'aaabbbcccdd'
 
 # sum
 eq 10 sum [1 2 3 4]
-eq 0 sum []
+eq 0  sum []
+
+eq 10 sum {a: 1, b: 2, c: 3, d: 4}
+eq 0  sum {}
 
 # product
 eq 24 product [1 2 3 4]
-eq 1 product []
+eq 1  product []
+
+eq 24 product {a: 1, b: 2, c: 3, d: 4}
+eq 1  product {}
 
 # mean
 eq 4 mean [2 3 4 5 6]
 ok isItNaN mean []
+
+eq 4 mean {a: 2, b: 3, c: 4, d: 5, e: 6}
 
 # concat
 eq '1,2,3,4,5,6' "#{ concat [[1 2] [3 4] [5 6]] }"
@@ -450,6 +362,33 @@ ok isEmptyList zip [] []
 eq '4,4,4' "#{ zipWith (+), [1 2 3], [3 2 1] }"
 ok isEmptyList zipWith id, [], []
 
+# compose
+addTwo = (x) -> x + 2
+timesTwo = (x) -> x * 2
+minusOne = (x) -> x - 1
+composed = compose addTwo, timesTwo, minusOne
+eq 9, composed 3
+
+# partial
+addAdd = (x, y, z) -> x + y + z
+add9 = partial addAdd, 4, 5
+eq 17 add9 8
+
+add3 = partial addAdd, 3
+eq 17 add3 9 5
+
+add0 = partial addAdd
+eq 17 add0 0 0 17
+
+add17 = partial addAdd, 0, 0, 17
+eq 17 add17!
+
+# id 
+eq 5 id 5
+
+# flip
+eq 10 (flip (-)) 5 15
+
 # lines
 eq 'one|two|three' "#{ lines 'one\ntwo\nthree' .join \| }"
 ok isEmptyList lines ''
@@ -461,10 +400,132 @@ eq '' unlines []
 # words
 eq 'what|is|this' "#{ words 'what is this' .join \| }"
 ok isEmptyList words '' 
+eq 'what|is|this' "#{ words 'what   is  this' .join \| }"
 
 # unwords
 eq 'what is this' unwords [\what \is \this]
 eq '' unwords []
+
+# max
+eq 3 max 2 3
+eq \b max \a \b
+
+# min
+eq 0 min 9 0
+eq \a min \a \b
+
+# negate
+eq -2 negate 2
+eq 3  negate -3
+eq 0  negate 0
+
+# abs
+eq 4 abs -4
+eq 4 abs  4
+
+# signum
+eq 1  signum 8
+eq 0  signum 0
+eq -1 signum -5.3
+
+# quot
+eq -6 quot -20 3
+
+# rem
+eq -2 rem -20 3
+
+# div
+eq -7 div -20 3
+
+# mod
+eq 1 mod -20 3
+
+# recip
+eq 0.5 recip 2
+
+# pi
+eq 3.141592653589793 pi
+
+# tau
+eq 6.283185307179586 tau
+
+# exp
+eq 2.718281828459045 exp 1
+
+# sqrt
+eq 2 sqrt 4
+
+# ln
+eq 0.6931471805599453 ln 2
+
+# pow
+eq 4 pow -2 2
+
+# sin
+eq 0.8414709848078965 sin 1
+eq 0 sin 0
+
+# tan
+eq 1.5574077246549023 tan 1
+eq 0 tan 0
+
+# cos
+eq 0.5403023058681398 cos 1
+eq 1 cos 0
+
+# acos
+eq 1.4706289056333368 acos 0.1
+
+# asin
+eq 1.5707963267948966 asin 1
+
+# atan
+eq 0.7853981633974483 atan 1
+
+# atan2
+eq 0.4636476090008061 atan2 1 2
+
+# sinh
+# tanh
+# cosh
+# asinh
+# atanh
+# acosh
+
+# truncate
+eq -1 truncate -1.5
+eq  1 truncate  1.5
+
+# round
+eq 1 round 0.6
+eq 1 round 0.5
+eq 0 round 0.4
+
+# ceiling
+eq 1 ceiling 0.1
+
+# floor
+eq 0 floor 0.9
+
+# isItNaN
+ok isItNaN Math.sqrt -1
+ok not isItNaN '0'
+
+# even
+ok even -2
+ok not even 7
+ok even 0
+
+# odd
+ok odd 3
+ok not odd -4
+ok not odd 0
+
+# gcd
+eq 6 gcd 12 18
+
+# lcm
+eq 36 lcm 12 18
 
 
 # functions for testing

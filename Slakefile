@@ -32,19 +32,11 @@ build = (browser = false) ->
     this.prelude = function(){
       exports = {};
       #{ js }
-      exports.prelude = function(target) {
-        if (typeof target != 'undefined' && target !== null) {
-          for (var key in exports) {
-            target[key] = exports[key];
-          }
-        }
-        return exports;
-      }
       return exports;
     }();
     """
   slobber "#{name}.js" """
-    // prelude.ls 0.1.0
+    // prelude.ls 0.3.0
     // Copyright (c) 2012 George Zahariev
     // Released under the MIT License
     // raw.github.com/gkz/prelude-ls/master/LICNSE
