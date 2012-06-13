@@ -54,7 +54,7 @@ exports.pluck = pluck = (prop, xs) -->
   then {[key, x[prop]] for key, x of xs when x[prop]?}
   else [x[prop] for x in xs when x[prop]?]
 
-exports.head = head = (xs) -> 
+exports.head = head = exports.first = first (xs) -> 
   return void if not xs.length
   xs.slice 0, 1
 
