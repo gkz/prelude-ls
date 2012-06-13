@@ -142,11 +142,6 @@
         <a name="overview"></a>
         <h2>Overview</h2>
         <p>prelude.ls is a functional programming function library usable in any JavaScript environment. It is the recommended base library for, and is written in, <a href="http://gkz.github.com/LiveScript/">LiveScript</a>. It is based in part off of Haskell's Prelude module.
-        <ul>
-          <li>All functions are curried
-          <li>Objects map to objects, strings map to strings
-          <li>You can use objects as functions in certain cases
-        </ul>
         <div class="major-actions">
           <h3 class="download">0.3.0</h3>
           <a href="https://github.com/gkz/prelude-ls/zipball/0.3.0"><div class="btn btn-large btn">zip</div></a>
@@ -160,10 +155,67 @@
         <p><a href="https://twitter.com/gkzahariev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @gkzahariev</a> 
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> for updates on prelude.ls releases.
         <p>Install via <a href="http://npmjs.org">npm</a>: <strong><code>npm install prelude-ls</code></strong>
+        <h3>All functions are curried</h3>
+        <p>Calling with less than the full number of arguments returns a partially applied function.
+        <div class="example">
+          <div class="example-ls">
+            <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+sum = fold (+), 0
+sum [1 to 3] #=> 6
+</pre>
+          </div>
+          <div class="example-js">
+            <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+var takeFour = take(4);
+takeFour('hello there') //=> 'hell'
+</pre>
+          </div>
+        </div>
+        <h3>Objects map to objects, strings map to strings</h3>
+        <p>When it makes sense, working on an object will return an object, and a string will return a string.
+        <div class="example">
+          <div class="example-ls">
+            <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+filter even, {a: 3, b: 4, c: 5, d: 6}
+#=> {b: 4, d: 6}
+</pre>
+          </div>
+          <div class="example-js">
+            <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+map(function(x){ return x*2; }, {d: 3, e: 4});
+//=> {d: 6, e: 8}
+</pre>
+          </div>
+        </div>
+        <h3>You can use objects as functions in certain cases</h3>
+        <p>When a function taking only one argument is required, you can also use an object, or anything with properties.
+        <div class="example">
+          <div class="example-ls">
+            <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+map {on: 1, off: 0}, <[ on on off on off ]>
+#=> [1, 1, 0, 1, 0]
+</pre>
+          </div>
+          <div class="example-js">
+            <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+reject([false, true], {a: 0, b: 1, c: 0});
+//=> {a: 0, c: 0}
+</pre>
+          </div>
+        </div>
       </div>
       <div id="installation" class="section">
         <a name="installation"></a>
           <h2>Installation</h2>
+          <p>Install via <a href="http://npmjs.org">npm</a>: <code>npm install prelude-ls</code> and then you can require it as a standard node module.
+          <p>For the browser, just include the <code>prelude-min.js</code> file. It will install itself as <code>prelude</code> under the global namespace. 
+          <p>To import all prelude.ls functions to somewhere, you can use <code>prelude.importPrelude(target)</code>. For instance, calling <code>prelude.importPrelude(window)</code> in the browser will install all the functions as global variables. In node, you can do <code>require('prelude-ls').installPrelude(global);</code>.
       </div>
       <hr>
       <div class="section">
@@ -897,13 +949,16 @@ mean([4, 3]); //=> 3.5
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-concat [[1] [2 3] [4]] #=> [1, 2, 3, 4]
+concat [[1] [2 3] [4]]   #=> [1, 2, 3, 4]
+concat <[ aa bb cc dd ]> #=> 'aabbccdd'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
 concat([['a', 'b'], ['c']]); //=> ['a', 'b', 'c']
+
+
 </pre>
             </div>
           </div>
@@ -918,6 +973,8 @@ concat([['a', 'b'], ['c']]); //=> ['a', 'b', 'c']
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
 concatMap (+ 2), [[1 2] [3]] #=> [3, 4, 5]
+concatMap (call \toUpperCase), <[ aa bb cc dd ]>
+#=> 'AABBCCDD'
 </pre>
             </div>
             <div class="example-js">
@@ -925,6 +982,8 @@ concatMap (+ 2), [[1 2] [3]] #=> [3, 4, 5]
 <pre class="prettyprint lang-js">
 concatMap(even, [[1], [2, 3, 4]]); 
 //=> [false, true, false, true[
+
+
 </pre>
             </div>
           </div>
