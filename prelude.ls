@@ -102,7 +102,6 @@ exports.reverse = reverse = (xs) ->
   else xs.slice!reverse!
 
 exports.fold = fold = exports.foldl = foldl = (f, memo, xs) -->
-  f = objToFunc f if typeof! f isnt \Function
   if typeof! xs is \Object 
     for , x of xs then memo = f memo, x
   else 
@@ -121,9 +120,13 @@ exports.andList = andList = (xs) -> fold ((memo, x) -> memo and x), true, xs
 
 exports.orList = orList = (xs) -> fold ((memo, x) -> memo or x), false, xs
 
-exports.any = any = (f, xs) --> fold ((memo, x) -> memo or f x), false, xs
+exports.any = any = (f, xs) --> 
+  f = objToFunc f if typeof! f isnt \Function
+  fold ((memo, x) -> memo or f x), false, xs
 
-exports.all = all = (f, xs) --> fold ((memo, x) -> memo and f x), true, xs
+exports.all = all = (f, xs) --> 
+  f = objToFunc f if typeof! f isnt \Function
+  fold ((memo, x) -> memo and f x), true, xs
 
 exports.unique = unique = (xs) ->
   result = []
@@ -166,7 +169,6 @@ exports.minimum = minimum = (xs) ->
   fold1 min, xs
 
 exports.scan = scan = exports.scanl = scanl = (f, memo, xs) --> 
-  f = objToFunc f if typeof! f isnt \Function
   last = memo
   if typeof! xs is \Object
   then [memo] +++ [last = f last, x for , x of xs]
