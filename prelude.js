@@ -1,4 +1,4 @@
-// prelude.ls 0.1.0
+// prelude.ls 0.3.0
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
