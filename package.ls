@@ -11,7 +11,7 @@ keywords    :
   \javascript
 
 author   : 'George Zahariev <z@georgezahariev.com>'
-homepage : \https://github.com/gkz/prelude-ls
+homepage : \http://gkz.github.com/prelude-ls
 bugs     : \https://github.com/gkz/prelude-ls/issues
 licenses :
   type: \MIT, url: \https://raw.github.com/gkz/prelude-ls/master/LICENSE
