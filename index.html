@@ -37,14 +37,14 @@
       <ul class="nav nav-pills">
         <li class="active"><a href="#overview">Overview</a></li> 
         <li><a href="#installation">Installation</a></li> 
-        <li><a href="#usage">Usage</a></li> 
-        <li class="divider"><a>&nbsp;</a>
-        <li><a href="#f-each">each</a></li> 
+        <li class="blank"><a>&nbsp;</a>
+        <li class="blank"><a>&nbsp;</a>
         <li><a href="#f-map">map</a></li> 
         <li><a href="#f-filter">filter</a></li> 
         <li><a href="#f-reject">reject</a></li> 
         <li><a href="#f-find">find</a></li> 
         <li><a href="#f-pluck">pluck</a></li> 
+        <li><a href="#f-each">each</a></li> 
         <li><a href="#f-head">head</a></li> 
         <li><a href="#f-tail">tail</a></li> 
         <li><a href="#f-initial">initial</a></li> 
@@ -70,8 +70,6 @@
         <li><a href="#f-mean">mean</a></li> 
         <li><a href="#f-concat">concat</a></li> 
         <li><a href="#f-concatMap">concatMap</a></li> 
-        <li><a href="#f-listToObj">listToObj</a></li> 
-        <li><a href="#f-objToFunc">objToFunc</a></li> 
         <li><a href="#f-maximum">maximum</a></li> 
         <li><a href="#f-minimum">minimum</a></li> 
         <li><a href="#f-scan">scan</a></li> 
@@ -90,6 +88,8 @@
         <li><a href="#f-notElem">notElem</a></li> 
         <li><a href="#f-lookup">lookup</a></li> 
         <li><a href="#f-call">call</a></li> 
+        <li><a href="#f-listToObj">listToObj</a></li> 
+        <li><a href="#f-objToFunc">objToFunc</a></li> 
         <li><a href="#f-zip">zip</a></li> 
         <li><a href="#f-zipWith">zipWith</a></li> 
         <li><a href="#f-compose">compose</a></li> 
@@ -145,7 +145,7 @@
         <ul>
           <li>All functions are curried
           <li>Objects map to objects, strings map to strings
-          <li>You can use objects as functions
+          <li>You can use objects as functions in certain cases
         </ul>
         <div class="major-actions">
           <h3 class="download">0.3.0</h3>
@@ -165,52 +165,19 @@
         <a name="installation"></a>
           <h2>Installation</h2>
       </div>
-      <div id="usage" class="section">
-        <a name="usage"></a>
-          <h2>Usage</h2>
-      </div>
-      <div id="contribute" class="section">
-        <a name="contribute"></a>
-          <h2>Contribute</h2>
-      </div>
       <hr>
       <div class="section">
         <h2>Function Reference</h2>
         <p>Examples of usage in LiveScript on the left, examples using JavaScript on the right. The examples may not be related. If you want to play around with prelude.ls, take a look at the <a href="http://gkz.github.com/LiveScript/">LiveScript site</a>, it has the library preloaded for use in the compiler. In LiveScript, you may call any camel cased functions using hyphens, eg. you may use <code>concat-map</code> instead of <code>concatMap</code>.
         <p>All functions except those that take a variable number of arguments are 'curried' - if called with less than the specified number of arguments, they will return a partially applied function. Eg. <code>takeThree = take 3</code> and then <code>takeThree [1 to 10] #=> [1, 2, 3]</code>.
-        <p>Iterating over a string only works on IE8+. "Callable" refers to either a function, or an object (anything with properties).
-        <div id="f-each" class="func">
-          <a name="f-each"></a>
-          <h3>each</h3>
-          <div class="func-type">Function -> List &nbsp; -> List</div>
-          <div class="func-type">Function -> Object -> Object</div>
-          <div class="func-type">Function -> String -> String</div>
-          <p>Applies function to each item in the collection (item in list or object, character in string), returns the original collection. Used for side effects.
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-each (-> it.push \boom), [[\a] [\b] [\c]] 
-#=> [['a', 'boom'], ['b', 'boom'], ['c', 'boom']]
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-var count = 4;
-each(function(x){ count += x; }, {a: 1, b: 2, c: 3});
-count; //=> 
-</pre>
-            </div>
-          </div>
-        </div>
+        <p>Iterating over a string only works on IE8+. "Callable" refers to either a function, or an object (anything with properties). A callable that is a function takes only one argument. 
         <div id="f-map" class="func">
           <a name="f-map"></a>
           <h3>map</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> List -> List</div>
           <div class="func-type">Callable -> Object -> Object</div>
           <div class="func-type">Callable -> String -> String</div>
-          <p>Applies the supplied callable to each item in the collection, returns a new collection with the results. 
+          <p>Applies the supplied callable to each item in the collection, returns a new collection with the results. The length of the result is the same as the length of the input.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -226,7 +193,13 @@ map [\off, \on], {power: 1, light: 0}
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+map(function(x){ return x * 2; }, [1, 2, 3, 4, 5]);
+//=> [2, 4, 6, 8, 10]
+map(someFunction, aList); //=> a list of something
+map({ha: 1, HA: 2}, ['HA', 'ha']); //=> [2, 1]
+map(call('toLowerCase'), 'MuHaHa'); //=> muhaha
+var mapAddTwo = map(function(x){ return x + 2});
+//=> a function
 </pre>
             </div>
           </div>
@@ -234,7 +207,7 @@ map [\off, \on], {power: 1, light: 0}
         <div id="f-filter" class="func">
           <a name="f-filter"></a>
           <h3>filter</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> List -> List</div>
           <div class="func-type">Callable -> Object -> Object</div>
           <div class="func-type">Callable -> String -> String</div>
           <p>Filters a collection, removing all items that do not pass the test of applying the supplied callable to each item.
@@ -250,7 +223,9 @@ filter (== \a), 'hahaha' #=> 'aaa'
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+filter(odd, [1, 2, 3, 4, 5]); //=> [1, 3, 5]
+filter(function(x){ return x <= 2; }, 
+  {x: 4, y: 2, z: 8}); //=> {y: 2}
 </pre>
             </div>
           </div>
@@ -258,10 +233,10 @@ filter (== \a), 'hahaha' #=> 'aaa'
         <div id="f-reject" class="func">
           <a name="f-reject"></a>
           <h3>reject</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> List -> List</div>
           <div class="func-type">Callable -> Object -> Object</div>
           <div class="func-type">Callable -> String -> String</div>
-          <p>Like filter, but instead of adding item to results it passes the test, adds those items who <em>don't</em> pass the test.
+          <p>Like <code>filter</code>, but instead of adding item to results it passes the test, adds those items who <em>don't</em> pass the test.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
@@ -275,6 +250,10 @@ reject (== \h), 'mmhmm' #=> 'mmmm'
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
+reject(even, {a: 3, b: 8, c: 1}); //=> {a: 3, c: 1}
+
+
+
 
 </pre>
             </div>
@@ -283,7 +262,7 @@ reject (== \h), 'mmhmm' #=> 'mmmm'
         <div id="f-find" class="func">
           <a name="f-find"></a>
           <h3>find</h3>
-          <div class="func-type">Callable -> List &nbsp; -> x</div>
+          <div class="func-type">Callable -> List -> x</div>
           <div class="func-type">Callable -> Object -> x</div>
           <div class="func-type">Callable -> String -> x</div>
           <p>Returns the first item to pass the test.
@@ -297,7 +276,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+find(function(x){ return x <= 3; }, {b: 3, a: 2});
+//=> 2
 </pre>
             </div>
           </div>
@@ -307,18 +287,44 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <h3>pluck</h3>
           <div class="func-type">String -> [Object] -> [x]</div>
           <div class="func-type">String -> {Object} -> {x}</div>
-          <p>
+          <p>A common use case of map, extracts a property from a collection of objects.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+pluck \num [{num: 3}, {num: 1}] #=> [3, 1]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+pluck('p', {x: {p: 'a'}, y: {p: 'd'}}); 
+//=> {x: 'a', y: 'd'}
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-each" class="func">
+          <a name="f-each"></a>
+          <h3>each</h3>
+          <div class="func-type">Function -> List -> List</div>
+          <div class="func-type">Function -> Object -> Object</div>
+          <div class="func-type">Function -> String -> String</div>
+          <p>Applies function to each item in the collection (item in list or object, character in string), returns the original collection. Used for side effects.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+each (-> it.push \boom), [[\a] [\b] [\c]] 
+#=> [['a', 'boom'], ['b', 'boom'], ['c', 'boom']]
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+var count = 4;
+each(function(x){ count += x; }, {a:1, b:2, c:3});
+count; //=>  10
 </pre>
             </div>
           </div>
@@ -326,20 +332,23 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-head" class="func">
           <a name="f-head"></a>
           <h3>head</h3>
-          <div class="func-type">List &nbsp; -> x</div>
+          <div class="alias">alias: first</div>
+          <div class="func-type">List -> x</div>
           <div class="func-type">String -> String</div>
           <p>The first item of the list, or first character of the string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+head [1 to 5] #=> 1
+head 'hello'  #=> 'h'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+head([9, 8, 7]); //=> 9
+head('world');   //-> 'w'
 </pre>
             </div>
           </div>
@@ -347,20 +356,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-tail" class="func">
           <a name="f-tail"></a>
           <h3>tail</h3>
-          <div class="func-type">List &nbsp; -> List</div>
+          <div class="func-type">List -> List</div>
           <div class="func-type">String -> String</div>
           <p>Everything but the first item of the list, or everything but the first character in the string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+head [1 to 5] #=> [2, 3, 4, 5]
+head 'hello'  #=> 'ello'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+head([9, 8, 7]); //=> [8, 7]
+head('world');   //-> 'orld'
 </pre>
             </div>
           </div>
@@ -368,20 +379,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-last" class="func">
           <a name="f-last"></a>
           <h3>last</h3>
-          <div class="func-type">List &nbsp; -> x</div>
+          <div class="func-type">List -> x</div>
           <div class="func-type">String -> String</div>
           <p>The last item of the list, or the last character of the string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+head [1 to 5] #=> 5
+head 'hello'  #=> 'o'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+head([9, 8, 7]); //=> 7
+head('world');   //-> 'd'
 </pre>
             </div>
           </div>
@@ -389,20 +402,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-initial" class="func">
           <a name="f-initial"></a>
           <h3>initial</h3>
-          <div class="func-type">List &nbsp; -> List</div>
+          <div class="func-type">List -> List</div>
           <div class="func-type">String -> String</div>
           <p>Everything but the last item of the list, or everything but the last character in the string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+head [1 to 5] #=> [1, 2, 3, 4]
+head 'hello'  #=> 'hell'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+head([9, 8, 7]); //=> 9
+head('world');   //-> 'w'
 </pre>
             </div>
           </div>
@@ -410,7 +425,7 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-empty" class="func">
           <a name="f-empty"></a>
           <h3>empty</h3>
-          <div class="func-type">List &nbsp; -> Boolean</div>
+          <div class="func-type">List -> Boolean</div>
           <div class="func-type">Object -> Boolean</div>
           <div class="func-type">String -> Boolean</div>
           <p>Whether the collection is empty, eg. <code>[]</code>, <code>{}</code>, or <code>''</code>.
@@ -418,13 +433,17 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+empty [] #=> true
+empty {} #=> true
+empty '' #=> true
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+empty([]); //=> true
+empty({}); //=> true
+empty('')' //=> true
 </pre>
             </div>
           </div>
@@ -438,13 +457,13 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+values a: 2, b: 3, c: 9 #=> [2, 3, 9]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+values({moo: 'haha'}); //=> ['haha']
 </pre>
             </div>
           </div>
@@ -458,13 +477,13 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+keys a: 2, b: 3, c: 9 #=> ['a', 'b', 'c']
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+keys([1, 2, 3]); //=> [0, 1, 2]
 </pre>
             </div>
           </div>
@@ -472,7 +491,7 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-length" class="func">
           <a name="f-length"></a>
           <h3>length</h3>
-          <div class="func-type">List &nbsp; -> Number</div>
+          <div class="func-type">List -> Number</div>
           <div class="func-type">Object -> Number</div>
           <div class="func-type">String -> Number</div>
           <p>Returns the number of items in the collection.
@@ -480,13 +499,17 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+length [1 4 2]     #=> 3
+length h: 2, j: 23 #=> 2
+length 'antwoord'  #=> 8
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+length([3]); //=> 1
+length {}    //=> 0
+length 'doh' //=> 3
 </pre>
             </div>
           </div>
@@ -495,17 +518,24 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <a name="f-cons"></a>
           <h3>cons</h3>
           <div class="func-type">x -> List -> List</div>
-          <p>Returns a new list made by adding the supplied item to the front of the given list.
+          <div class="func-type">x -> y -> List</div>
+          <div class="func-type">String -> String -> String</div>
+          <p>Returns a new list made by adding the supplied item to the front of the given list. Also mashes together strings.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+cons 1 [2 3]  #=> [1 2 3]
+cons 4 5      #=> [4 5]
+cons 'a' 'bc' #=> 'abc'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
+cons(2, [4, 6]); //=> [2, 4, 6]
+
+
 
 </pre>
             </div>
@@ -516,18 +546,23 @@ find odd, [2 4 6 7 8 9 10] #=> 7
           <h3>append</h3>
           <div class="func-type">List -> List -> List</div>
           <div class="func-type">List -> x -> List</div>
-          <p>Returns a new list - either putting two lists together, or appending an item to a list.
+          <div class="func-type">String -> String -> String</div>
+          <p>Returns a new list - either putting two lists together, or appending an item to a list. Also mashes together strings.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+append [1 2] [3 4] #=> [1 2 3 4]
+append [1 2] 3     #=> [1 2 3]
+append 'abc' 'def' #=> 'abcdef'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+append([4, 5], [6, 7]); //=> [4, 5, 6, 7]
+append([4, 5], 6);      //=> [4, 5, 6]
+append('ha', 'ha');     //=> 'haha'
 </pre>
             </div>
           </div>
@@ -535,19 +570,19 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-join" class="func">
           <a name="f-join"></a>
           <h3>join</h3>
-          <div class="func-type">List -> String -> String</div>
+          <div class="func-type">String -> List -> String</div>
           <p>Joins a list with the specified separator. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+join \| [1 til 4] #=> '1|2|3'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+join('*', [4, 5, 6]); //=> '4*5*6'
 </pre>
             </div>
           </div>
@@ -555,20 +590,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-reverse" class="func">
           <a name="f-reverse"></a>
           <h3>reverse</h3>
-          <div class="func-type">List &nbsp; -> List</div>
+          <div class="func-type">List -> List</div>
           <div class="func-type">String -> String</div>
           <p>Reverses a list of a string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+reverse [1 to 3] #=> [3, 2, 1]
+reverse 'goat'   #=> 'taog'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+reverse([3, 4, 5]); //=> [5, 4, 3]
+reverse('Moo');     //=> 'ooM'
 </pre>
             </div>
           </div>
@@ -576,20 +613,26 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-fold" class="func">
           <a name="f-fold"></a>
           <h3>fold</h3>
-          <div class="func-type">Callable -> memo -> List &nbsp; -> x</div>
-          <div class="func-type">Callable -> memo -> Object -> x</div>
-          <div class="func-type">Callable -> memo -> String -> x</div>
-          <p>Takes a collection of items, and using the callable supplied, folds them into a single value. Requires an initial value (memo), which will be the result in case of an empty collection.
+          <div class="alias">alias: foldl</div>
+          <div class="func-type">Function -> memo -> List -> x</div>
+          <div class="func-type">Function -> memo -> Object -> x</div>
+          <div class="func-type">Function -> memo -> String -> x</div>
+          <p>Takes a collection of items, and using the function supplied, folds them into a single value. Requires an initial value (memo), which will be the result in case of an empty collection. The function supplied must take two arguments.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+fold (+), 0, [1 to 5] #=> 15
+product = fold (*), 1
+fold someFunc, anObject
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
+fold(function(x, y){ return x + y; }, 0,
+  {a: 4, b: 5, c: 6}); //=> 15
+
 
 </pre>
             </div>
@@ -598,21 +641,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-fold1" class="func">
           <a name="f-fold1"></a>
           <h3>fold1</h3>
-          <div class="func-type">Callable -> List &nbsp; -> x</div>
-          <div class="func-type">Callable -> Object -> x</div>
-          <div class="func-type">Callable -> String -> x</div>
-          <p>Like fold, except assumes a non-empty collection, and thus doesn't require an initial value.
+          <div class="alias">alias: foldl1</div>
+          <div class="func-type">Function -> List -> x</div>
+          <div class="func-type">Function -> Object -> x</div>
+          <div class="func-type">Function -> String -> x</div>
+          <p>Like <code>fold</code>, except assumes a non-empty collection, and thus doesn't require an initial value.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+fold1 (+), [1 to 3] #=> 6
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+fold1(aFunction, aList);
 </pre>
             </div>
           </div>
@@ -620,21 +664,21 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-foldr" class="func">
           <a name="f-foldr"></a>
           <h3>foldr</h3>
-          <div class="func-type">Callable -> memo -> List &nbsp; -> x</div>
-          <div class="func-type">Callable -> memo -> Object -> x</div>
-          <div class="func-type">Callable -> memo -> String -> x</div>
-          <p>Like fold, except from the right.
+          <div class="func-type">Function -> memo -> List -> x</div>
+          <div class="func-type">Function -> memo -> Object -> x</div>
+          <div class="func-type">Function -> memo -> String -> x</div>
+          <p>Like <code>fold</code>, except from the right.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+foldr (-), 9, [1 2 3 4] #=> -1
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+foldr(aFunction, initValue, aList);
 </pre>
             </div>
           </div>
@@ -642,21 +686,21 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-foldr1" class="func">
           <a name="f-foldr1"></a>
           <h3>foldr1</h3>
-          <div class="func-type">Callable -> List &nbsp; -> x</div>
-          <div class="func-type">Callable -> Object -> x</div>
-          <div class="func-type">Callable -> String -> x</div>
-          <p>Like foldr, except assumes a non-empty collection, and thus doesn't require an initial value.
+          <div class="func-type">Function -> List -> x</div>
+          <div class="func-type">Function -> Object -> x</div>
+          <div class="func-type">Function -> String -> x</div>
+          <p>Like <code>foldr</code>, except assumes a non-empty collection, and thus doesn't require an initial value.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+foldr1 (-), [1 2 3 4 9] #=> -1
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+foldr1(aFunction, aList);
 </pre>
             </div>
           </div>
@@ -664,19 +708,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-andList" class="func">
           <a name="f-andList"></a>
           <h3>andList</h3>
-          <div class="func-type">List &nbsp; -> Boolean</div>
+          <div class="func-type">List -> Boolean</div>
           <div class="func-type">Object -> Boolean</div>
-          <p>
+          <p>Returns true if each item in the collection is true.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+andList [true, 2 + 2 == 4] #=> true
+andList [true true false ] #=> false
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
+andList(aListAllTrue); //=> true
+
 
 </pre>
             </div>
@@ -685,20 +732,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-orList" class="func">
           <a name="f-orList"></a>
           <h3>orList</h3>
-          <div class="func-type">List &nbsp; -> Boolean</div>
+          <div class="func-type">List -> Boolean</div>
           <div class="func-type">Object -> Boolean</div>
-          <p>
+          <p>Returns true if any item in the collection is true.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+orList [false false true false] #=> true
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+orList({a: false, b: true}); //=> true
 </pre>
             </div>
           </div>
@@ -706,21 +753,21 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-any" class="func">
           <a name="f-any"></a>
           <h3>any</h3>
-          <div class="func-type">Callable -> List &nbsp; -> Boolean</div>
+          <div class="func-type">Callable -> List -> Boolean</div>
           <div class="func-type">Callable -> Object -> Boolean</div>
           <div class="func-type">Callable -> String -> Boolean</div>
-          <p>
+          <p>Returns true if any of the items in the collection are true when applied to the test.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+any even, [3, 5, 7, 8, 9] #=> true
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+any(odd, [2, 4, 6, 8]); #=> false
 </pre>
             </div>
           </div>
@@ -728,21 +775,23 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-all" class="func">
           <a name="f-all"></a>
           <h3>all</h3>
-          <div class="func-type">Callable -> List &nbsp; -> Boolean</div>
+          <div class="func-type">Callable -> List -> Boolean</div>
           <div class="func-type">Callable -> Object -> Boolean</div>
           <div class="func-type">Callable -> String -> Boolean</div>
-          <p>
+          <p>Returns true if all the items in the collection are true when applied to the test.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+all (-> typeof! it is \String), <[ ha ma la ]> 
+#=> true
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+all(function(x){ return x == 'm'; }, 'mmmhmm'); 
+//=> false
 </pre>
             </div>
           </div>
@@ -750,7 +799,7 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-unique" class="func">
           <a name="f-unique"></a>
           <h3>unique</h3>
-          <div class="func-type">List &nbsp; -> List</div>
+          <div class="func-type">List -> List</div>
           <div class="func-type">Object -> List</div>
           <div class="func-type">String -> String</div>
           <p>
@@ -758,12 +807,15 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+unique [1 1 1 3 3 6 7 8] #=> [1 3 6 7 8]
+unique 'aaabbccccd'      #=> 'abcd'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
+unique([4, 4, 4, 4, 5]); //=> [4, 5]
+
 
 </pre>
             </div>
@@ -779,12 +831,15 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+sum [1 to 5]         #=> 15
+sum x: 1, y: 2, z: 3 #=> 6
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
+sum([4, 5, 6]); //=> 15
+
 
 </pre>
             </div>
@@ -800,13 +855,13 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+product [1 2 3] #=> 6
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+product([4, 3, 2]); //=> 24
 </pre>
             </div>
           </div>
@@ -814,6 +869,7 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-mean" class="func">
           <a name="f-mean"></a>
           <h3>mean</h3>
+          <div class="alias">alias: average</div>
           <div class="func-type">[Number] -> Number</div>
           <div class="func-type">{Number} -> Number</div>
           <p>Gets the mean of the values in the list or object.
@@ -821,13 +877,13 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+mean [1 to 5] #=> 3
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+mean([4, 3]); //=> 3.5
 </pre>
             </div>
           </div>
@@ -841,13 +897,13 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+concat [[1] [2 3] [4]] #=> [1, 2, 3, 4]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+concat([['a', 'b'], ['c']]); //=> ['a', 'b', 'c']
 </pre>
             </div>
           </div>
@@ -861,53 +917,14 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+concatMap (+ 2), [[1 2] [3]] #=> [3, 4, 5]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
-</pre>
-            </div>
-          </div>
-        </div>
-        <div id="f-listToObj" class="func">
-          <a name="f-listToObj"></a>
-          <h3>listToObj</h3>
-          <div class="func-type">Callable -> [List] -> Object</div>
-          <p>Converts a list of lists (pairs) into an object.
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-
-</pre>
-            </div>
-          </div>
-        </div>
-        <div id="f-objToFunc" class="func">
-          <a name="f-objToFunc"></a>
-          <h3>objToFunc</h3>
-          <div class="func-type">Object -> Function</div>
-          <p>Turns an object (anything with properties) into a function. This is used internally to allow objects to be accepted as callables. 
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-
+concatMap(even, [[1], [2, 3, 4]]); 
+//=> [false, true, false, true[
 </pre>
             </div>
           </div>
@@ -921,13 +938,13 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+maximum [4 1 9 3] #=> 9
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+maximum(['b', 'a', 'd']); //=> 'd'
 </pre>
             </div>
           </div>
@@ -942,13 +959,13 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+minimum [\a to \f] #=> 'a'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+minimum([3, 2, 8]); //=> 2
 </pre>
             </div>
           </div>
@@ -956,20 +973,21 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-scan" class="func">
           <a name="f-scan"></a>
           <h3>scan</h3>
-          <div class="func-type">Callable -> memo -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> memo -> Object -> List</div>
-          <p>Like a fold, except instead of just returning the final value, returns a list composed of the initial value, the intermediate values, and then the final value. Requires an initial value (memo) in case of an empty collection.
+          <div class="alias">alias: scanl</div>
+          <div class="func-type">Function -> memo -> List -> List</div>
+          <div class="func-type">Function -> memo -> Object -> List</div>
+          <p>Like a fold, except instead of just returning the final value, returns a list composed of the initial value, the intermediate values, and then the final value. Requires an initial value (memo) in case of an empty collection. The function supplied needs to take two arguments.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+scan (+), 0, [1 to 3] #=> [0, 1, 3, 6]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+scan(someFunc, 0, [1, 2, 3]);
 </pre>
             </div>
           </div>
@@ -977,20 +995,21 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-scan1" class="func">
           <a name="f-scan1"></a>
           <h3>scan1</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> List</div>
-          <p>Like scan, except assumes non-empty collection, and thus doesn't require an initial value.
+          <div class="alias">alias: scanl1</div>
+          <div class="func-type">Function -> List -> List</div>
+          <div class="func-type">Function -> Object -> List</div>
+          <p>Like <code>scan</code>, except assumes non-empty collection, and thus doesn't require an initial value.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+scan1 (+), [1 to 3] #=> [1, 3, 6]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+scan1(someFunc, [1, 2, 3]);
 </pre>
             </div>
           </div>
@@ -998,20 +1017,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-scanr" class="func">
           <a name="f-scanr"></a>
           <h3>scanr</h3>
-          <div class="func-type">Callable -> memo -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> memo -> Object -> List</div>
-          <p>Like scan, except from the right.
+          <div class="func-type">Function -> memo -> List -> List</div>
+          <div class="func-type">Function -> memo -> Object -> List</div>
+          <p>Like <code>scan</code>, except from the right.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+scanr (+), 0, [1 to 3] #=> [6, 5, 3, 0]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+scanr(someFunc, 0, [1, 2, 3]);
 </pre>
             </div>
           </div>
@@ -1019,20 +1038,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-scanr1" class="func">
           <a name="f-scanr1"></a>
           <h3>scanr1</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
-          <div class="func-type">Callable -> Object -> List</div>
-          <p>Like scanr, except assumes non-empty collection, and thus doesn't require an initial value. 
+          <div class="func-type">Function -> List -> List</div>
+          <div class="func-type">Function -> Object -> List</div>
+          <p>Like <code>scanr</code>, except assumes non-empty collection, and thus doesn't require an initial value. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+scanr1 (+), [1 to 3] #=> [6, 5, 3]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+scanr1(someFunc, [1, 2, 3]);
 </pre>
             </div>
           </div>
@@ -1040,20 +1059,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-replicate" class="func">
           <a name="f-replicate"></a>
           <h3>replicate</h3>
-          <div class="func-type">Number -> x &nbsp; &nbsp;&nbsp; -> List</div>
+          <div class="func-type">Number -> x -> List</div>
           <div class="func-type">Number -> String -> String</div>
           <p>Takes its second argument, and repeats it n times. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+replicate 4 \a #=> 'aaaa'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+replicate(4, 2); //=> [3, 3, 3, 3]
 </pre>
             </div>
           </div>
@@ -1061,20 +1080,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-take" class="func">
           <a name="f-take"></a>
           <h3>take</h3>
-          <div class="func-type">Number -> List &nbsp; -> List</div>
+          <div class="func-type">Number -> List -> List</div>
           <div class="func-type">Number -> String -> String</div>
           <p>Returns the first n items in the list or string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+take 2 [1 to 5] #=> [1, 2]
+take 4 \hello   #=> 'hell'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+take(4, []); //=> []
+var takeTwo = take(2);
 </pre>
             </div>
           </div>
@@ -1082,20 +1103,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-drop" class="func">
           <a name="f-drop"></a>
           <h3>drop</h3>
-          <div class="func-type">Number -> List &nbsp; -> List</div>
+          <div class="func-type">Number -> List -> List</div>
           <div class="func-type">Number -> String -> String</div>
           <p>Returns the result of dropping the first n items of the list or string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+drop 2 [1 to 5] #=> [3, 4, 5]
+drop 1 'goat'   #=> 'oat'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+drop(6, [3, 4]); //=> []
+drop(3, 'foot'); //=> 't'
 </pre>
             </div>
           </div>
@@ -1103,20 +1126,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-splitAt" class="func">
           <a name="f-splitAt"></a>
           <h3>splitAt</h3>
-          <div class="func-type">Number -> List &nbsp; -> [List]</div>
+          <div class="func-type">Number -> List -> [List]</div>
           <div class="func-type">Number -> String -> [String]</div>
           <p>Equivalent to <code>[(take n, xs), (drop n, xs)]</code>
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+splitAt 2 [1 to 5] #=> [[1, 2], [3, 4, 5]]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+splitAt(4, 'hello'); //=> ['hell', 'o']
 </pre>
             </div>
           </div>
@@ -1124,20 +1147,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-takeWhile" class="func">
           <a name="f-takeWhile"></a>
           <h3>takeWhile</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> List -> List</div>
           <div class="func-type">Callable -> String -> String</div>
           <p>Takes the first items of the list or string which pass the test. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+takeWhile (-> it in [\a to \d]), 'cabdek' #=> 'cabd'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+takeWhile(even, [2, 4, 5, 6]); //=> [2, 4]
 </pre>
             </div>
           </div>
@@ -1145,20 +1168,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-dropWhile" class="func">
           <a name="f-dropWhile"></a>
           <h3>dropWhile</h3>
-          <div class="func-type">Callable -> List &nbsp; -> List</div>
+          <div class="func-type">Callable -> List -> List</div>
           <div class="func-type">Callable -> String -> String</div>
           <p>Drops the first items of the list or string which pass the test. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+dropWhile even, [2 4 5 6] #=> [5, 6]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+dropWhile(odd, [3, 1, 2, 5]); //=> [2, 5]
 </pre>
             </div>
           </div>
@@ -1166,20 +1189,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-span" class="func">
           <a name="f-span"></a>
           <h3>span</h3>
-          <div class="func-type">Callable -> List &nbsp; -> [List]</div>
+          <div class="func-type">Callable -> List -> [List]</div>
           <div class="func-type">Callable -> String -> [String]</div>
           <p>Equivalent to <code>[(takeWhile f, xs), (dropWhile f, xs)]</code>
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+span even, [2 4 5 6] #=> [[2, 4], [5, 6]]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+span(odd, [3, 1, 2, 5]); //=> [[3, 1], [2, 5]]
 </pre>
             </div>
           </div>
@@ -1187,20 +1210,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-breakIt" class="func">
           <a name="f-breakIt"></a>
           <h3>breakIt</h3>
-          <div class="func-type">Callable -> List &nbsp; -> [List]</div>
+          <div class="func-type">Callable -> List -> [List]</div>
           <div class="func-type">Callable -> String -> [String]</div>
           <p>Equivalent to <code>span (not) << f, xs</code>
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+breakIt (== 3), [1 to 5] #=> [[1, 2], [3, 4, 5]]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+breakIt(even, [2, 4, 5, 6] //=> [[], [2, 4, 5, 6]]
 </pre>
             </div>
           </div>
@@ -1208,20 +1231,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-elem" class="func">
           <a name="f-elem"></a>
           <h3>elem</h3>
-          <div class="func-type">x &nbsp; &nbsp;&nbsp; -> List &nbsp; -> Boolean</div>
+          <div class="func-type">x -> List -> Boolean</div>
           <div class="func-type">String -> String -> Boolean</div>
           <p>Checks if x is in the list, or the character is in a string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+elem 5 [1 to 6] #=> true
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+elem('a', 'bad'); //=> true
 </pre>
             </div>
           </div>
@@ -1229,20 +1252,20 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-notElem" class="func">
           <a name="f-notElem"></a>
           <h3>notElem</h3>
-          <div class="func-type">x &nbsp; &nbsp;&nbsp; -> List &nbsp; -> Boolean</div>
+          <div class="func-type">x -> List -> Boolean</div>
           <div class="func-type">String -> String -> Boolean</div>
           <p>Same as <code>elem</code>, except checks if it is <em>not</em> in the list or string.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+notElem 4 [-3 to 3] #=> true
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+notElem('z', 'cat'); //=> true
 </pre>
             </div>
           </div>
@@ -1256,13 +1279,13 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+lookup \length [1 to 5] #=> 5
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+lookup('moo', {foo: 2, moo: 3}); //=> 3
 </pre>
             </div>
           </div>
@@ -1276,13 +1299,55 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+call \toUpperCase \haha #=> 'HAHA'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+call('getTime', new Date()); //=> some number
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-listToObj" class="func">
+          <a name="f-listToObj"></a>
+          <h3>listToObj</h3>
+          <div class="func-type">[List] -> Object</div>
+          <p>Converts a list of lists (pairs) into an object.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+listToObj [[\a 1] [\b 2]] #=> {a: 1, b: 2}
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+listToObj([['d', 5], ['e', 6]]); //=> {d: 5, e: 6}
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-objToFunc" class="func">
+          <a name="f-objToFunc"></a>
+          <h3>objToFunc</h3>
+          <div class="func-type">Object -> Function</div>
+          <p>Turns an object (anything with properties) into a function. This is used internally to allow objects to be accepted as callables. 
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+f = objToFunc m: 4, c: 6
+f \m #=> 4
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+var g = objToFunc(['a', 'b']);
+g(1); //=> 'b'
 </pre>
             </div>
           </div>
@@ -1296,13 +1361,15 @@ find odd, [2 4 6 7 8 9 10] #=> 7
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+zip [1 2 3] [4 5 6] [7 8 9]
+#=> [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-
+zip([1, 2], [9, 8]); 
+//=> [[1, 9], [2, 8]]
 </pre>
             </div>
           </div>
@@ -1310,18 +1377,22 @@ find odd, [2 4 6 7 8 9 10] #=> 7
         <div id="f-zipWith" class="func">
           <a name="f-zipWith"></a>
           <h3>zipWith</h3>
-          <div class="func-type">Function -> ...Lists -> List</div>
-          <p>As <code>zip</code>, but applies the supplied function to the lists and creates a list of the results.
+          <div class="func-type">Callable -> ...Lists -> List</div>
+          <p>As <code>zip</code>, but applies the supplied function to the lists and creates a list of the results. The supplied function must take two arguments.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-
+zipWith (+), [1 2 3], [3 2 1] #=> [4, 4, 4]
+zipWith (==), [4 5 3], [6 5 4]
+#=> [false, true, false]
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
+zipWith(binaryFunction, [3, 2, 1], [8, 2, 9]);
+
 
 </pre>
             </div>

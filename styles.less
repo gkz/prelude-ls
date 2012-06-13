@@ -57,6 +57,10 @@ body {
     li {
       width: 25%;
     }
+    li.blank a:hover {
+      // override whiteSmoke bg color on hover
+      background-color: inherit; 
+    }
   }
 }
 .content {
@@ -81,6 +85,11 @@ body {
   }
   .func {
     margin-top: 15px;
+    
+    .alias {
+      font-style: italic;
+      font-size: 12px;
+    }
     
     .func-type {
       font-family: monospace;
