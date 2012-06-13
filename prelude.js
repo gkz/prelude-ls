@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, each, map, filter, reject, find, pluck, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
+var objToFunc, each, map, filter, reject, find, pluck, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
@@ -131,16 +131,26 @@ exports.find = find = __curry(function(f, xs){
   }
 });
 exports.pluck = pluck = __curry(function(prop, xs){
-  var x, __i, __len, __results = [];
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    if (x[prop] != null) {
-      __results.push(x[prop]);
+  var key, x, __i, __len, __results = [];
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    for (key in xs) {
+      x = xs[key];
+if (x[prop] != null) {
+        __results[key] = x[prop];
+      }
     }
+    return __results;
+  } else {
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      if (x[prop] != null) {
+        __results.push(x[prop]);
+      }
+    }
+    return __results;
   }
-  return __results;
 });
-exports.head = head = function(xs){
+exports.head = head = exports.first = first = function(xs){
   if (!xs.length) {
     return;
   }
@@ -224,9 +234,6 @@ exports.reverse = reverse = function(xs){
 };
 exports.fold = fold = exports.foldl = foldl = __curry(function(f, memo, xs){
   var x, __i, __len;
-  if (__toString.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
   if (__toString.call(xs).slice(8, -1) === 'Object') {
     for (__i in xs) {
       x = xs[__i];
@@ -261,11 +268,17 @@ exports.orList = orList = function(xs){
   }, false, xs);
 };
 exports.any = any = __curry(function(f, xs){
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
   return fold(function(memo, x){
     return memo || f(x);
   }, false, xs);
 });
 exports.all = all = __curry(function(f, xs){
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
   return fold(function(memo, x){
     return memo && f(x);
   }, true, xs);
@@ -273,10 +286,19 @@ exports.all = all = __curry(function(f, xs){
 exports.unique = unique = function(xs){
   var result, x, __i, __len;
   result = [];
-  for (__i = 0, __len = xs.length; __i < __len; ++__i) {
-    x = xs[__i];
-    if (!__in(x, result)) {
-      result.push(x);
+  if (__toString.call(xs).slice(8, -1) === 'Object') {
+    for (__i in xs) {
+      x = xs[__i];
+      if (!__in(x, result)) {
+        result.push(x);
+      }
+    }
+  } else {
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      if (!__in(x, result)) {
+        result.push(x);
+      }
     }
   }
   if (__toString.call(xs).slice(8, -1) === 'String') {
@@ -343,9 +365,6 @@ exports.minimum = minimum = function(xs){
 };
 exports.scan = scan = exports.scanl = scanl = __curry(function(f, memo, xs){
   var last, x;
-  if (__toString.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
   last = memo;
   if (__toString.call(xs).slice(8, -1) === 'Object') {
     return ([memo]).concat((function(){
@@ -420,22 +439,26 @@ exports.splitAt = splitAt = __curry(function(n, xs){
   return [take(n, xs), drop(n, xs)];
 });
 exports.takeWhile = takeWhile = __curry(function(p, xs){
-  var i, x, __i, __len;
+  var result, x, __i, __len;
   if (!xs.length) {
     return xs;
   }
   if (__toString.call(p).slice(8, -1) !== 'Function') {
     p = objToFunc(p);
   }
-  i = 0;
+  result = [];
   for (__i = 0, __len = xs.length; __i < __len; ++__i) {
     x = xs[__i];
     if (!p(x)) {
       break;
     }
-    ++i;
+    result.push(x);
   }
-  return take(i, xs);
+  if (__toString.call(xs).slice(8, -1) === 'String') {
+    return result.join('');
+  } else {
+    return result;
+  }
 });
 exports.dropWhile = dropWhile = __curry(function(p, xs){
   var i, x, __i, __len;
@@ -643,6 +666,10 @@ exports.gcd = gcd = __curry(function(x, y){
 exports.lcm = lcm = __curry(function(x, y){
   return Math.abs(Math.floor(x / gcd(x, y) * y));
 });
+exports.installPrelude = function(target){
+  __import(target, exports);
+};
+exports.prelude = exports;
 function __curry(f, args){
   return f.length ? function(){
     var params = args ? args.concat() : [];
@@ -661,3 +688,8 @@ function __compose(f, g){
   }
 }
 function __not(x){ return !x; }
+function __import(obj, src){
+  var own = {}.hasOwnProperty;
+  for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+  return obj;
+}

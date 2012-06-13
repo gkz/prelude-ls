@@ -32,14 +32,6 @@ build = (browser = false) ->
     this.prelude = function(){
       exports = {};
       #{ js }
-      exports.prelude = function(target) {
-        if (typeof target != 'undefined' && target !== null) {
-          for (var key in exports) {
-            target[key] = exports[key];
-          }
-        }
-        return exports;
-      }
       return exports;
     }();
     """

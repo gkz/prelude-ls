@@ -360,3 +360,10 @@ exports.gcd = gcd = (x, y) -->
 exports.lcm = lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
 
+
+# meta
+
+exports.installPrelude = !(target) ->
+  target <<< exports
+
+exports.prelude = exports
