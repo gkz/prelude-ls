@@ -105,6 +105,7 @@ eq '1,2,3' "#{ values sadf: 1, asdf: 2, fdas: 3 }"
 
 # keys
 eq 'sadf,asdf,fdas' "#{ keys sadf: 1, asdf: 2, fdas: 3 }"
+eq '0,1,2' "#{ keys [1 2 3] }"
 
 # length
 eq 5 length list
