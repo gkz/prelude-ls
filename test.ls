@@ -119,11 +119,13 @@ eq 0 length ''
 
 # cons 
 eq '1,2,3' "#{ cons 1 [2 3] }"
+eq '4,5' "#{ cons 4 5 }"
 
 eq 'abc' cons \a 'bc'
 
 # append
 eq '1,2,3,4' "#{ append [1 2] [3 4] }"
+eq '1,2,3' "#{ append [1 2] 3 }"
 
 eq 'abcdef' append 'abc' 'def'
 
