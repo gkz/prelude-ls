@@ -10,6 +10,13 @@ html {
 body {
   height: 100%;
 }
+.action-buttons {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding-top: 20px;
+  padding-right: 5px;
+}
 .site {
   height: 100%;
 }
