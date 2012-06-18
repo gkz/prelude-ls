@@ -2,7 +2,7 @@
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, each, map, filter, reject, find, pluck, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, elem, notElem, lookup, call, zip, zipWith, compose, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
+var objToFunc, each, map, filter, reject, partition, find, pluck, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, lookup, call, zip, zipWith, compose, curry, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
@@ -108,6 +108,33 @@ if (!f(x)) {
       return result;
     }
   }
+});
+exports.partition = partition = __curry(function(f, xs){
+  var type, passed, failed, key, x, __i, __len;
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
+  type = __toString.call(xs).slice(8, -1);
+  if (type === 'Object') {
+    passed = {};
+    failed = {};
+    for (key in xs) {
+      x = xs[key];
+      (f(x) ? passed : failed)[key] = x;
+    }
+  } else {
+    passed = [];
+    failed = [];
+    for (__i = 0, __len = xs.length; __i < __len; ++__i) {
+      x = xs[__i];
+      (f(x) ? passed : failed).push(x);
+    }
+    if (type === 'String') {
+      passed = passed.join('');
+      failed = failed.join('');
+    }
+  }
+  return [passed, failed];
 });
 exports.find = find = __curry(function(f, xs){
   var x, __i, __len;
@@ -484,12 +511,6 @@ exports.span = span = __curry(function(p, xs){
 exports.breakIt = breakIt = __curry(function(p, xs){
   return span(__compose((__not),(p)), xs);
 });
-exports.elem = elem = __curry(function(x, ys){
-  return __in(x, ys);
-});
-exports.notElem = notElem = __curry(function(x, ys){
-  return !__in(x, ys);
-});
 exports.lookup = lookup = __curry(function(key, xs){
   return xs != null ? xs[key] : void 8;
 });
@@ -542,6 +563,9 @@ exports.compose = compose = function(){
     }
     return args[0];
   };
+};
+exports.curry = curry = function(f){
+  return __curry(f);
 };
 exports.partial = partial = function(f){
   var initArgs;
