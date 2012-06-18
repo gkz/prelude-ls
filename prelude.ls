@@ -243,10 +243,6 @@ exports.span = span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
 exports.breakIt = breakIt = (p, xs) --> span (not) << p, xs
 
-exports.elem = elem = (x, ys) --> x in ys
-
-exports.notElem = notElem = (x, ys) --> x not in ys
-
 exports.lookup = lookup = (key, xs) --> xs?[key]
 
 exports.call = call = (key, xs) --> xs?[key]?!

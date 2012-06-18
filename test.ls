@@ -336,20 +336,6 @@ eq 2 (res = breakIt (== \h), '').length
 eq ''  res.0
 eq '' res.1
 
-# elem
-ok elem 2 [1 to 5]
-ok not elem 6 [1 to 5]
-ok not elem 3 []
-
-ok elem \a 'bad'
-
-# notElem
-ok notElem 0 [1 to 5]
-ok not notElem 3 [1 to 5]
-ok notElem 3 []
-
-ok notElem \z 'bad'
-
 # lookup
 eq 2 lookup \two, two: 2
 eq 4 lookup 2, [2, 3, 4]
