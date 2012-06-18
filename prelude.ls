@@ -269,6 +269,9 @@ exports.compose = compose = (...funcs) ->
       args = [f.apply this, args]
     args.0
 
+exports.curry = curry = (f) ->
+  __curry f # using util method __curry from livescript
+
 exports.partial = partial = (f, ...initArgs) ->
   (...args) ->
     f.apply this, (initArgs +++ args)

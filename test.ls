@@ -367,6 +367,12 @@ minusOne = (x) -> x - 1
 composed = compose addTwo, timesTwo, minusOne
 eq 9, composed 3
 
+# curry
+add = (x, y) -> x + y
+addCurried = curry add
+addFour = addCurried 4
+eq 6 addFour 2
+
 # partial
 addAdd = (x, y, z) -> x + y + z
 add9 = partial addAdd, 4, 5
