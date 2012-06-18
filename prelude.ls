@@ -41,6 +41,24 @@ exports.reject = reject = (f, xs) -->
     result = [x for x in xs when not f x]
     if type is \String then result.join '' else result
 
+exports.partition = partition = (f, xs) -->
+  f = objToFunc f if typeof! f isnt \Function
+  type = typeof! xs
+  if type is \Object
+    passed = {}
+    failed = {}
+    for key, x of xs
+      (if f x then passed else failed)[key] = x
+  else
+    passed = []
+    failed = []
+    for x in xs
+      (if f x then passed else failed)push x
+    if type is \String 
+      passed.=join ''
+      failed.=join ''
+  [passed, failed]
+
 exports.find = find = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   if typeof! xs is \Object 
@@ -225,10 +243,6 @@ exports.span = span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
 exports.breakIt = breakIt = (p, xs) --> span (not) << p, xs
 
-exports.elem = elem = (x, ys) --> x in ys
-
-exports.notElem = notElem = (x, ys) --> x not in ys
-
 exports.lookup = lookup = (key, xs) --> xs?[key]
 
 exports.call = call = (key, xs) --> xs?[key]?!
@@ -254,6 +268,9 @@ exports.compose = compose = (...funcs) ->
     for f in funcs
       args = [f.apply this, args]
     args.0
+
+exports.curry = curry = (f) ->
+  __curry f # using util method __curry from livescript
 
 exports.partial = partial = (f, ...initArgs) ->
   (...args) ->

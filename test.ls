@@ -46,6 +46,18 @@ obj = reject (==2), {a:1, b:2}
 eq 1 obj.a
 ok obj.b!?
 
+# partition
+[passed, failed] = partition (>60), [49 58 76 43 88 77 90]
+eq '76,88,77,90' "#passed"
+eq '49,58,43'    "#failed"
+
+[isTwo, notTwo] = partition (==2), {a:1, b:2, c:3}
+eq 2 isTwo.b 
+eq 1 notTwo.a
+eq 3 notTwo.c
+
+eq 'abcc,deff' "#{partition (-> it in [\a to \c]), 'abcdefcf'}"
+
 # find
 eq 4 find even, [3 1 4 8 6]
 
@@ -324,20 +336,6 @@ eq 2 (res = breakIt (== \h), '').length
 eq ''  res.0
 eq '' res.1
 
-# elem
-ok elem 2 [1 to 5]
-ok not elem 6 [1 to 5]
-ok not elem 3 []
-
-ok elem \a 'bad'
-
-# notElem
-ok notElem 0 [1 to 5]
-ok not notElem 3 [1 to 5]
-ok notElem 3 []
-
-ok notElem \z 'bad'
-
 # lookup
 eq 2 lookup \two, two: 2
 eq 4 lookup 2, [2, 3, 4]
@@ -368,6 +366,12 @@ timesTwo = (x) -> x * 2
 minusOne = (x) -> x - 1
 composed = compose addTwo, timesTwo, minusOne
 eq 9, composed 3
+
+# curry
+add = (x, y) -> x + y
+addCurried = curry add
+addFour = addCurried 4
+eq 6 addFour 2
 
 # partial
 addAdd = (x, y, z) -> x + y + z
