@@ -92,8 +92,6 @@
         <li><a href="#f-dropWhile">dropWhile</a></li> 
         <li><a href="#f-span">span</a></li> 
         <li><a href="#f-breakIt">breakIt</a></li> 
-        <li><a href="#f-elem">elem</a></li> 
-        <li><a href="#f-notElem">notElem</a></li> 
         <li><a href="#f-lookup">lookup</a></li> 
         <li><a href="#f-call">call</a></li> 
         <li><a href="#f-listToObj">listToObj</a></li> 
@@ -1292,48 +1290,6 @@ breakIt (== 3), [1 to 5] #=> [[1, 2], [3, 4, 5]]
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
 breakIt(even, [2, 4, 5, 6] //=> [[], [2, 4, 5, 6]]
-</pre>
-            </div>
-          </div>
-        </div>
-        <div id="f-elem" class="func">
-          <a name="f-elem"></a>
-          <h3>elem</h3>
-          <div class="func-type">x -> List -> Boolean</div>
-          <div class="func-type">String -> String -> Boolean</div>
-          <p>Checks if x is in the list, or the character is in a string.
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-elem 5 [1 to 6] #=> true
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-elem('a', 'bad'); //=> true
-</pre>
-            </div>
-          </div>
-        </div>
-        <div id="f-notElem" class="func">
-          <a name="f-notElem"></a>
-          <h3>notElem</h3>
-          <div class="func-type">x -> List -> Boolean</div>
-          <div class="func-type">String -> String -> Boolean</div>
-          <p>Same as <code>elem</code>, except checks if it is <em>not</em> in the list or string.
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-notElem 4 [-3 to 3] #=> true
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-notElem('z', 'cat'); //=> true
 </pre>
             </div>
           </div>
