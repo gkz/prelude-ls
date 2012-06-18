@@ -1,5 +1,5 @@
 name    : \prelude-ls
-version : \0.3.0
+version : \0.4.0
 
 description : "prelude.ls is a JavaScript functional programming library. It is the recommended base library for, and is written in, LiveScript. It is based off of Haskell's Prelude module."
 keywords    :
@@ -11,7 +11,7 @@ keywords    :
   \javascript
 
 author   : 'George Zahariev <z@georgezahariev.com>'
-homepage : \http://gkz.github.com/prelude-ls
+homepage : \http://gkz.github.com/prelude-ls/
 bugs     : \https://github.com/gkz/prelude-ls/issues
 licenses :
   type: \MIT, url: \https://raw.github.com/gkz/prelude-ls/master/LICENSE
