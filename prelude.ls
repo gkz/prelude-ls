@@ -41,6 +41,24 @@ exports.reject = reject = (f, xs) -->
     result = [x for x in xs when not f x]
     if type is \String then result.join '' else result
 
+exports.partition = partition = (f, xs) -->
+  f = objToFunc f if typeof! f isnt \Function
+  type = typeof! xs
+  if type is \Object
+    passed = {}
+    failed = {}
+    for key, x of xs
+      (if f x then passed else failed)[key] = x
+  else
+    passed = []
+    failed = []
+    for x in xs
+      (if f x then passed else failed)push x
+    if type is \String 
+      passed.=join ''
+      failed.=join ''
+  [passed, failed]
+
 exports.find = find = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   if typeof! xs is \Object 
