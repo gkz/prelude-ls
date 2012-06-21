@@ -224,7 +224,7 @@ reject([false, true], {a: 0, b: 1, c: 0});
           <h2>Installation</h2>
           <p>Install via <a href="http://npmjs.org">npm</a>: <code>npm install prelude-ls</code> and then you can require it as a standard node module.
           <p>For the browser, just include the <code>prelude-min.js</code> file. It will install itself as <code>prelude</code> under the global namespace. 
-          <p>To import all prelude.ls functions to somewhere, you can use <code>prelude.importPrelude(target)</code>. For instance, calling <code>prelude.importPrelude(window)</code> in the browser will install all the functions as global variables. In node, you can do <code>require('prelude-ls').installPrelude(global);</code>. In LiveScript you can simply do <code>import prelude</code> in the browser, and <code>global <<< require \prelude-ls</code> in node.
+          <p>To import all prelude.ls functions to somewhere, you can use <code>prelude.installPrelude(target)</code>. For instance, calling <code>prelude.installPrelude(window)</code> in the browser will install all the functions as global variables. In node, you can do <code>require('prelude-ls').installPrelude(global);</code>. In LiveScript you can simply do <code>import prelude</code> in the browser, and <code>global <<< require \prelude-ls</code> in node.
       </div>
       <hr>
       <div class="section">
