@@ -1,0 +1,181 @@
+code {
+  color: #317EAC;
+}
+hr {
+  border-top-color: #e8e8e8;
+}
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+}
+.action-buttons {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding-top: 20px;
+  padding-right: 5px;
+}
+.site {
+  height: 100%;
+}
+
+@dividing-border: 1px solid #ccc;
+
+.side-row {
+  margin-left: 0;
+}
+
+.sidebar {
+  background-image: url('images/groovepaper.png');
+  height: 100%;
+  border-right: @dividing-border;
+  padding-top: 25px;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  margin-left: 0;
+
+  h1 {
+    margin-bottom: 20px;
+    margin-left: 20px;
+
+    img {
+      margin-top: -27px; 
+      margin-left: 5px;
+    }
+    a {
+      font-size: 34px;
+      line-height: 40px;
+      text-shadow: #1A3A4D 0 1px 0;
+      color: #317EAC;
+      &:hover {
+        text-decoration: none; 
+      }
+    }
+  }
+
+  .nav {
+    margin-left: 20px;
+    li {
+      width: 25%;
+    }
+    li.blank a:hover {
+      // override whiteSmoke bg color on hover
+      background-color: inherit; 
+    }
+  }
+}
+.content {
+  padding-top: 32px;
+  padding-bottom: 100px;
+
+  .major-actions {
+    width: 100%;
+    overflow: auto;
+    & > h1, a, iframe {
+      display: block;
+      float: left;
+      margin-right: 10px;
+    }
+    iframe {
+      margin-top: 4px;
+    }
+  }
+
+  .section {
+    margin-bottom: 20px;
+  }
+  .func {
+    margin-top: 15px;
+    
+    .alias {
+      font-style: italic;
+      font-size: 12px;
+    }
+    
+    .func-type {
+      font-family: monospace;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+  p, ul { 
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 18px; 
+    line-height: 32px;
+  }
+  code {
+    font-size: 14px;
+  }
+  ul li {
+    margin-bottom: 10px;
+    line-height: 32px;
+  }
+  table {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .example {
+    height: 100%;
+    overflow: auto;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 3px; 
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    background-color: #f7f7f9;
+
+    .source {
+      display: none;
+    }
+    .example-ls, .example-js {
+      width: 50%;
+      height: 100%;
+      border: none;
+      h5 {
+        padding-top: 12px;
+        padding-left: 10px;
+      }
+      & > pre {
+        padding: 10px;
+        height: 100%;
+        border: none;
+        margin-bottom: 0;
+      }
+    }
+    .example-ls {
+      float: left; 
+    }
+    .example-js {
+      float: right;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      border-left: 1px dotted #ccc;
+    }
+  }
+  #overview {
+    a {
+      .btn {
+        color: #333;
+        &:hover {
+          text-decoration: none;
+        }
+        &.btn-primary {
+          color: #fff;
+        }
+      }
+    }
+    .download {
+      float: left;
+      margin-right: 5px;
+      margin-top: 7px;
+    }
+  }
+}
+
