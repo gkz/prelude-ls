@@ -21,11 +21,12 @@ minify = ->
   ast = uglify.ast_squeeze ast
   uglify.gen_code ast
 
-build = (browser = false) ->
+build = ({browser, min} || {}) ->
   ls = "\n#{slurp \prelude.ls .replace /\n/g '\n ' }\n"
   js = "#{ LiveScript.compile ls, {+bare}}"
   name = \prelude
-  name += \-min if browser
+  name += \-browser if browser
+  name += \-min if min
 
   if browser 
     js = """
@@ -36,18 +37,19 @@ build = (browser = false) ->
     }();
     """
   slobber "#{name}.js" """
-    // prelude.ls 0.3.0
+    // prelude.ls 0.5.0
     // Copyright (c) 2012 George Zahariev
     // Released under the MIT License
     // raw.github.com/gkz/prelude-ls/master/LICNSE
-    #{ if browser then minify js else js}
+    #{ if min then minify js else js}
   """
 
 task \build 'build prelude.js from prelude.ls' ->
   build!
 
 task \build:browser 'build prelude-min.js' ->
-  build true
+  build {+browser}
+  build {+browser, +min}
 
 task \build:all 'build prelude.js, build prelude-min.js, and test' ->
   invoke \build

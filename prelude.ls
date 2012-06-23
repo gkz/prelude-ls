@@ -67,11 +67,6 @@ exports.find = find = (f, xs) -->
     for x in xs when f x then return x
   void
 
-exports.pluck = pluck = (prop, xs) -->
-  if typeof! xs is \Object
-  then {[key, x[prop]] for key, x of xs when x[prop]?}
-  else [x[prop] for x in xs when x[prop]?]
-
 exports.head = head = exports.first = first = (xs) -> 
   return void if not xs.length
   xs.slice 0, 1
@@ -243,10 +238,6 @@ exports.span = span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
 exports.breakIt = breakIt = (p, xs) --> span (not) << p, xs
 
-exports.lookup = lookup = (key, xs) --> xs?[key]
-
-exports.call = call = (key, xs) --> xs?[key]?!
-
 exports.zip = zip = (...xss) -> 
   result = []
   for xs, i in xss
@@ -373,14 +364,14 @@ exports.gcd = gcd = (x, y) -->
     y = z
   x
 
-# depends on gcd
 exports.lcm = lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
 
 
 # meta
-
 exports.installPrelude = !(target) ->
-  target <<< exports
+  unless target.prelude.isInstalled
+    target <<< exports
+    target.prelude.isInstalled = true
 
 exports.prelude = exports

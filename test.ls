@@ -65,17 +65,12 @@ eq 'b' find (== \b), 'abs'
 
 eq 2, find (==2), {a:1, b:2}
 
-# pluck
-eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
-plucked = pluck \num {a: {num: 1}, b: {num: 2}}
-eq 1 plucked.a
-eq 2 plucked.b
 
 list = [1 2 3 4 5]
 string = 'abcde'
 
 # head
-eq '1' "#{ head list }"
+eq 1 head list
 ok (head [])!?
 
 eq 'a' head string
@@ -89,7 +84,7 @@ eq 'bcde' tail string
 ok (tail '')!?
 
 # last
-eq '5' "#{ last list }"
+eq 5 last list
 ok (last [])!?
 
 eq 'e' last string
@@ -335,15 +330,6 @@ eq 'mmmmm|hmm' "#{ breakIt (== \h), 'mmmmmhmm' .join \|}"
 eq 2 (res = breakIt (== \h), '').length
 eq ''  res.0
 eq '' res.1
-
-# lookup
-eq 2 lookup \two, two: 2
-eq 4 lookup 2, [2, 3, 4]
-ok (lookup \two, {})!?
-
-# call
-eq 4 call \four, four: -> 4
-ok (call \four, {})!?
 
 # listToObj
 objEq {a: 'b', c: 'd', e: 1}, listToObj [['a' 'b'] ['c' 'd'] ['e' 1]]

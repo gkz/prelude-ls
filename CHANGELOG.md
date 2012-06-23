@@ -1,3 +1,8 @@
+# 0.5.0
+* removed `lookup` - use (.prop)
+* removed `call` - use (.func arg1, arg2)
+* removed `pluck` - use map (.prop), xs
+
 # 0.4.0
 * added `parition` function
 * added `curry` function
