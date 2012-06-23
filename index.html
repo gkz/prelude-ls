@@ -52,10 +52,10 @@
         <li><a href="#f-reject">reject</a></li> 
         <li><a href="#f-partition">partition</a></li> 
         <li><a href="#f-find">find</a></li> 
-        <li><a href="#f-pluck">pluck</a></li> 
         <li><a href="#f-each">each</a></li> 
         <li><a href="#f-head">head</a></li> 
         <li><a href="#f-tail">tail</a></li> 
+        <li><a href="#f-last">last</a></li> 
         <li><a href="#f-initial">initial</a></li> 
         <li><a href="#f-empty">empty</a></li> 
         <li><a href="#f-values">values</a></li> 
@@ -93,8 +93,6 @@
         <li><a href="#f-dropWhile">dropWhile</a></li> 
         <li><a href="#f-span">span</a></li> 
         <li><a href="#f-breakIt">breakIt</a></li> 
-        <li><a href="#f-lookup">lookup</a></li> 
-        <li><a href="#f-call">call</a></li> 
         <li><a href="#f-listToObj">listToObj</a></li> 
         <li><a href="#f-objToFunc">objToFunc</a></li> 
         <li><a href="#f-zip">zip</a></li> 
@@ -249,6 +247,7 @@ map (+ 2), {a: 2, b: 3, c: 4} #=> {a: 4, b: 5, c: 6}
 map {one: 1, two: 2}, <[ one two ]> #=> [1, 2]
 map [\off, \on], {power: 1, light: 0}
 #=> {power: 'on', light: 'off'}
+map (.num), [num: 3; num: 1] #=> [3, 1]
 </pre>
             </div>
             <div class="example-js">
@@ -367,28 +366,6 @@ find(function(x){ return x <= 3; }, {b: 3, a: 2});
             </div>
           </div>
         </div>
-        <div id="f-pluck" class="func">
-          <a name="f-pluck"></a>
-          <h3>pluck</h3>
-          <div class="func-type">String -> [Object] -> [x]</div>
-          <div class="func-type">String -> {Object} -> {x}</div>
-          <p>A common use case of map, extracts a property from a collection of objects.
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-pluck \num [{num: 3}, {num: 1}] #=> [3, 1]
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-pluck('p', {x: {p: 'a'}, y: {p: 'd'}}); 
-//=> {x: 'a', y: 'd'}
-</pre>
-            </div>
-          </div>
-        </div>
         <div id="f-each" class="func">
           <a name="f-each"></a>
           <h3>each</h3>
@@ -448,15 +425,15 @@ head('world');   //-> 'w'
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-head [1 to 5] #=> [2, 3, 4, 5]
-head 'hello'  #=> 'ello'
+tail [1 to 5] #=> [2, 3, 4, 5]
+tail 'hello'  #=> 'ello'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-head([9, 8, 7]); //=> [8, 7]
-head('world');   //-> 'orld'
+tail([9, 8, 7]); //=> [8, 7]
+tail('world');   //-> 'orld'
 </pre>
             </div>
           </div>
@@ -471,15 +448,15 @@ head('world');   //-> 'orld'
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-head [1 to 5] #=> 5
-head 'hello'  #=> 'o'
+last [1 to 5] #=> 5
+last 'hello'  #=> 'o'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-head([9, 8, 7]); //=> 7
-head('world');   //-> 'd'
+last([9, 8, 7]); //=> 7
+last('world');   //-> 'd'
 </pre>
             </div>
           </div>
@@ -494,15 +471,15 @@ head('world');   //-> 'd'
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-head [1 to 5] #=> [1, 2, 3, 4]
-head 'hello'  #=> 'hell'
+initial [1 to 5] #=> [1, 2, 3, 4]
+initial 'hello'  #=> 'hell'
 </pre>
             </div>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-head([9, 8, 7]); //=> 9
-head('world');   //-> 'w'
+initial([9, 8, 7]); //=> [9, 8]
+initial('world');   //-> 'worl'
 </pre>
             </div>
           </div>
@@ -1316,46 +1293,6 @@ breakIt (== 3), [1 to 5] #=> [[1, 2], [3, 4, 5]]
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
 breakIt(even, [2, 4, 5, 6] //=> [[], [2, 4, 5, 6]]
-</pre>
-            </div>
-          </div>
-        </div>
-        <div id="f-lookup" class="func">
-          <a name="f-lookup"></a>
-          <h3>lookup</h3>
-          <div class="func-type">property -> Object -> x</div>
-          <p>Returns the specified property of any object.
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-lookup \length [1 to 5] #=> 5
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-lookup('moo', {foo: 2, moo: 3}); //=> 3
-</pre>
-            </div>
-          </div>
-        </div>
-        <div id="f-call" class="func">
-          <a name="f-call"></a>
-          <h3>call</h3>
-          <div class="func-type">property -> Object -> x</div>
-          <p>Calls the specified property with no arguments. 
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-call \toUpperCase \haha #=> 'HAHA'
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-call('getTime', new Date()); //=> some number
 </pre>
             </div>
           </div>
