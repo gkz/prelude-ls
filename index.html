@@ -242,7 +242,7 @@ reject([false, true], {a: 0, b: 1, c: 0});
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
 map (* 2), [1 to 5] #=> [2, 4, 6, 8, 10]
-map (call \toUpperCase), 'haha' #=> 'HAHA'
+map (.toUpperCase!), 'haha' #=> 'HAHA'
 map (+ 2), {a: 2, b: 3, c: 4} #=> {a: 4, b: 5, c: 6}
 map {one: 1, two: 2}, <[ one two ]> #=> [1, 2]
 map [\off, \on], {power: 1, light: 0}
@@ -257,9 +257,10 @@ map(function(x){ return x * 2; }, [1, 2, 3, 4, 5]);
 //=> [2, 4, 6, 8, 10]
 map(someFunction, aList); //=> a list of something
 map({ha: 1, HA: 2}, ['HA', 'ha']); //=> [2, 1]
-map(call('toLowerCase'), 'MuHaHa'); //=> muhaha
 var mapAddTwo = map(function(x){ return x + 2});
 //=> a function
+
+
 </pre>
             </div>
           </div>
@@ -983,7 +984,7 @@ concat([['a', 'b'], ['c']]); //=> ['a', 'b', 'c']
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
 concatMap (+ 2), [[1 2] [3]] #=> [3, 4, 5]
-concatMap (call \toUpperCase), <[ aa bb cc dd ]>
+concatMap (.toUpperCase!), <[ aa bb cc dd ]>
 #=> 'AABBCCDD'
 </pre>
             </div>
