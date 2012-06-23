@@ -69,7 +69,7 @@ exports.find = find = (f, xs) -->
 
 exports.head = head = exports.first = first = (xs) -> 
   return void if not xs.length
-  xs.slice 0, 1
+  xs.0
 
 exports.tail = tail = (xs) -> 
   return void if not xs.length
@@ -77,7 +77,7 @@ exports.tail = tail = (xs) ->
 
 exports.last = last = (xs) ->
   return void if not xs.length
-  xs.slice xs.length - 1
+  xs[*-1]
 
 exports.initial = initial = (xs) -> 
   return void if not xs.length
