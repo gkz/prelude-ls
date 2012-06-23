@@ -983,7 +983,7 @@ concat([['a', 'b'], ['c']]); //=> ['a', 'b', 'c']
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-concatMap (+ 2), [[1 2] [3]] #=> [3, 4, 5]
+concatMap (-> [1 to it]), [1 2 3] #=> [1,1,2,1,2,3]
 concatMap (.toUpperCase!), <[ aa bb cc dd ]>
 #=> 'AABBCCDD'
 </pre>
@@ -991,8 +991,8 @@ concatMap (.toUpperCase!), <[ aa bb cc dd ]>
             <div class="example-js">
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
-concatMap(even, [[1], [2, 3, 4]]); 
-//=> [false, true, false, true[
+concatMap(function(x){ return [x];}, [1, 2, 3]]); 
+//=> [1, 2, 3]
 
 
 </pre>
