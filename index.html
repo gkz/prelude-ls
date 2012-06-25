@@ -97,6 +97,8 @@
         <li><a href="#f-objToFunc">objToFunc</a></li> 
         <li><a href="#f-zip">zip</a></li> 
         <li><a href="#f-zipWith">zipWith</a></li> 
+        <li><a href="#f-zipAll">zipAll</a></li> 
+        <li><a href="#f-zipAllWith">zipAllWith</a></li> 
         <li><a href="#f-compose">compose</a></li> 
         <li><a href="#f-curry">curry</a></li> 
         <li><a href="#f-partial">partial</a></li> 
@@ -1344,14 +1346,14 @@ g(1); //=> 'b'
         <div id="f-zip" class="func">
           <a name="f-zip"></a>
           <h3>zip</h3>
-          <div class="func-type">...Lists -> [List]</div>
+          <div class="func-type">List -> List -> [List]</div>
           <p>Zips together its arguments into a list of lists.
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-zip [1 2 3] [4 5 6] [7 8 9]
-#=> [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+zip [1 2] [4 5]
+#=> [[1, 4], [2, 5]]
 </pre>
             </div>
             <div class="example-js">
@@ -1366,7 +1368,7 @@ zip([1, 2], [9, 8]);
         <div id="f-zipWith" class="func">
           <a name="f-zipWith"></a>
           <h3>zipWith</h3>
-          <div class="func-type">Callable -> ...Lists -> List</div>
+          <div class="func-type">Function -> List -> List -> List</div>
           <p>As <code>zip</code>, but applies the supplied function to the lists and creates a list of the results. The supplied function must take two arguments.
           <div class="example">
             <div class="example-ls">
@@ -1375,6 +1377,51 @@ zip([1, 2], [9, 8]);
 zipWith (+), [1 2 3], [3 2 1] #=> [4, 4, 4]
 zipWith (==), [4 5 3], [6 5 4]
 #=> [false, true, false]
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+zipWith(binaryFunction, [3, 2, 1], [8, 2, 9]);
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-zipAll" class="func">
+          <a name="f-zipAll"></a>
+          <h3>zipAll</h3>
+          <div class="func-type">...Lists -> [List]</div>
+          <p>Zips together its arguments into a list of lists. Can take any number of arguments, but is not curried.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+zipAll [1 2 3] [4 5 6] [7 8 9]
+#=> [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+zipAll([1, 2], [9, 8]); 
+//=> [[1, 9], [2, 8]]
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-zipAllWith" class="func">
+          <a name="f-zipAllWith"></a>
+          <h3>zipAllWith</h3>
+          <div class="func-type">Function -> ...Lists -> List</div>
+          <p>As <code>zipAll</code>, but applies the supplied function to the lists and creates a list of the results. The supplied function must take in as many arguments as there are lists being inputed.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+zipAllWith (-> @@0 + @@1 + @@2, [1 2 3], [3 2 1] [1 1 1] 
+#=> [5, 5, 5]
 </pre>
             </div>
             <div class="example-js">
