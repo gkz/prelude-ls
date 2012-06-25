@@ -286,6 +286,10 @@ exports.id = id = (x) -> x
 
 exports.flip = flip = (f, x, y) --> f y, x
 
+exports.fix = fix = (f) ->
+  ( (g, x) --> f(g g) x ) do
+    (g, x) --> f(g g) x
+
 exports.lines = lines = (str) -> 
   return [] if not str.length
   str.split \\n
@@ -381,11 +385,6 @@ exports.gcd = gcd = (x, y) -->
 
 exports.lcm = lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
-
-exports.fix = fix = (f) ->
-  ( (g, x) --> f(g g) x )(
-    (g, x) --> f(g g) x
-  )
 
 # meta
 exports.installPrelude = !(target) ->

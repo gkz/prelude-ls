@@ -387,6 +387,11 @@ eq 5 id 5
 # flip
 eq 10 (flip (-)) 5 15
 
+# fix
+eq 89 (fix (fib) -> (n) ->
+  | n <= 1      => 1
+  | otherwise   => fib(n-1) + fib(n-2))(10)
+
 # lines
 eq 'one|two|three' "#{ lines 'one\ntwo\nthree' .join \| }"
 ok isEmptyList lines ''
@@ -524,11 +529,6 @@ eq 6 gcd 12 18
 
 # lcm
 eq 36 lcm 12 18
-
-# fix
-eq 89 (fix (fib) -> (n) ->
-  | n <= 1      => 1
-  | otherwise   => fib(n-1) + fib(n-2))(10)
 
 # functions for testing
 function isEmptyList(x)
