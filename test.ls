@@ -525,6 +525,10 @@ eq 6 gcd 12 18
 # lcm
 eq 36 lcm 12 18
 
+# fix
+eq 89 (fix (fib) -> (n) ->
+  | n <= 1      => 1
+  | otherwise   => fib(n-1) + fib(n-2))(10)
 
 # functions for testing
 function isEmptyList(x)
