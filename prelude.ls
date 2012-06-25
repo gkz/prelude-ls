@@ -382,6 +382,10 @@ exports.gcd = gcd = (x, y) -->
 exports.lcm = lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
 
+exports.fix = fix = (f) ->
+  ( (g, x) --> f(g g) x )(
+    (g, x) --> f(g g) x
+  )
 
 # meta
 exports.installPrelude = !(target) ->
