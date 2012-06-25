@@ -140,6 +140,7 @@
         <li><a href="#f-odd">odd</a></li> 
         <li><a href="#f-gcd">gcd</a></li> 
         <li><a href="#f-lcm">lcm</a></li> 
+        <li><a href="#f-fix">fix</a></li> 
       </ul>
     </div>
   </div>
@@ -2206,6 +2207,33 @@ lcm 12 18 #=> 36
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
 lcm(12, 18); //=> 36
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-fix" class="func">
+          <a name="f-fix"></a>
+          <h3>fix</h3>
+          <div class="func-type">(Function -> Function) -> Function</div>
+          <p>Fix-point function for anonymous recursion, implemented with the <a href="https://en.wikipedia.org/wiki/Fixed-point_combinator#Y_combinator">Y combinator</a>.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+(fix (fib) -> (n) ->
+   | n <= 1      => 1
+   | otherwise   => fib(n-1) + fib(n-2))(9) #=> 55
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+fix(function(fib){
+    return function(n){
+      if (n <= 1) { return 1; }
+      return fib(n - 1) + fib(n - 2);
+    };
+  })(9); //=> 55
 </pre>
             </div>
           </div>
