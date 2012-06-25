@@ -67,14 +67,9 @@ exports.find = find = (f, xs) -->
     for x in xs when f x then return x
   void
 
-exports.pluck = pluck = (prop, xs) -->
-  if typeof! xs is \Object
-  then {[key, x[prop]] for key, x of xs when x[prop]?}
-  else [x[prop] for x in xs when x[prop]?]
-
 exports.head = head = exports.first = first = (xs) -> 
   return void if not xs.length
-  xs.slice 0, 1
+  xs.0
 
 exports.tail = tail = (xs) -> 
   return void if not xs.length
@@ -82,7 +77,7 @@ exports.tail = tail = (xs) ->
 
 exports.last = last = (xs) ->
   return void if not xs.length
-  xs.slice xs.length - 1
+  xs[*-1]
 
 exports.initial = initial = (xs) -> 
   return void if not xs.length
@@ -243,11 +238,22 @@ exports.span = span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
 exports.breakIt = breakIt = (p, xs) --> span (not) << p, xs
 
-exports.lookup = lookup = (key, xs) --> xs?[key]
+exports.zip = zip = (xs, ys) --> 
+  result = []
+  for zs, i in [xs, ys]
+    for z, j in zs
+      result.push [] if i is 0  
+      result[j]?.push z
+  result
 
-exports.call = call = (key, xs) --> xs?[key]?!
+exports.zipWith = zipWith = (f,xs, ys) -->
+  f = objToFunc f if typeof! f isnt \Function
+  if not xs.length or not ys.length
+    []
+  else
+    [f.apply this, zs for zs in zip.call this, xs, ys]
 
-exports.zip = zip = (...xss) -> 
+exports.zipAll = zipAll = (...xss) -> 
   result = []
   for xs, i in xss
     for x, j in xs
@@ -255,12 +261,12 @@ exports.zip = zip = (...xss) ->
       result[j]?.push x
   result
 
-exports.zipWith = zipWith = (f, ...xss) ->
+exports.zipAllWith = zipAllWith = (f, ...xss) ->
   f = objToFunc f if typeof! f isnt \Function
   if not xss.0.length or not xss.1.length
     []
   else
-    [f.apply this, xs for xs in zip.apply this, xss]
+    [f.apply this, xs for xs in zipAll.apply this, xss]
 
 exports.compose = compose = (...funcs) -> 
   ->
@@ -279,6 +285,10 @@ exports.partial = partial = (f, ...initArgs) ->
 exports.id = id = (x) -> x
 
 exports.flip = flip = (f, x, y) --> f y, x
+
+exports.fix = fix = (f) ->
+  ( (g, x) --> f(g g) x ) do
+    (g, x) --> f(g g) x
 
 exports.lines = lines = (str) -> 
   return [] if not str.length
@@ -373,14 +383,13 @@ exports.gcd = gcd = (x, y) -->
     y = z
   x
 
-# depends on gcd
 exports.lcm = lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
 
-
 # meta
-
 exports.installPrelude = !(target) ->
-  target <<< exports
+  unless target.prelude?.isInstalled
+    target <<< exports
+    target.prelude.isInstalled = true
 
 exports.prelude = exports

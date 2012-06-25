@@ -65,17 +65,12 @@ eq 'b' find (== \b), 'abs'
 
 eq 2, find (==2), {a:1, b:2}
 
-# pluck
-eq 'one,two' "#{ pluck \num [num: \one; num: \two] }"
-plucked = pluck \num {a: {num: 1}, b: {num: 2}}
-eq 1 plucked.a
-eq 2 plucked.b
 
 list = [1 2 3 4 5]
 string = 'abcde'
 
 # head
-eq '1' "#{ head list }"
+eq 1 head list
 ok (head [])!?
 
 eq 'a' head string
@@ -89,7 +84,7 @@ eq 'bcde' tail string
 ok (tail '')!?
 
 # last
-eq '5' "#{ last list }"
+eq 5 last list
 ok (last [])!?
 
 eq 'e' last string
@@ -336,15 +331,6 @@ eq 2 (res = breakIt (== \h), '').length
 eq ''  res.0
 eq '' res.1
 
-# lookup
-eq 2 lookup \two, two: 2
-eq 4 lookup 2, [2, 3, 4]
-ok (lookup \two, {})!?
-
-# call
-eq 4 call \four, four: -> 4
-ok (call \four, {})!?
-
 # listToObj
 objEq {a: 'b', c: 'd', e: 1}, listToObj [['a' 'b'] ['c' 'd'] ['e' 1]]
 ok isEmptyObject listToObj []
@@ -353,12 +339,20 @@ ok isEmptyObject listToObj []
 eq 2 (objToFunc {one: 1, two: 2})(\two)
 
 # zip
-eq '1,4,7|2,5,8|3,6,9' "#{ zip [1 2 3] [4 5 6] [7 8 9] .join \| }"
+eq '1,4|2,5' "#{ zip [1 2] [4 5] .join \| }"
 ok isEmptyList zip [] []
 
 # zipWith
 eq '4,4,4' "#{ zipWith (+), [1 2 3], [3 2 1] }"
 ok isEmptyList zipWith id, [], []
+
+# zipAll
+eq '1,4,7|2,5,8|3,6,9' "#{ zipAll [1 2 3] [4 5 6] [7 8 9] .join \| }"
+ok isEmptyList zipAll [] []
+
+# zipAllWith
+eq '5,5,5' "#{ zipAllWith (-> @@0 + @@1 + @@2), [1 2 3], [3 2 1], [1 1 1] }"
+ok isEmptyList zipAllWith id, [], []
 
 # compose
 addTwo = (x) -> x + 2
@@ -392,6 +386,11 @@ eq 5 id 5
 
 # flip
 eq 10 (flip (-)) 5 15
+
+# fix
+eq 89 (fix (fib) -> (n) ->
+  | n <= 1      => 1
+  | otherwise   => fib(n-1) + fib(n-2))(10)
 
 # lines
 eq 'one|two|three' "#{ lines 'one\ntwo\nthree' .join \| }"
@@ -530,7 +529,6 @@ eq 6 gcd 12 18
 
 # lcm
 eq 36 lcm 12 18
-
 
 # functions for testing
 function isEmptyList(x)
