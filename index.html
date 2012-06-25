@@ -19,7 +19,6 @@
 <link href="google-code-prettify/prettify.css" rel="stylesheet">
 <script src="lang-ls.js"></script>
 
-<script src="prelude-browser-min.js"></script>
 
 <link href="styles.css" rel="stylesheet">
 
@@ -2232,7 +2231,9 @@ lcm(12, 18); //=> 36
   <div><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gkz.github.com/prelude-ls/" data-text="prelude.ls - a functional programming library for JavaScript - the LiveScript standard library" data-related="gkzahariev:The Creator" data-via="gkzahariev">Tweet</a>
   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
 </div>
+<script src="prelude-browser-min.js"></script>
 <script>
+  prelude.installPrelude(window);
   prettyPrint();
   $('.nav').scrollspy();
 </script>  
