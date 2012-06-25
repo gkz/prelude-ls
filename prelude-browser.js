@@ -4,7 +4,7 @@
 // raw.github.com/gkz/prelude-ls/master/LICNSE
 this.prelude = function(){
   exports = {};
-  var objToFunc, each, map, filter, reject, partition, find, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, zipAll, zipAllWith, compose, curry, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
+  var objToFunc, each, map, filter, reject, partition, find, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, zipAll, zipAllWith, compose, curry, partial, id, flip, fix, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
@@ -590,6 +590,13 @@ exports.id = id = function(x){
 exports.flip = flip = __curry(function(f, x, y){
   return f(y, x);
 });
+exports.fix = fix = function(f){
+  return __curry(function(g, x){
+    return f(g(g))(x);
+  })(__curry(function(g, x){
+    return f(g(g))(x);
+  }));
+};
 exports.lines = lines = function(str){
   if (!str.length) {
     return [];
@@ -699,7 +706,8 @@ exports.lcm = lcm = __curry(function(x, y){
   return Math.abs(Math.floor(x / gcd(x, y) * y));
 });
 exports.installPrelude = function(target){
-  if (!target.prelude.isInstalled) {
+  var __ref;
+  if (!((__ref = target.prelude) != null && __ref.isInstalled)) {
     __import(target, exports);
     target.prelude.isInstalled = true;
   }
