@@ -4,7 +4,7 @@
 // raw.github.com/gkz/prelude-ls/master/LICNSE
 this.prelude = function(){
   exports = {};
-  var objToFunc, each, map, filter, reject, partition, find, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, compose, curry, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
+  var objToFunc, each, map, filter, reject, partition, find, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, zipAll, zipAllWith, compose, curry, partial, id, flip, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, __toString = {}.toString, __slice = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
@@ -163,7 +163,7 @@ exports.head = head = exports.first = first = function(xs){
   if (!xs.length) {
     return;
   }
-  return xs.slice(0, 1);
+  return xs[0];
 };
 exports.tail = tail = function(xs){
   if (!xs.length) {
@@ -175,7 +175,7 @@ exports.last = last = function(xs){
   if (!xs.length) {
     return;
   }
-  return xs.slice(xs.length - 1);
+  return xs[xs.length - 1];
 };
 exports.initial = initial = function(xs){
   if (!xs.length) {
@@ -493,7 +493,39 @@ exports.span = span = __curry(function(p, xs){
 exports.breakIt = breakIt = __curry(function(p, xs){
   return span(__compose((__not),(p)), xs);
 });
-exports.zip = zip = function(){
+exports.zip = zip = __curry(function(xs, ys){
+  var result, i, zs, j, z, __ref, __len, __len1, __ref1;
+  result = [];
+  for (i = 0, __len = (__ref = [xs, ys]).length; i < __len; ++i) {
+    zs = __ref[i];
+    for (j = 0, __len1 = zs.length; j < __len1; ++j) {
+      z = zs[j];
+      if (i === 0) {
+        result.push([]);
+      }
+      if ((__ref1 = result[j]) != null) {
+        __ref1.push(z);
+      }
+    }
+  }
+  return result;
+});
+exports.zipWith = zipWith = __curry(function(f, xs, ys){
+  var zs, __i, __ref, __len, __results = [];
+  if (__toString.call(f).slice(8, -1) !== 'Function') {
+    f = objToFunc(f);
+  }
+  if (!xs.length || !ys.length) {
+    return [];
+  } else {
+    for (__i = 0, __len = (__ref = zip.call(this, xs, ys)).length; __i < __len; ++__i) {
+      zs = __ref[__i];
+      __results.push(f.apply(this, zs));
+    }
+    return __results;
+  }
+});
+exports.zipAll = zipAll = function(){
   var xss, result, i, xs, j, x, __len, __len1, __ref;
   xss = __slice.call(arguments);
   result = [];
@@ -511,7 +543,7 @@ exports.zip = zip = function(){
   }
   return result;
 };
-exports.zipWith = zipWith = function(f){
+exports.zipAllWith = zipAllWith = function(f){
   var xss, xs, __i, __ref, __len, __results = [];
   xss = __slice.call(arguments, 1);
   if (__toString.call(f).slice(8, -1) !== 'Function') {
@@ -520,7 +552,7 @@ exports.zipWith = zipWith = function(f){
   if (!xss[0].length || !xss[1].length) {
     return [];
   } else {
-    for (__i = 0, __len = (__ref = zip.apply(this, xss)).length; __i < __len; ++__i) {
+    for (__i = 0, __len = (__ref = zipAll.apply(this, xss)).length; __i < __len; ++__i) {
       xs = __ref[__i];
       __results.push(f.apply(this, xs));
     }

@@ -339,12 +339,20 @@ ok isEmptyObject listToObj []
 eq 2 (objToFunc {one: 1, two: 2})(\two)
 
 # zip
-eq '1,4,7|2,5,8|3,6,9' "#{ zip [1 2 3] [4 5 6] [7 8 9] .join \| }"
+eq '1,4|2,5' "#{ zip [1 2] [4 5] .join \| }"
 ok isEmptyList zip [] []
 
 # zipWith
 eq '4,4,4' "#{ zipWith (+), [1 2 3], [3 2 1] }"
 ok isEmptyList zipWith id, [], []
+
+# zipAll
+eq '1,4,7|2,5,8|3,6,9' "#{ zipAll [1 2 3] [4 5 6] [7 8 9] .join \| }"
+ok isEmptyList zipAll [] []
+
+# zipAllWith
+eq '5,5,5' "#{ zipAllWith (-> @@0 + @@1 + @@2), [1 2 3], [3 2 1], [1 1 1] }"
+ok isEmptyList zipAllWith id, [], []
 
 # compose
 addTwo = (x) -> x + 2

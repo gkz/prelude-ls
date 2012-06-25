@@ -238,7 +238,22 @@ exports.span = span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
 exports.breakIt = breakIt = (p, xs) --> span (not) << p, xs
 
-exports.zip = zip = (...xss) -> 
+exports.zip = zip = (xs, ys) --> 
+  result = []
+  for zs, i in [xs, ys]
+    for z, j in zs
+      result.push [] if i is 0  
+      result[j]?.push z
+  result
+
+exports.zipWith = zipWith = (f,xs, ys) -->
+  f = objToFunc f if typeof! f isnt \Function
+  if not xs.length or not ys.length
+    []
+  else
+    [f.apply this, zs for zs in zip.call this, xs, ys]
+
+exports.zipAll = zipAll = (...xss) -> 
   result = []
   for xs, i in xss
     for x, j in xs
@@ -246,12 +261,12 @@ exports.zip = zip = (...xss) ->
       result[j]?.push x
   result
 
-exports.zipWith = zipWith = (f, ...xss) ->
+exports.zipAllWith = zipAllWith = (f, ...xss) ->
   f = objToFunc f if typeof! f isnt \Function
   if not xss.0.length or not xss.1.length
     []
   else
-    [f.apply this, xs for xs in zip.apply this, xss]
+    [f.apply this, xs for xs in zipAll.apply this, xss]
 
 exports.compose = compose = (...funcs) -> 
   ->

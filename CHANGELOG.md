@@ -2,6 +2,13 @@
 * removed `lookup` - use (.prop)
 * removed `call` - use (.func arg1, arg2)
 * removed `pluck` - use map (.prop), xs
+* fixed buys wtih `head` and `last`
+* added non-minifed browser version, as `prelude-browser.js`
+* renamed `prelude-min.js` to `prelude-browser-min.js`
+* renamed `zip` to `zipAll` 
+* renamed `zipWith` to `zipAllWith`
+* added `zip`, a curried zip that takes only two arguments
+* added `zipWith`, a curried zipWith that takes only two arguments
 
 # 0.4.0
 * added `parition` function
