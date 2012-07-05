@@ -380,7 +380,7 @@ find(function(x){ return x <= 3; }, {b: 3, a: 2});
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-each (-> it.push \boom), [[\a] [\b] [\c]] 
+each (.push \boom), [[\a] [\b] [\c]] 
 #=> [['a', 'boom'], ['b', 'boom'], ['c', 'boom']]
 </pre>
             </div>
@@ -1226,7 +1226,7 @@ splitAt(4, 'hello'); //=> ['hell', 'o']
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-takeWhile (-> it in [\a to \d]), 'cabdek' #=> 'cabd'
+takeWhile (in [\a to \d]), 'cabdek' #=> 'cabd'
 </pre>
             </div>
             <div class="example-js">
