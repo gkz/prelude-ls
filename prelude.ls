@@ -100,7 +100,7 @@ exports.length = length = (xs) ->
   xs.length
 
 exports.cons = cons = (x, xs) --> 
-  if typeof! xs is \String then x + xs else x & xs
+  if typeof! xs is \String then x + xs else [x] +++ xs
 
 exports.append = append = (xs, ys) --> 
   if typeof! ys is \String then xs + ys else xs +++ ys

@@ -218,14 +218,14 @@ exports.cons = cons = __curry(function(x, xs){
   if (__toString.call(xs).slice(8, -1) === 'String') {
     return x + xs;
   } else {
-    return [(x)].concat(xs);
+    return [x].concat(xs);
   }
 });
 exports.append = append = __curry(function(xs, ys){
   if (__toString.call(ys).slice(8, -1) === 'String') {
     return xs + ys;
   } else {
-    return (xs).concat(ys);
+    return xs.concat(ys);
   }
 });
 exports.join = join = __curry(function(sep, xs){
@@ -376,7 +376,7 @@ exports.scan = scan = exports.scanl = scanl = __curry(function(f, memo, xs){
   var last, x;
   last = memo;
   if (__toString.call(xs).slice(8, -1) === 'Object') {
-    return ([memo]).concat((function(){
+    return [memo].concat((function(){
       var __i, __ref, __results = [];
       for (__i in __ref = xs) {
         x = __ref[__i];
@@ -385,7 +385,7 @@ exports.scan = scan = exports.scanl = scanl = __curry(function(f, memo, xs){
       return __results;
     }()));
   } else {
-    return ([memo]).concat((function(){
+    return [memo].concat((function(){
       var __i, __ref, __len, __results = [];
       for (__i = 0, __len = (__ref = xs).length; __i < __len; ++__i) {
         x = __ref[__i];
@@ -581,7 +581,7 @@ exports.partial = partial = function(f){
   return function(){
     var args;
     args = __slice.call(arguments);
-    return f.apply(this, (initArgs).concat(args));
+    return f.apply(this, initArgs.concat(args));
   };
 };
 exports.id = id = function(x){
@@ -726,9 +726,7 @@ function __in(x, arr){
   return false;
 }
 function __compose(f, g){
-  return function(){
-    return f(g.apply(this, arguments)); 
-  }
+  return function(){ return f(g.apply(this, arguments)); }
 }
 function __not(x){ return !x; }
 function __import(obj, src){
