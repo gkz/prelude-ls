@@ -1,6 +1,6 @@
 {
   "name": "prelude-ls",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "prelude.ls is a JavaScript functional programming library. It is the recommended base library for, and is written in, LiveScript. It is based off of Haskell's Prelude module.",
   "keywords": [
     "library",

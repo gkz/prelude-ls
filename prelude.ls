@@ -388,7 +388,7 @@ exports.lcm = lcm = (x, y) -->
 
 # meta
 exports.installPrelude = !(target) ->
-  unless target.prelude.isInstalled
+  unless target.prelude?.isInstalled
     target <<< exports
     target.prelude.isInstalled = true
 
