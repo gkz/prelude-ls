@@ -351,7 +351,7 @@ eq '1,4,7|2,5,8|3,6,9' "#{ zipAll [1 2 3] [4 5 6] [7 8 9] .join \| }"
 ok isEmptyList zipAll [] []
 
 # zipAllWith
-eq '5,5,5' "#{ zipAllWith (-> @@0 + @@1 + @@2), [1 2 3], [3 2 1], [1 1 1] }"
+eq '5,5,5' "#{ zipAllWith (-> &0 + &1 + &2), [1 2 3], [3 2 1], [1 1 1] }"
 ok isEmptyList zipAllWith id, [], []
 
 # compose
