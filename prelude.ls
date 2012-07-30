@@ -130,6 +130,12 @@ exports.foldr1 = foldr1 = (f, xs) -->
   xs.reverse!
   fold f, xs.0, xs.slice 1
 
+exports.unfoldr = unfoldr = (f, b) -->
+  if (f b)?
+    [that.0] +++ unfoldr f, that.1
+  else
+    []
+
 exports.andList = andList = (xs) -> fold ((memo, x) -> memo and x), true, xs
 
 exports.orList = orList = (xs) -> fold ((memo, x) -> memo or x), false, xs

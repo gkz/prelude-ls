@@ -166,6 +166,9 @@ eq -1 foldr (-), 9, [1 2 3 4]
 # foldr1
 eq -1 foldr1 (-), [1 2 3 4 9]
 
+# unfoldr
+eq '10,9,8,7,6,5,4,3,2,1' "#{ unfoldr (-> if it == 0 then null else [it, it - 1]), 10 }"
+
 # andTest
 ok andList [true, 2 + 2 == 4]
 ok not andList [true true false true]
