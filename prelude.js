@@ -1,8 +1,8 @@
-// prelude.ls 0.5.0
+// prelude.ls 0.6.0
 // Copyright (c) 2012 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, each, map, filter, reject, partition, find, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, andList, orList, any, all, unique, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, zipAll, zipAllWith, compose, curry, partial, id, flip, fix, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, toString$ = {}.toString, slice$ = [].slice;
+var objToFunc, each, map, filter, reject, partition, find, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, unfoldr, andList, orList, any, all, unique, sort, sortBy, compare, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, zipAll, zipAllWith, compose, curry, id, flip, fix, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, toString$ = {}.toString, slice$ = [].slice;
 exports.objToFunc = objToFunc = function(obj){
   return function(key){
     return obj[key];
@@ -264,6 +264,14 @@ exports.foldr1 = foldr1 = curry$(function(f, xs){
   xs.reverse();
   return fold(f, xs[0], xs.slice(1));
 });
+exports.unfoldr = exports.unfold = unfoldr = curry$(function(f, b){
+  var that;
+  if ((that = f(b)) != null) {
+    return [that[0]].concat(unfoldr(f, that[1]));
+  } else {
+    return [];
+  }
+});
 exports.andList = andList = function(xs){
   return fold(function(memo, x){
     return memo && x;
@@ -314,6 +322,34 @@ exports.unique = unique = function(xs){
     return result;
   }
 };
+exports.sort = sort = function(xs){
+  return xs.concat().sort(function(x, y){
+    switch (false) {
+    case !(x > y):
+      return 1;
+    case !(x < y):
+      return -1;
+    default:
+      return 0;
+    }
+  });
+};
+exports.sortBy = sortBy = curry$(function(f, xs){
+  if (!xs.length) {
+    return [];
+  }
+  return xs.concat().sort(f);
+});
+exports.compare = compare = curry$(function(f, x, y){
+  switch (false) {
+  case !(f(x) > f(y)):
+    return 1;
+  case !(f(x) < f(y)):
+    return -1;
+  default:
+    return 0;
+  }
+});
 exports.sum = sum = function(xs){
   var result, i$, x, len$;
   result = 0;
@@ -411,11 +447,7 @@ exports.replicate = replicate = curry$(function(n, x){
   for (; i < n; ++i) {
     result.push(x);
   }
-  if (toString$.call(x).slice(8, -1) === 'String') {
-    return result.join('');
-  } else {
-    return result;
-  }
+  return result;
 });
 exports.take = take = curry$(function(n, xs){
   switch (false) {
@@ -572,15 +604,6 @@ exports.compose = compose = function(){
 };
 exports.curry = curry = function(f){
   return curry$(f);
-};
-exports.partial = partial = function(f){
-  var initArgs;
-  initArgs = slice$.call(arguments, 1);
-  return function(){
-    var args;
-    args = slice$.call(arguments);
-    return f.apply(this, initArgs.concat(args));
-  };
 };
 exports.id = id = function(x){
   return x;
