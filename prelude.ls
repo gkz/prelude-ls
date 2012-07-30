@@ -157,7 +157,10 @@ exports.unique = unique = (xs) ->
   if typeof! xs is \String then result.join '' else result
 
 exports.sort = sort = (xs) ->
-  xs.concat!sort!
+  xs.concat!sort (x, y) ->
+    | x > y =>  1
+    | x < y => -1
+    | _     =>  0
 
 exports.sortBy = sortBy = (f, xs) -->
   return [] unless xs.length

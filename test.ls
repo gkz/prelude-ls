@@ -206,6 +206,7 @@ eq 'abcd' unique 'aaabbbcccdd'
 
 # sort
 eq '1,2,3,4,5,6' "#{ sort [3 1 5 2 4 6] }"
+eq '2,5,6,12,334,4999' "#{ sort [334 12 5 2 4999 6] }"
 ok isEmptyList sort []
 
 # sortBy
