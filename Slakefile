@@ -1,7 +1,6 @@
 {spawn, exec} = require \child_process
 
-#LiveScript = require \LiveScript
-LiveScript = require \../LiveScript/
+LiveScript = require \LiveScript
 
 # ANSI Terminal Colors.
 bold  = '\33[0;1m'
@@ -38,7 +37,7 @@ build = ({browser, min} || {}) ->
     }();
     """
   slobber "#{name}.js" """
-    // prelude.ls 0.5.0
+    // prelude.ls 0.6.0
     // Copyright (c) 2012 George Zahariev
     // Released under the MIT License
     // raw.github.com/gkz/prelude-ls/master/LICNSE
