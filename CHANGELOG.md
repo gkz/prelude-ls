@@ -3,6 +3,7 @@
 * added `fix`, a fixpoint (Y combinator) for anonymous recursive functions
 * added `unfoldr`
 * calling `replicate` with a string now returns a list of strings
+* removed `partial`, just use native partial application in LiveScript using the `_` placeholder, or currying
 
 # 0.5.0
 * removed `lookup` - use (.prop)

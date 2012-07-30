@@ -370,20 +370,6 @@ addCurried = curry add
 addFour = addCurried 4
 eq 6 addFour 2
 
-# partial
-addAdd = (x, y, z) -> x + y + z
-add9 = partial addAdd, 4, 5
-eq 17 add9 8
-
-add3 = partial addAdd, 3
-eq 17 add3 9 5
-
-add0 = partial addAdd
-eq 17 add0 0 0 17
-
-add17 = partial addAdd, 0, 0, 17
-eq 17 add17!
-
 # id 
 eq 5 id 5
 

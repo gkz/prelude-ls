@@ -287,10 +287,6 @@ exports.compose = compose = (...funcs) ->
 exports.curry = curry = (f) ->
   curry$ f # using util method __curry from livescript
 
-exports.partial = partial = (f, ...initArgs) ->
-  (...args) ->
-    f.apply this, (initArgs +++ args)
-
 exports.id = id = (x) -> x
 
 exports.flip = flip = (f, x, y) --> f y, x
