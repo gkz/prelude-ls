@@ -130,7 +130,7 @@ exports.foldr1 = foldr1 = (f, xs) -->
   xs.reverse!
   fold f, xs.0, xs.slice 1
 
-exports.unfoldr = unfoldr = (f, b) -->
+exports.unfoldr = exports.unfold = unfoldr = (f, b) -->
   if (f b)?
     [that.0] +++ unfoldr f, that.1
   else

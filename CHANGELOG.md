@@ -1,7 +1,7 @@
 # 0.6.0
 * fixed various bugs
 * added `fix`, a fixpoint (Y combinator) for anonymous recursive functions
-* added `unfoldr`
+* added `unfoldr` (alias `unfold`)
 * calling `replicate` with a string now returns a list of strings
 * removed `partial`, just use native partial application in LiveScript using the `_` placeholder, or currying
 
