@@ -204,6 +204,20 @@ eq '2,3' "#{  unique {a: 2, b: 3, c: 2} }"
 
 eq 'abcd' unique 'aaabbbcccdd'
 
+# sort
+eq '1,2,3,4,5,6' "#{ sort [3 1 5 2 4 6] }"
+ok isEmptyList sort []
+
+# sortBy
+obj = one: 1, two: 2, three: 3
+eq 'one,two,three' "#{ sortBy (compare (obj.)), <[ three one two ]> }"
+ok isEmptyList sortBy ->, []
+
+# compare
+eq -1 (compare (.length), [1 to 3], [0 to 5])
+eq  1 (compare (.length), [1 to 9], [0 to 5])
+eq  0 (compare (.length), [1 to 4], [4 to 7])
+
 # sum
 eq 10 sum [1 2 3 4]
 eq 0  sum []

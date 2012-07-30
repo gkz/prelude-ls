@@ -156,6 +156,18 @@ exports.unique = unique = (xs) ->
     for x   in xs when x not in result then result.push x
   if typeof! xs is \String then result.join '' else result
 
+exports.sort = sort = (xs) ->
+  xs.concat!sort!
+
+exports.sortBy = sortBy = (f, xs) -->
+  return [] unless xs.length
+  xs.concat!sort f
+
+exports.compare = compare = (f, x, y) -->
+  | (f x) > (f y) =>  1
+  | (f x) < (f y) => -1
+  | otherwise     =>  0
+
 exports.sum = sum = (xs) ->
   result = 0
   if typeof! xs is \Object
