@@ -392,6 +392,11 @@ eq 89 (fix (fib) -> (n) ->
   | n <= 1      => 1
   | otherwise   => fib(n-1) + fib(n-2))(10)
 
+# fix (multi-arg variation)
+eq 89 (fix (fib) -> (n, minus=0) ->
+  | (n - minus) <= 1 => 1
+  | otherwise        => fib(n, minus+1) + fib(n, minus+2))(10)
+
 # lines
 eq 'one|two|three' "#{ lines 'one\ntwo\nthree' .join \| }"
 ok isEmptyList lines ''

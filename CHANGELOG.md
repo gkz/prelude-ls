@@ -1,3 +1,6 @@
+# 0.6.0
+* added `fix`, a fixpoint (Y combinator) for anonymous recursive functions
+
 # 0.5.0
 * removed `lookup` - use (.prop)
 * removed `call` - use (.func arg1, arg2)

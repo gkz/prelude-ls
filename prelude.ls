@@ -287,8 +287,8 @@ exports.id = id = (x) -> x
 exports.flip = flip = (f, x, y) --> f y, x
 
 exports.fix = fix = (f) ->
-  ( (g, x) --> f(g g) x ) do
-    (g, x) --> f(g g) x
+  ( (g, x) -> -> f(g g) ...arguments ) do
+    (g, x) -> -> f(g g) ...arguments
 
 exports.lines = lines = (str) -> 
   return [] if not str.length
