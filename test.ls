@@ -1,6 +1,6 @@
 # each
-ok isEmptyList each ->, [] 
-eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
+ok isEmptyList each ->, []
+eq '1,2' "#{ each (.pop!), [[1 5] [2 6]] }"
 
 testTarget = 0
 eq 'hello' each (-> ++testTarget), 'hello'
@@ -166,6 +166,9 @@ eq -1 foldr (-), 9, [1 2 3 4]
 # foldr1
 eq -1 foldr1 (-), [1 2 3 4 9]
 
+# unfoldr
+eq '10,9,8,7,6,5,4,3,2,1' "#{ unfoldr (-> if it == 0 then null else [it, it - 1]), 10 }"
+
 # andTest
 ok andList [true, 2 + 2 == 4]
 ok not andList [true true false true]
@@ -200,6 +203,20 @@ eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"
 eq '2,3' "#{  unique {a: 2, b: 3, c: 2} }"
 
 eq 'abcd' unique 'aaabbbcccdd'
+
+# sort
+eq '1,2,3,4,5,6' "#{ sort [3 1 5 2 4 6] }"
+ok isEmptyList sort []
+
+# sortBy
+obj = one: 1, two: 2, three: 3
+eq 'one,two,three' "#{ sortBy (compare (obj.)), <[ three one two ]> }"
+ok isEmptyList sortBy ->, []
+
+# compare
+eq -1 (compare (.length), [1 to 3], [0 to 5])
+eq  1 (compare (.length), [1 to 9], [0 to 5])
+eq  0 (compare (.length), [1 to 4], [4 to 7])
 
 # sum
 eq 10 sum [1 2 3 4]
@@ -263,8 +280,8 @@ eq '10,9,7,4' "#{ scanr1 (+), [1 2 3 4] }"
 eq '3,3,3,3' "#{ replicate 4 3 }"
 ok isEmptyList replicate 0 0
 
-eq 'aaaa' replicate 4 \a
-eq '' replicate 0 \a
+eq 'a,a,a,a' "#{ replicate 4 \a }"
+ok isEmptyList replicate 0 \a
 
 # take
 eq '1,2,3' "#{ take 3 [1 2 3 4 5] }"
@@ -351,7 +368,7 @@ eq '1,4,7|2,5,8|3,6,9' "#{ zipAll [1 2 3] [4 5 6] [7 8 9] .join \| }"
 ok isEmptyList zipAll [] []
 
 # zipAllWith
-eq '5,5,5' "#{ zipAllWith (-> @@0 + @@1 + @@2), [1 2 3], [3 2 1], [1 1 1] }"
+eq '5,5,5' "#{ zipAllWith (-> &0 + &1 + &2), [1 2 3], [3 2 1], [1 1 1] }"
 ok isEmptyList zipAllWith id, [], []
 
 # compose
@@ -367,20 +384,6 @@ addCurried = curry add
 addFour = addCurried 4
 eq 6 addFour 2
 
-# partial
-addAdd = (x, y, z) -> x + y + z
-add9 = partial addAdd, 4, 5
-eq 17 add9 8
-
-add3 = partial addAdd, 3
-eq 17 add3 9 5
-
-add0 = partial addAdd
-eq 17 add0 0 0 17
-
-add17 = partial addAdd, 0, 0, 17
-eq 17 add17!
-
 # id 
 eq 5 id 5
 
@@ -391,6 +394,11 @@ eq 10 (flip (-)) 5 15
 eq 89 (fix (fib) -> (n) ->
   | n <= 1      => 1
   | otherwise   => fib(n-1) + fib(n-2))(10)
+
+# fix (multi-arg variation)
+eq 89 (fix (fib) -> (n, minus=0) ->
+  | (n - minus) <= 1 => 1
+  | otherwise        => fib(n, minus+1) + fib(n, minus+2))(10)
 
 # lines
 eq 'one|two|three' "#{ lines 'one\ntwo\nthree' .join \| }"
