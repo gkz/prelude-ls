@@ -1,4 +1,5 @@
 # 0.6.0
+* fixed various bugs
 * added `fix`, a fixpoint (Y combinator) for anonymous recursive functions
 
 # 0.5.0

@@ -1,6 +1,7 @@
 {spawn, exec} = require \child_process
 
-LiveScript = require \LiveScript
+#LiveScript = require \LiveScript
+LiveScript = require \../LiveScript/
 
 # ANSI Terminal Colors.
 bold  = '\33[0;1m'

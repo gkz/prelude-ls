@@ -1,6 +1,6 @@
 # each
-ok isEmptyList each ->, [] 
-eq '1,2' "#{ each (-> it.pop!), [[1 5] [2 6]] }"
+ok isEmptyList each ->, []
+eq '1,2' "#{ each (.pop!), [[1 5] [2 6]] }"
 
 testTarget = 0
 eq 'hello' each (-> ++testTarget), 'hello'
