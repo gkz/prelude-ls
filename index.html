@@ -68,6 +68,7 @@
         <li><a href="#f-fold1">fold1</a></li> 
         <li><a href="#f-foldr">foldr</a></li> 
         <li><a href="#f-foldr1">foldr1</a></li> 
+        <li><a href="#f-unfold">unfold</a></li> 
         <li><a href="#f-andList">andList</a></li> 
         <li><a href="#f-orList">orList</a></li> 
         <li><a href="#f-any">any</a></li> 
@@ -765,6 +766,31 @@ foldr1 (-), [1 2 3 4 9] #=> -1
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
 foldr1(aFunction, aList);
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-unfold" class="func">
+          <a name="f-unfold"></a>
+          <h3>unfold</h3>
+          <div class="alias">alias: unfoldr</div>
+          <div class="func-type">Function -> x -> List</div>
+          <p>Unfold builds a list from a seed value (<code>x</code>). It takes a function which either returns <code>null</code> if it is done producing the list, or returns <code>[a, b]</code>, <code>a</code> which is prepended to the list, and <code>b</code> is used as the next element in the recursive call.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+unfold (-> if it == 0 then null else [it, it - 1]), 10
+#=> [10,9,8,7,6,5,4,3,2,1]
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+
+
+
 </pre>
             </div>
           </div>
