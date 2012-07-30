@@ -210,7 +210,7 @@ exports.replicate = replicate = (n, x) -->
   result = []
   i = 0
   while i < n, ++i then result.push x
-  if typeof! x is \String then result.join '' else result
+  result
 
 exports.take = take = (n, xs) -->
   | n <= 0

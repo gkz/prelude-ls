@@ -266,8 +266,8 @@ eq '10,9,7,4' "#{ scanr1 (+), [1 2 3 4] }"
 eq '3,3,3,3' "#{ replicate 4 3 }"
 ok isEmptyList replicate 0 0
 
-eq 'aaaa' replicate 4 \a
-eq '' replicate 0 \a
+eq 'a,a,a,a' "#{ replicate 4 \a }"
+ok isEmptyList replicate 0 \a
 
 # take
 eq '1,2,3' "#{ take 3 [1 2 3 4 5] }"

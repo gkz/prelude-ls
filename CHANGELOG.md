@@ -1,6 +1,8 @@
 # 0.6.0
 * fixed various bugs
 * added `fix`, a fixpoint (Y combinator) for anonymous recursive functions
+* added `unfoldr`
+* calling `replicate` with a string now returns a list of strings
 
 # 0.5.0
 * removed `lookup` - use (.prop)
@@ -9,7 +11,7 @@
 * fixed buys wtih `head` and `last`
 * added non-minifed browser version, as `prelude-browser.js`
 * renamed `prelude-min.js` to `prelude-browser-min.js`
-* renamed `zip` to `zipAll` 
+* renamed `zip` to `zipAll`
 * renamed `zipWith` to `zipAllWith`
 * added `zip`, a curried zip that takes only two arguments
 * added `zipWith`, a curried zipWith that takes only two arguments
