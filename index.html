@@ -100,7 +100,6 @@
         <li><a href="#f-zipAllWith">zipAllWith</a></li> 
         <li><a href="#f-compose">compose</a></li> 
         <li><a href="#f-curry">curry</a></li> 
-        <li><a href="#f-partial">partial</a></li> 
         <li><a href="#f-id">id</a></li> 
         <li><a href="#f-flip">flip</a></li> 
         <li><a href="#f-fix">fix</a></li> 
@@ -1475,30 +1474,6 @@ fourToThe 2 #=> 16
 var add = curry(function(x, y){ return x + y; });
 var addFour = add(4);
 addFour(3); //=> 6
-</pre>
-            </div>
-          </div>
-        </div>
-        <div id="f-partial" class="func">
-          <a name="f-partial"></a>
-          <h3>partial</h3>
-          <div class="func-type">Function -> ...Args -> Function</div>
-          <p>Partially applies the function supplied with the arguments supplied, returns a function. For when you don't want to, or can't use, curried functions.
-          <div class="example">
-            <div class="example-ls">
-              <h5>LiveScript</h5>
-<pre class="prettyprint lang-ls">
-times = -> x * y
-times2 = partial times, 2
-times2 4 #=> 8
-</pre>
-            </div>
-            <div class="example-js">
-              <h5>JavaScript</h5>
-<pre class="prettyprint lang-js">
-var add = function(x, y){ return x + y; };
-var add2 = partial(add, 2);
-add2(4); //=> 8
 </pre>
             </div>
           </div>
