@@ -1131,13 +1131,13 @@ scanr1(someFunc, [1, 2, 3]);
           <a name="f-replicate"></a>
           <h3>replicate</h3>
           <div class="func-type">Number -> x -> List</div>
-          <div class="func-type">Number -> String -> String</div>
+          <div class="func-type">Number -> String -> [String]</div>
           <p>Takes its second argument, and repeats it n times. 
           <div class="example">
             <div class="example-ls">
               <h5>LiveScript</h5>
 <pre class="prettyprint lang-ls">
-replicate 4 \a #=> 'aaaa'
+replicate 4 \a #=> ['a', 'a', 'a', 'a']
 </pre>
             </div>
             <div class="example-js">
