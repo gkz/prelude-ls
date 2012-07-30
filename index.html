@@ -74,6 +74,9 @@
         <li><a href="#f-any">any</a></li> 
         <li><a href="#f-all">all</a></li> 
         <li><a href="#f-unique">unique</a></li> 
+        <li><a href="#f-sort">sort</a></li> 
+        <li><a href="#f-sortBy">sortBy</a></li> 
+        <li><a href="#f-compare">compare</a></li> 
         <li><a href="#f-sum">sum</a></li> 
         <li><a href="#f-product">product</a></li> 
         <li><a href="#f-mean">mean</a></li> 
@@ -905,6 +908,79 @@ unique 'aaabbccccd'      #=> 'abcd'
               <h5>JavaScript</h5>
 <pre class="prettyprint lang-js">
 unique([4, 4, 4, 4, 5]); //=> [4, 5]
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-sort" class="func">
+          <a name="f-sort"></a>
+          <h3>sort</h3>
+          <div class="func-type">List -> List</div>
+          <p>Sorts a list, does not modify the input.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+sort [3 1 5 2 4 6]
+#=> [1,2,3,4,5,6]
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-sortBy" class="func">
+          <a name="f-sortBy"></a>
+          <h3>sortBy</h3>
+          <div class="func-type">(x -> y -> (-1 | 0 | 1)) -> List -> List</div>
+          <p>Takes a function which compares two items and returns either <code>-1</code>, <code>0</code>, or <code>1</code>, and a list, and sorts using that function. The original list is not modified.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+obj = one: 1, two: 2, three: 3
+sortBy (compare (obj.)), <[ three one two ]>
+#=> ['one', 'two', 'three']
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+
+
+
+</pre>
+            </div>
+          </div>
+        </div>
+        <div id="f-compare" class="func">
+          <a name="f-compare"></a>
+          <h3>compare</h3>
+          <div class="func-type">Function -> x -> y -> (-1 | 0 | 1)</div>
+          <p>Takes a function, applies it to both <code>x</code> and <code>y</code>, and produces either <code>-1</code>, <code>0</code>, or <code>1</code>. Useful when combined with <code>sortBy</code>, and just given the first argument.
+          <div class="example">
+            <div class="example-ls">
+              <h5>LiveScript</h5>
+<pre class="prettyprint lang-ls">
+compare (.length), [1 to 3], [0 to 5] #=> -1
+compare (.length), [1 to 9], [0 to 5] #=>  0
+compare (.length), [1 to 4], [4 to 7] #=>  1
+</pre>
+            </div>
+            <div class="example-js">
+              <h5>JavaScript</h5>
+<pre class="prettyprint lang-js">
+
+
 
 
 </pre>
