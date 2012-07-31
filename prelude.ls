@@ -96,7 +96,7 @@ exports.values = values = (obj) ->
 exports.keys = keys = (obj) ->
   [x for x of obj]
 
-exports.length = length = (xs) ->
+exports.len = len = (xs) ->
   xs = values xs if typeof! xs is \Object
   xs.length
 
@@ -187,7 +187,7 @@ exports.product = product = (xs) ->
     for x   in xs then result *= x
   result
 
-exports.mean = mean = exports.average = average = (xs) -> (sum xs) / length xs
+exports.mean = mean = exports.average = average = (xs) -> (sum xs) / len xs
 
 exports.concat = concat = (xss) -> fold append, [], xss
 

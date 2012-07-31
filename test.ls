@@ -115,14 +115,14 @@ eq 'sadf,asdf,fdas' "#{ keys sadf: 1, asdf: 2, fdas: 3 }"
 eq '0,1,2' "#{ keys [1 2 3] }"
 
 # length
-eq 5 length list
-eq 0 length []
+eq 5 len list
+eq 0 len []
 
-eq 3 length {x: 1, y: 2, z: 3}
-eq 0 length {}
+eq 3 len {x: 1, y: 2, z: 3}
+eq 0 len {}
 
-eq 4 length 'abcd'
-eq 0 length ''
+eq 4 len 'abcd'
+eq 0 len ''
 
 # cons 
 eq '1,2,3' "#{ cons 1 [2 3] }"
