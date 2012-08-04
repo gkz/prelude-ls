@@ -124,10 +124,10 @@ exports.fold = fold = exports.foldl = foldl = (f, memo, xs) -->
 
 exports.fold1 = fold1 = exports.foldl1 = foldl1 = (f, xs) --> fold f, xs.0, xs.slice 1
 
-exports.foldr = foldr = (f, memo, xs) --> fold f, memo, xs.reverse!
+exports.foldr = foldr = (f, memo, xs) --> fold f, memo, xs.slice!reverse!
 
 exports.foldr1 = foldr1 = (f, xs) -->
-  xs.reverse!
+  xs.=slice!reverse!
   fold f, xs.0, xs.slice 1
 
 exports.unfoldr = exports.unfold = unfoldr = (f, b) -->
@@ -214,11 +214,11 @@ exports.scan = scan = exports.scanl = scanl = (f, memo, xs) -->
 exports.scan1 = scan1 = exports.scanl1 = scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
 
 exports.scanr = scanr = (f, memo, xs) -->
-  xs.reverse!
+  xs.=slice!reverse!
   scan f, memo, xs .reverse!
 
 exports.scanr1 = scanr1 = (f, xs) -->
-  xs.reverse!
+  xs.=slice!reverse!
   scan f, xs.0, xs.slice 1 .reverse!
 
 exports.replicate = replicate = (n, x) -->
