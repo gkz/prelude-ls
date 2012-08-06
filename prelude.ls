@@ -142,11 +142,15 @@ exports.orList = orList = (xs) -> fold ((memo, x) -> memo or x), false, xs
 
 exports.any = any = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
-  fold ((memo, x) -> memo or f x), false, xs
+  for x in xs when fn x
+    return yes
+  no
 
 exports.all = all = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
-  fold ((memo, x) -> memo and f x), true, xs
+  for x in xs when not fn x
+    return no
+  yes
 
 exports.unique = unique = (xs) ->
   result = []
