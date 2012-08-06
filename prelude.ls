@@ -199,11 +199,9 @@ exports.listToObj = listToObj = (xs) ->
     result[x[0]] = x[1]
   result
 
-exports.maximum = maximum = (xs) ->
-  fold1 max, xs
+exports.maximum = maximum = (xs) -> fold1 (>?), xs
 
-exports.minimum = minimum = (xs) ->
-  fold1 min, xs
+exports.minimum = minimum = (xs) -> fold1 (<?), xs
 
 exports.scan = scan = exports.scanl = scanl = (f, memo, xs) -->
   last = memo
@@ -322,9 +320,9 @@ exports.words = words = (str) ->
 
 exports.unwords = unwords = (strs) -> strs.join ' '
 
-exports.max = max = (x, y) --> if x > y then x else y
+exports.max = max = (>?)
 
-exports.min = min = (x, y) --> if x > y then y else x
+exports.min = min = (<?)
 
 exports.negate = negate = (x) -> -x
 
