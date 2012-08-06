@@ -136,9 +136,15 @@ exports.unfoldr = exports.unfold = unfoldr = (f, b) -->
   else
     []
 
-exports.andList = andList = (xs) -> fold ((memo, x) -> memo and x), true, xs
+exports.andList = andList = (xs) ->
+  for x in xs when not x
+    return false
+  true
 
-exports.orList = orList = (xs) -> fold ((memo, x) -> memo or x), false, xs
+exports.orList = orList = (xs) ->
+  for x in xs when x
+    return true
+  false
 
 exports.any = any = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
