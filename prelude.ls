@@ -191,7 +191,7 @@ exports.mean = mean = exports.average = average = (xs) -> (sum xs) / len xs
 
 exports.concat = concat = (xss) -> fold append, [], xss
 
-exports.concatMap = concatMap = (f, xs) --> concat map f, xs
+exports.concatMap = concatMap = (f, xs) --> fold ((memo, x) -> memo +++ f x), [], xs
 
 exports.listToObj = listToObj = (xs) ->
   result = {}
