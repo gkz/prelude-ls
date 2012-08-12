@@ -1,10 +1,15 @@
 # This is low level LiveScript - this is not an 
 # example of how you should write LiveScript. 
 # Code reuse has taken a back seat to performance,
-# becuase the functions in this libaray will be 
+# because the functions in this libaray will be 
 # called often, and the code here, once set, will
 # not change often. 
 
+# ensure we have an exports variable disponible
+unless exports?
+  exports = {}
+
+# using `exports.` to avoid polluting `this` with `export`
 exports.objToFunc = objToFunc = (obj) ->
   (key) -> obj[key]
 
@@ -22,7 +27,7 @@ exports.map = map = (f, xs) -->
     {[key, f x] for key, x of xs}
   else
     result = [f x for x in xs]
-    if type is \String then result.join '' else result
+    if type is \String then result * '' else result
 
 exports.filter = filter = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
@@ -31,7 +36,7 @@ exports.filter = filter = (f, xs) -->
     {[key, x] for key, x of xs when f x}
   else
     result = [x for x in xs when f x]
-    if type is \String then result.join '' else result
+    if type is \String then result * '' else result
 
 exports.reject = reject = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
@@ -40,7 +45,7 @@ exports.reject = reject = (f, xs) -->
     {[key, x] for key, x of xs when not f x}
   else
     result = [x for x in xs when not f x]
-    if type is \String then result.join '' else result
+    if type is \String then result * '' else result
 
 exports.partition = partition = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
@@ -56,8 +61,8 @@ exports.partition = partition = (f, xs) -->
     for x in xs
       (if f x then passed else failed)push x
     if type is \String
-      passed.=join ''
-      failed.=join ''
+      passed *= ''
+      failed *= ''
   [passed, failed]
 
 exports.find = find = (f, xs) -->
@@ -74,20 +79,20 @@ exports.head = head = exports.first = first = (xs) ->
 
 exports.tail = tail = (xs) ->
   return void if not xs.length
-  xs.slice 1
+  xs[1 to]
 
 exports.last = last = (xs) ->
   return void if not xs.length
   xs[*-1]
 
-exports.initial = initial = (xs) ->
+export  s.initial = initial = (xs) ->
   return void if not xs.length
-  xs.slice 0, xs.length - 1
+  xs.slice 0 xs.length - 1
 
 exports.empty = empty = (xs) ->
   if typeof! xs is \Object
     for x of xs then return false
-    return true
+    return yes
   not xs.length
 
 exports.values = values = (obj) ->
@@ -112,7 +117,7 @@ exports.join = join = (sep, xs) -->
 
 exports.reverse = reverse = (xs) ->
   if typeof! xs is \String
-  then xs.split '' .reverse!join ''
+  then (xs / '')reverse! * ''
   else xs.slice!reverse!
 
 exports.fold = fold = exports.foldl = foldl = (f, memo, xs) -->
@@ -164,7 +169,7 @@ exports.unique = unique = (xs) ->
     for , x of xs when x not in result then result.push x
   else
     for x   in xs when x not in result then result.push x
-  if typeof! xs is \String then result.join '' else result
+  if typeof! xs is \String then result * '' else result
 
 exports.sort = sort = (xs) ->
   xs.concat!sort (x, y) ->
@@ -204,10 +209,7 @@ exports.concat = concat = (xss) -> fold append, [], xss
 exports.concatMap = concatMap = (f, xs) --> fold ((memo, x) -> memo +++ f x), [], xs
 
 exports.listToObj = listToObj = (xs) ->
-  result = {}
-  for x in xs
-    result[x[0]] = x[1]
-  result
+  {[x.0, x.1] for x in xs}
 
 exports.maximum = maximum = (xs) -> fold1 (>?), xs
 
@@ -255,7 +257,7 @@ exports.takeWhile = takeWhile = (p, xs) -->
   for x in xs
     break if not p x
     result.push x
-  if typeof! xs is \String then result.join '' else result
+  if typeof! xs is \String then result * '' else result
 
 exports.dropWhile = dropWhile = (p, xs) -->
   return xs if not xs.length
@@ -275,7 +277,7 @@ exports.zip = zip = (xs, ys) -->
   for zs, i in [xs, ys]
     for z, j in zs
       result.push [] if i is 0
-      result[j]?.push z
+      result[j]?push z
   result
 
 exports.zipWith = zipWith = (f,xs, ys) -->
@@ -290,7 +292,7 @@ exports.zipAll = zipAll = (...xss) ->
   for xs, i in xss
     for x, j in xs
       result.push [] if i is 0
-      result[j]?.push x
+      result[j]?push x
   result
 
 exports.zipAllWith = zipAllWith = (f, ...xss) ->
@@ -308,7 +310,7 @@ exports.compose = compose = (...funcs) ->
     args.0
 
 exports.curry = curry = (f) ->
-  curry$ f # using util method __curry from livescript
+  curry$ f # using util method curry$ from livescript
 
 exports.id = id = (x) -> x
 
@@ -320,15 +322,15 @@ exports.fix = fix = (f) ->
 
 exports.lines = lines = (str) ->
   return [] if not str.length
-  str.split \\n
+  str / \\n
 
-exports.unlines = unlines = (strs) -> strs.join \\n
+exports.unlines = unlines = (strs) -> strs * \\n
 
 exports.words = words = (str) ->
   return [] if not str.length
-  str.split /[ ]+/
+  str / /[ ]+/
 
-exports.unwords = unwords = (strs) -> strs.join ' '
+exports.unwords = unwords = (strs) -> strs * ' '
 
 exports.max = max = (>?)
 
@@ -361,11 +363,11 @@ exports.exp = exp = Math.exp
 
 exports.sqrt = sqrt = Math.sqrt
 
-# changed from log as log is a 
+# changed from log as log is a
 # common function for logging things
 exports.ln = ln = Math.log
 
-exports.pow = pow = (x, y) --> x ^ y
+exports.pow = pow = (^)
 
 exports.sin = sin = Math.sin
 
