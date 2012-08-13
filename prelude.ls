@@ -85,7 +85,7 @@ exports.last = last = (xs) ->
   return void if not xs.length
   xs[*-1]
 
-export  s.initial = initial = (xs) ->
+exports.initial = initial = (xs) ->
   return void if not xs.length
   xs.slice 0 xs.length - 1
 
