@@ -201,7 +201,7 @@ export mean = export average = (xs) -> (sum xs) / len xs
 
 export concat = (xss) -> fold append, [], xss
 
-export concatMap = (f, xs) --> fold ((memo, x) -> memo +++ f x), [], xs
+export concatMap = (f, xs) --> fold ((memo, x) -> append memo, f x), [], xs
 
 export listToObj = (xs) ->
   {[x.0, x.1] for x in xs}
