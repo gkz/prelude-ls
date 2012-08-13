@@ -5,22 +5,17 @@
 # called often, and the code here, once set, will
 # not change often. 
 
-# ensure we have an exports variable disponible
-unless exports?
-  exports = {}
-
-# using `exports.` to avoid polluting `this` with `export`
-exports.objToFunc = objToFunc = (obj) ->
+export objToFunc = objToFunc = (obj) ->
   (key) -> obj[key]
 
-exports.each = each = (f, xs) -->
+export each = (f, xs) -->
   if typeof! xs is \Object
     for , x of xs then f x
   else
     for x in xs then f x
   xs
 
-exports.map = map = (f, xs) -->
+export map = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
@@ -29,7 +24,7 @@ exports.map = map = (f, xs) -->
     result = [f x for x in xs]
     if type is \String then result * '' else result
 
-exports.filter = filter = (f, xs) -->
+export filter = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
@@ -38,7 +33,7 @@ exports.filter = filter = (f, xs) -->
     result = [x for x in xs when f x]
     if type is \String then result * '' else result
 
-exports.reject = reject = (f, xs) -->
+export reject = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
@@ -47,7 +42,7 @@ exports.reject = reject = (f, xs) -->
     result = [x for x in xs when not f x]
     if type is \String then result * '' else result
 
-exports.partition = partition = (f, xs) -->
+export partition = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
@@ -65,7 +60,7 @@ exports.partition = partition = (f, xs) -->
       failed *= ''
   [passed, failed]
 
-exports.find = find = (f, xs) -->
+export find = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
   if typeof! xs is \Object
     for , x of xs when f x then return x
@@ -73,97 +68,97 @@ exports.find = find = (f, xs) -->
     for x in xs when f x then return x
   void
 
-exports.head = head = exports.first = first = (xs) ->
+export head = export first = (xs) ->
   return void if not xs.length
   xs.0
 
-exports.tail = tail = (xs) ->
+export tail = (xs) ->
   return void if not xs.length
-  xs[1 to]
+  xs.slice 1
 
-exports.last = last = (xs) ->
+export last = (xs) ->
   return void if not xs.length
   xs[*-1]
 
-exports.initial = initial = (xs) ->
+export initial = (xs) ->
   return void if not xs.length
   xs.slice 0 xs.length - 1
 
-exports.empty = empty = (xs) ->
+export empty = (xs) ->
   if typeof! xs is \Object
     for x of xs then return false
     return yes
   not xs.length
 
-exports.values = values = (obj) ->
+export values = (obj) ->
   [x for , x of obj]
 
-exports.keys = keys = (obj) ->
+export keys = (obj) ->
   [x for x of obj]
 
-exports.len = len = (xs) ->
+export len = (xs) ->
   xs = values xs if typeof! xs is \Object
   xs.length
 
-exports.cons = cons = (x, xs) -->
+export cons = (x, xs) -->
   if typeof! xs is \String then x + xs else [x] +++ xs
 
-exports.append = append = (xs, ys) -->
+export append = (xs, ys) -->
   if typeof! ys is \String then xs + ys else xs +++ ys
 
-exports.join = join = (sep, xs) -->
+export join = (sep, xs) -->
   xs = values xs if typeof! xs is \Object
   xs.join sep
 
-exports.reverse = reverse = (xs) ->
+export reverse = (xs) ->
   if typeof! xs is \String
   then (xs / '')reverse! * ''
   else xs.slice!reverse!
 
-exports.fold = fold = exports.foldl = foldl = (f, memo, xs) -->
+export fold = export foldl = (f, memo, xs) -->
   if typeof! xs is \Object
     for , x of xs then memo = f memo, x
   else
     for x in xs then memo = f memo, x
   memo
 
-exports.fold1 = fold1 = exports.foldl1 = foldl1 = (f, xs) --> fold f, xs.0, xs.slice 1
+export fold1 = export foldl1 = (f, xs) --> fold f, xs.0, xs.slice 1
 
-exports.foldr = foldr = (f, memo, xs) --> fold f, memo, xs.slice!reverse!
+export foldr = (f, memo, xs) --> fold f, memo, xs.slice!reverse!
 
-exports.foldr1 = foldr1 = (f, xs) -->
+export foldr1 = (f, xs) -->
   xs.=slice!reverse!
   fold f, xs.0, xs.slice 1
 
-exports.unfoldr = exports.unfold = unfoldr = (f, b) -->
+export unfoldr = export unfold = (f, b) -->
   if (f b)?
     [that.0] +++ unfoldr f, that.1
   else
     []
 
-exports.andList = andList = (xs) ->
+export andList = (xs) ->
   for x in xs when not x
     return false
   true
 
-exports.orList = orList = (xs) ->
+export orList = (xs) ->
   for x in xs when x
     return true
   false
 
-exports.any = any = (f, xs) -->
+export any = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
-  for x in xs when fn x
+  for x in xs when f x
     return yes
   no
 
-exports.all = all = (f, xs) -->
+export all = (f, xs) -->
   f = objToFunc f if typeof! f isnt \Function
-  for x in xs when not fn x
+  for x in xs when not f x
     return no
   yes
 
-exports.unique = unique = (xs) ->
+export unique = (xs) ->
   result = []
   if typeof! xs is \Object
     for , x of xs when x not in result then result.push x
@@ -171,22 +166,22 @@ exports.unique = unique = (xs) ->
     for x   in xs when x not in result then result.push x
   if typeof! xs is \String then result * '' else result
 
-exports.sort = sort = (xs) ->
+export sort = (xs) ->
   xs.concat!sort (x, y) ->
     | x > y =>  1
     | x < y => -1
     | _     =>  0
 
-exports.sortBy = sortBy = (f, xs) -->
+export sortBy = (f, xs) -->
   return [] unless xs.length
   xs.concat!sort f
 
-exports.compare = compare = (f, x, y) -->
+export compare = (f, x, y) -->
   | (f x) > (f y) =>  1
   | (f x) < (f y) => -1
   | otherwise     =>  0
 
-exports.sum = sum = (xs) ->
+export sum = (xs) ->
   result = 0
   if typeof! xs is \Object
     for , x of xs then result += x
@@ -194,7 +189,7 @@ exports.sum = sum = (xs) ->
     for x   in xs then result += x
   result
 
-exports.product = product = (xs) ->
+export product = (xs) ->
   result = 1
   if typeof! xs is \Object
     for , x of xs then result *= x
@@ -202,55 +197,55 @@ exports.product = product = (xs) ->
     for x   in xs then result *= x
   result
 
-exports.mean = mean = exports.average = average = (xs) -> (sum xs) / len xs
+export mean = export average = (xs) -> (sum xs) / len xs
 
-exports.concat = concat = (xss) -> fold append, [], xss
+export concat = (xss) -> fold append, [], xss
 
-exports.concatMap = concatMap = (f, xs) --> fold ((memo, x) -> memo +++ f x), [], xs
+export concatMap = (f, xs) --> fold ((memo, x) -> memo +++ f x), [], xs
 
-exports.listToObj = listToObj = (xs) ->
+export listToObj = (xs) ->
   {[x.0, x.1] for x in xs}
 
-exports.maximum = maximum = (xs) -> fold1 (>?), xs
+export maximum = (xs) -> fold1 (>?), xs
 
-exports.minimum = minimum = (xs) -> fold1 (<?), xs
+export minimum = (xs) -> fold1 (<?), xs
 
-exports.scan = scan = exports.scanl = scanl = (f, memo, xs) -->
+export scan = export scanl = (f, memo, xs) -->
   last = memo
   if typeof! xs is \Object
   then [memo] +++ [last = f last, x for , x of xs]
   else [memo] +++ [last = f last, x for x in xs]
 
-exports.scan1 = scan1 = exports.scanl1 = scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
+export scan1 = export scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
 
-exports.scanr = scanr = (f, memo, xs) -->
+export scanr = (f, memo, xs) -->
   xs.=slice!reverse!
   scan f, memo, xs .reverse!
 
-exports.scanr1 = scanr1 = (f, xs) -->
+export scanr1 = (f, xs) -->
   xs.=slice!reverse!
   scan f, xs.0, xs.slice 1 .reverse!
 
-exports.replicate = replicate = (n, x) -->
+export replicate = (n, x) -->
   result = []
   i = 0
   while i < n, ++i then result.push x
   result
 
-exports.take = take = (n, xs) -->
+export take = (n, xs) -->
   | n <= 0
     if typeof! xs is \String then '' else []
   | not xs.length => xs
   | otherwise     => xs.slice 0, n
 
-exports.drop = drop = (n, xs) -->
+export drop = (n, xs) -->
   | n <= 0        => xs
   | not xs.length => xs
   | otherwise     => xs.slice n
 
-exports.splitAt = splitAt = (n, xs) --> [(take n, xs), (drop n, xs)]
+export splitAt = (n, xs) --> [(take n, xs), (drop n, xs)]
 
-exports.takeWhile = takeWhile = (p, xs) -->
+export takeWhile = (p, xs) -->
   return xs if not xs.length
   p = objToFunc p if typeof! p isnt \Function
   result = []
@@ -259,7 +254,7 @@ exports.takeWhile = takeWhile = (p, xs) -->
     result.push x
   if typeof! xs is \String then result * '' else result
 
-exports.dropWhile = dropWhile = (p, xs) -->
+export dropWhile = (p, xs) -->
   return xs if not xs.length
   p = objToFunc p if typeof! p isnt \Function
   i = 0
@@ -268,11 +263,11 @@ exports.dropWhile = dropWhile = (p, xs) -->
     ++i
   drop i, xs
 
-exports.span = span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
+export span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
 
-exports.breakIt = breakIt = (p, xs) --> span (not) << p, xs
+export breakIt = (p, xs) --> span (not) << p, xs
 
-exports.zip = zip = (xs, ys) -->
+export zip = (xs, ys) -->
   result = []
   for zs, i in [xs, ys]
     for z, j in zs
@@ -280,14 +275,14 @@ exports.zip = zip = (xs, ys) -->
       result[j]?push z
   result
 
-exports.zipWith = zipWith = (f,xs, ys) -->
+export zipWith = (f,xs, ys) -->
   f = objToFunc f if typeof! f isnt \Function
   if not xs.length or not ys.length
     []
   else
     [f.apply this, zs for zs in zip.call this, xs, ys]
 
-exports.zipAll = zipAll = (...xss) ->
+export zipAll = (...xss) ->
   result = []
   for xs, i in xss
     for x, j in xs
@@ -295,93 +290,93 @@ exports.zipAll = zipAll = (...xss) ->
       result[j]?push x
   result
 
-exports.zipAllWith = zipAllWith = (f, ...xss) ->
+export zipAllWith = (f, ...xss) ->
   f = objToFunc f if typeof! f isnt \Function
   if not xss.0.length or not xss.1.length
     []
   else
     [f.apply this, xs for xs in zipAll.apply this, xss]
 
-exports.compose = compose = (...funcs) ->
+export compose = (...funcs) ->
   ->
     args = arguments
     for f in funcs
       args = [f.apply this, args]
     args.0
 
-exports.curry = curry = (f) ->
+export curry = (f) ->
   curry$ f # using util method curry$ from livescript
 
-exports.id = id = (x) -> x
+export id = (x) -> x
 
-exports.flip = flip = (f, x, y) --> f y, x
+export flip = (f, x, y) --> f y, x
 
-exports.fix = fix = (f) ->
+export fix = (f) ->
   ( (g, x) -> -> f(g g) ...arguments ) do
     (g, x) -> -> f(g g) ...arguments
 
-exports.lines = lines = (str) ->
+export lines = (str) ->
   return [] if not str.length
   str / \\n
 
-exports.unlines = unlines = (strs) -> strs * \\n
+export unlines = (strs) -> strs * \\n
 
-exports.words = words = (str) ->
+export words = (str) ->
   return [] if not str.length
   str / /[ ]+/
 
-exports.unwords = unwords = (strs) -> strs * ' '
+export unwords = (strs) -> strs * ' '
 
-exports.max = max = (>?)
+export max = (>?)
 
-exports.min = min = (<?)
+export min = (<?)
 
-exports.negate = negate = (x) -> -x
+export negate = (x) -> -x
 
-exports.abs = abs = Math.abs
+export abs = Math.abs
 
-exports.signum = signum = (x) ->
+export signum = (x) ->
   | x < 0     => -1
   | x > 0     =>  1
   | otherwise =>  0
 
-exports.quot = quot = (x, y) --> ~~(x / y)
+export quot = (x, y) --> ~~(x / y)
 
-exports.rem = rem = (x, y) --> x % y
+export rem = (%)
 
-exports.div = div = (x, y) --> Math.floor x / y
+export div = (x, y) --> Math.floor x / y
 
-exports.mod = mod = (x, y) --> x %% y
+export mod = (%%)
 
-exports.recip = recip = (x) -> 1 / x
+export recip = (1 /)
 
-exports.pi = pi = Math.PI
+export pi = Math.PI
 
-exports.tau = tau = pi * 2
+export tau = pi * 2
 
-exports.exp = exp = Math.exp
+export exp = Math.exp
 
-exports.sqrt = sqrt = Math.sqrt
+export sqrt = Math.sqrt
 
 # changed from log as log is a
 # common function for logging things
-exports.ln = ln = Math.log
+export ln = Math.log
 
-exports.pow = pow = (^)
+export pow = (^)
 
-exports.sin = sin = Math.sin
+export sin = Math.sin
 
-exports.tan = tan = Math.tan
+export tan = Math.tan
 
-exports.cos = cos = Math.cos
+export cos = Math.cos
 
-exports.asin = asin = Math.asin
+export asin = Math.asin
 
-exports.acos = acos = Math.acos
+export acos = Math.acos
 
-exports.atan = atan = Math.atan
+export atan = Math.atan
 
-exports.atan2 = atan2 = (x, y) --> Math.atan2 x, y
+export atan2 = (x, y) --> Math.atan2 x, y
 
 # sinh
 # tanh
@@ -390,21 +385,21 @@ exports.atan2 = atan2 = (x, y) --> Math.atan2 x, y
 # atanh
 # acosh
 
-exports.truncate = truncate = (x) -> ~~x
+export truncate = (x) -> ~~x
 
-exports.round = round = Math.round
+export round = Math.round
 
-exports.ceiling = ceiling = Math.ceil
+export ceiling = Math.ceil
 
-exports.floor = floor = Math.floor
+export floor = Math.floor
 
-exports.isItNaN = isItNaN = (x) -> x isnt x
+export isItNaN = (x) -> x isnt x
 
-exports.even = even = (x) -> x % 2 == 0
+export even = (x) -> x % 2 == 0
 
-exports.odd = odd = (x) -> x % 2 != 0
+export odd = (x) -> x % 2 != 0
 
-exports.gcd = gcd = (x, y) -->
+export gcd = (x, y) -->
   x = Math.abs x
   y = Math.abs y
   until y is 0
@@ -413,13 +408,13 @@ exports.gcd = gcd = (x, y) -->
     y = z
   x
 
-exports.lcm = lcm = (x, y) -->
+export lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
 
 # meta
-exports.installPrelude = !(target) ->
-  unless target.prelude?.isInstalled
-    target <<< exports
-    target.prelude.isInstalled = true
+export installPrelude = !(target) ->
+  unless target.prelude?isInstalled
+    target <<< out$ # using out$ generated by livescript
+    target <<< target.prelude.isInstalled = true
 
-exports.prelude = exports
+export prelude = out$
