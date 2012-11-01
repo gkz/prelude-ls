@@ -1,0 +1,10 @@
+{
+  "name": "Prelude-LS",
+  "version": "0.6.0",
+  "main": "prelude.js",
+  "dependencies": {
+    "jquery-ui": "latest",
+    "bootstrap": "latest",
+    "datatables": "latest"
+  }
+}
