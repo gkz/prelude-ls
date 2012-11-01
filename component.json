@@ -1,5 +1,5 @@
 {
-  "name": "Prelude-LS",
+  "name": "prelude-ls",
   "version": "0.6.0",
   "main": "prelude.js",
   "dependencies": {
