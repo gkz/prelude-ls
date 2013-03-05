@@ -101,10 +101,10 @@ export len = (xs) ->
   xs.length
 
 export cons = (x, xs) -->
-  if typeof! xs is \String then x + xs else [x] +++ xs
+  if typeof! xs is \String then x + xs else [x] ++ xs
 
 export append = (xs, ys) -->
-  if typeof! ys is \String then xs + ys else xs +++ ys
+  if typeof! ys is \String then xs + ys else xs ++ ys
 
 export join = (sep, xs) -->
   xs = values xs if typeof! xs is \Object
@@ -132,7 +132,7 @@ export foldr1 = (f, xs) -->
 
 export unfoldr = export unfold = (f, b) -->
   if (f b)?
-    [that.0] +++ unfoldr f, that.1
+    [that.0] ++ unfoldr f, that.1
   else
     []
 
@@ -213,8 +213,8 @@ export minimum = (xs) -> fold1 (<?), xs
 export scan = export scanl = (f, memo, xs) -->
   last = memo
   if typeof! xs is \Object
-  then [memo] +++ [last = f last, x for , x of xs]
-  else [memo] +++ [last = f last, x for x in xs]
+  then [memo] ++ [last = f last, x for , x of xs]
+  else [memo] ++ [last = f last, x for x in xs]
 
 export scan1 = export scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
 
