@@ -1,10 +1,10 @@
 # each
-ok isEmptyList each ->, []
+ok is-empty-list each ->, []
 eq '1,2' "#{ each (.pop!), [[1 5] [2 6]] }"
 
-testTarget = 0
-eq 'hello' each (-> ++testTarget), 'hello'
-eq 5 testTarget
+test-target = 0
+eq 'hello' each (-> ++test-target), 'hello'
+eq 5 test-target
 eq '' each (->), ''
 
 count = 4
@@ -12,51 +12,49 @@ each (-> count += it), {a: 1, b: 2, c: 3}
 eq 10 count
 
 # map
-ok isEmptyList map ->, []
-eq '2,3,4' "#{ map (+ 1), [1 2 3] }"
+ok is-empty-list map ->, []
+ok arr-eq [2 3 4] map (+ 1), [1 2 3]
 
-eq 'ABC' map (-> it.toUpperCase!), 'abc'
+eq 'ABC' map (.to-upper-case!), 'abc'
 
-obj = map (-> it * 2), {a:1, b:2}
-eq 2 obj.a
-eq 4 obj.b
+obj = map (* 2), {a:1, b:2}
+ok obj-eq {a:2, b:4} obj
 
-eq '1,2,3,4' "#{ map {one: 1, two: 2, three: 3, four: 4}, <[ one two three four ]> }"
+ok arr-eq [1, 2, 3, 4] map {one: 1, two: 2, three: 3, four: 4}, <[ one two three four ]>
 
 switches = map [\off \on], {power: 1, light: 0}
-eq \on  switches.power 
-eq \off switches.light
+ok obj-eq {power: \on, light: \off} switches
 
-# filter 
-ok isEmptyList filter id, []
-eq '2,4' "#{ filter even, [1 to 5] }"
+# filter
+ok is-empty-list filter id, []
+ok arr-eq [2, 4] filter even, [1 to 5]
 
-eq 'abcc' filter (-> it in [\a to \c]), 'abcdefcf'
+eq 'abcc' filter (in [\a to \c]), 'abcdefcf'
+obj = filter (== 2), {a:1, b:2}
+ok obj-eq {b: 2} obj
 
-obj = filter (==2), {a:1, b:2}
-eq 2 obj.b
-ok obj.a!?
+# compact
+ok is-empty-list compact id, []
+ok arr-eq [1 true 'ha'] compact [0 1 false true '' 'ha']
 
 # reject
-eq '1,3,5' "#{ reject even, [1 to 5] }"
+ok arr-eq [1 3 5] reject even, [1 to 5]
 
-eq 'deff' reject (-> it in [\a to \c]), 'abcdefcf'
+eq 'deff' reject (in [\a to \c]), 'abcdefcf'
 
 obj = reject (==2), {a:1, b:2}
-eq 1 obj.a
-ok obj.b!?
+ok obj-eq {a: 1} obj
 
 # partition
 [passed, failed] = partition (>60), [49 58 76 43 88 77 90]
-eq '76,88,77,90' "#passed"
-eq '49,58,43'    "#failed"
+ok arr-eq [76 88 77 90] passed
+ok arr-eq [49 58 43]    failed
 
-[isTwo, notTwo] = partition (==2), {a:1, b:2, c:3}
-eq 2 isTwo.b 
-eq 1 notTwo.a
-eq 3 notTwo.c
+[is-two, not-two] = partition (==2), {a:1, b:2, c:3}
+ok obj-eq {b: 2} is-two
+ok obj-eq {a: 1, c: 3} not-two
 
-eq 'abcc,deff' "#{partition (-> it in [\a to \c]), 'abcdefcf'}"
+ok arr-eq ['abcc', 'deff'] partition (-> it in [\a to \c]), 'abcdefcf'
 
 # find
 eq 4 find even, [3 1 4 8 6]
@@ -71,31 +69,31 @@ string = 'abcde'
 
 # head
 eq 1 head list
-ok (head [])!?
+ok not (head [])?
 
 eq 'a' head string
-ok (head '')!?
+ok not (head '')?
 
 # tail
-eq '2,3,4,5' "#{ tail list }"
-ok (tail [])!?
+ok arr-eq [2 3 4 5] tail list
+ok not (tail [])?
 
 eq 'bcde' tail string
-ok (tail '')!?
+ok not (tail '')?
 
 # last
 eq 5 last list
-ok (last [])!?
+ok not (last [])?
 
 eq 'e' last string
-ok (last '')!?
+ok not (last '')?
 
 # initial
-eq '1,2,3,4' "#{ initial list }"
-ok (initial [])!?
+ok arr-eq [1 2 3 4] initial list
+ok not (initial [])?
 
 eq 'abcd' initial string
-ok (initial '')!?
+ok not (initial '')?
 
 # empty
 ok empty []
@@ -108,11 +106,11 @@ ok empty ''
 ok not empty '1'
 
 # values
-eq '1,2,3' "#{ values sadf: 1, asdf: 2, fdas: 3 }"
+ok arr-eq [1 2 3] values sadf: 1, asdf: 2, fdas: 3
 
 # keys
-eq 'sadf,asdf,fdas' "#{ keys sadf: 1, asdf: 2, fdas: 3 }"
-eq '0,1,2' "#{ keys [1 2 3] }"
+ok arr-eq <[ sadf asdf fdas ]> keys sadf: 1, asdf: 2, fdas: 3
+ok arr-eq <[ 0 1 2 ]> keys [1 2 3]
 
 # length
 eq 5 len list
@@ -124,28 +122,52 @@ eq 0 len {}
 eq 4 len 'abcd'
 eq 0 len ''
 
-# cons 
-eq '1,2,3' "#{ cons 1 [2 3] }"
-eq '4,5' "#{ cons 4 5 }"
-
-eq 'abc' cons \a 'bc'
-
-# append
-eq '1,2,3,4' "#{ append [1 2] [3 4] }"
-eq '1,2,3' "#{ append [1 2] 3 }"
-
-eq 'abcdef' append 'abc' 'def'
-
 # join
 eq '1,2,3' join \, [1 2 3]
 
+# split
+ok arr-eq <[ 1 2 3 ]> split '|' '1|2|3'
+
 # reverse
-eq '5,4,3,2,1' "#{ reverse list }"
-eq '1,2,3,4,5' "#{ list }" # list is unmodified
-ok isEmptyList reverse []
+ok arr-eq [5 4 3 2 1] reverse list
+ok arr-eq [1 2 3 4 5] list # list is unmodified
+ok is-empty-list reverse []
 
 eq 'dcba' reverse 'abcd'
 eq ''     reverse ''
+
+# difference
+ok arr-eq [1 3 4] difference [[1 2 3 4 5] [5 2 10] [9]]
+ok is-empty-list difference [[] [] []]
+ok arr-eq [1 2 3] difference [[1 2 3] []]
+
+# intersection
+ok arr-eq [1 2] intersection [[1 2 3] [101 2 1 10] [2 1] [-1 0 1 2]]
+ok is-empty-list intersection [[] [] []]
+ok is-empty-list intersection [[2 3] [9 8] [12 1] [99]]
+
+# union
+ok arr-eq [1 5 7 3] union [[1 5 7] [3 5] []]
+ok is-empty-list union [[] []]
+ok is-empty-list union []
+
+# count-by
+ok obj-eq {4: 1, 6: 2} count-by floor, [4.2, 6.1, 6.4]
+ok obj-eq {3: 2, 5: 1} count-by (.length), <[ one two three ]>
+ok is-empty-object count-by id, []
+
+# group-by
+grouped = group-by floor, [4.2, 6.1, 6.4]
+ok 2 is len grouped
+ok arr-eq grouped.4, [4.2]
+ok arr-eq grouped.6, [6.1 6.4]
+
+grouped = group-by (.length), <[ one two three ]>
+ok 2 is len grouped
+ok arr-eq grouped.3, <[ one two ]>
+ok arr-eq grouped.5, <[ three ]>
+
+ok is-empty-object group-by id, []
 
 # fold
 eq 12 fold (+), 0, [1 2 3 6]
@@ -167,17 +189,17 @@ eq -1 foldr (-), 9, [1 2 3 4]
 eq -1 foldr1 (-), [1 2 3 4 9]
 
 # unfoldr
-eq '10,9,8,7,6,5,4,3,2,1' "#{ unfoldr (-> if it == 0 then null else [it, it - 1]), 10 }"
+ok arr-eq [10,9,8,7,6,5,4,3,2,1] unfoldr (-> if it == 0 then null else [it, it - 1]), 10
 
-# andTest
-ok andList [true, 2 + 2 == 4]
-ok not andList [true true false true]
-ok andList []
+# and-list
+ok and-list [true, 2 + 2 == 4]
+ok not and-list [true true false true]
+ok and-list []
 
-# orTest
-ok orList [false false false true false]
-ok not orList [false, 2 + 2 == 3]
-ok not orList []
+# or-list
+ok or-list [false false false true false]
+ok not or-list [false, 2 + 2 == 3]
+ok not or-list []
 
 # any
 ok any even, [1 4 3]
@@ -198,26 +220,35 @@ ok not all (== \M), 'MMMmMM'
 ok all (== \M), ''
 
 # unique
-eq '1,2,3,4,5,6' "#{ unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6] }"
+ok arr-eq [1,2,3,4,5,6] unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6]
 
-eq '2,3' "#{  unique {a: 2, b: 3, c: 2} }"
+ok arr-eq [2 3] unique a: 2, b: 3, c: 2
 
 eq 'abcd' unique 'aaabbbcccdd'
-
-# sort
-eq '1,2,3,4,5,6' "#{ sort [3 1 5 2 4 6] }"
-eq '2,5,6,12,334,4999' "#{ sort [334 12 5 2 4999 6] }"
-ok isEmptyList sort []
-
-# sortBy
-obj = one: 1, two: 2, three: 3
-eq 'one,two,three' "#{ sortBy (compare (obj.)), <[ three one two ]> }"
-ok isEmptyList sortBy ->, []
 
 # compare
 eq -1 (compare (.length), [1 to 3], [0 to 5])
 eq  1 (compare (.length), [1 to 9], [0 to 5])
 eq  0 (compare (.length), [1 to 4], [4 to 7])
+
+# sort
+ok arr-eq [1,2,3,4,5,6] sort [3 1 5 2 4 6]
+ok arr-eq [2,5,6,12,334,4999] sort [334 12 5 2 4999 6]
+ok is-empty-list sort []
+
+# sort-with
+obj = one: 1, two: 2, three: 3
+ok arr-eq ['one','two','three'] sort-with (compare (obj.)), <[ three one two ]>
+ok is-empty-list sort-with ->, []
+
+# sort-by
+arr =
+  [1 2 3]
+  [4]
+  [5 6 7 8]
+  [9 10]
+ok arr-eq [4,9,10,1,2,3,5,6,7,8] flatten sort-by (.length), arr
+ok is-empty-list sort-by ->, []
 
 # sum
 eq 10 sum [1 2 3 4]
@@ -235,25 +266,24 @@ eq 1  product {}
 
 # mean
 eq 4 mean [2 3 4 5 6]
-ok isItNaN mean []
+ok is-it-NaN mean []
 
 eq 4 mean {a: 2, b: 3, c: 4, d: 5, e: 6}
 
 # concat
-eq '1,2,3,4,5,6' "#{ concat [[1 2] [3 4] [5 6]] }"
-ok isEmptyList concat []
+ok arr-eq [1,2,3,4,5,6] concat [[1 2] [3 4] [5 6]]
+ok is-empty-list concat []
 
-eq 'aabbccdd' concat ['aa' 'bb' 'cc' 'dd']
+# concat-map
+ok arr-eq [1,1,2,1,2,3] concat-map (-> [1 to it]), [1 2 3]
+ok is-empty-list concat-map ->, []
 
-# concatMap
-eq '1,1,2,1,2,3' "#{ concatMap (-> [1 to it]), [1 2 3] }"
-ok isEmptyList concatMap ->, []
-
-eq 'AABBCCDD' concatMap (-> it.toUpperCase!), ['aa' 'bb' 'cc' 'dd']
+# flatten
+ok arr-eq [1,2,3,4,5] flatten [1, [[2], 3], [4, [[5]]]]
 
 # maximum
 eq 6 maximum [1 2 6 4 5]
-ok (maximum [])!?
+ok not (maximum [])?
 
 eq \f maximum [\a to \f]
 
@@ -261,131 +291,124 @@ eq \f maximum [\a to \f]
 eq 2 minimum [4 3 2 6 9]
 
 eq \a minimum [\a to \f]
-ok (minimum [])!?
+ok not (minimum [])?
 
 # scan
-eq '4,9,20,43' "#{ scan ((x, y) -> 2 * x + y), 4, [1 2 3] }"
+ok arr-eq [4,9,20,43] scan ((x, y) -> 2 * x + y), 4, [1 2 3]
 eq 1 (res = scan (+), 0, []).length
 eq '0' "#res"
 
 # scan1
-eq '1,3,6,10' "#{ scan1 (+), [1 2 3 4] }"
+ok arr-eq [1,3,6,10] scan1 (+), [1 2 3 4]
 
 # scanr
-eq '15,14,12,9,5' "#{ scanr (+), 5, [1 2 3 4] }"
+ok arr-eq [15,14,12,9,5] scanr (+), 5, [1 2 3 4]
 
 # scanr1
-eq '10,9,7,4' "#{ scanr1 (+), [1 2 3 4] }"
+ok arr-eq [10,9,7,4] scanr1 (+), [1 2 3 4]
 
 # replicate
-eq '3,3,3,3' "#{ replicate 4 3 }"
-ok isEmptyList replicate 0 0
+ok arr-eq [3,3,3,3] replicate 4 3
+ok is-empty-list replicate 0 0
 
-eq 'a,a,a,a' "#{ replicate 4 \a }"
-ok isEmptyList replicate 0 \a
+ok arr-eq <[ a a a a ]> replicate 4 \a
+ok is-empty-list replicate 0 \a
 
 # take
-eq '1,2,3' "#{ take 3 [1 2 3 4 5] }"
-ok isEmptyList take 3 []
-ok isEmptyList take -1 [1 to 5]
+ok arr-eq [1,2,3] take 3 [1 2 3 4 5]
+ok is-empty-list take 3 []
+ok is-empty-list take -1 [1 to 5]
 
 eq 'ab' take 2 string
 eq ''   take 3 ''
 eq ''   take 0 string
 
 # drop
-eq '4,5' "#{ drop 3 [1 2 3 4 5] }"
-ok isEmptyList drop 3 []
-ok '1,2,3,4,5' "#{ drop 0 [1 to 5] }"
+ok arr-eq [4,5] drop 3 [1 2 3 4 5]
+ok is-empty-list drop 3 []
+ok arr-eq [1,2,3,4,5] drop 0 [1 to 5]
 
-eq 'cde' drop 2 string
-eq ''    drop 2 ''
+eq 'cde'   drop 2 string
+eq ''      drop 2 ''
 eq 'abcde' drop 0 string
 
-# splitAt
-eq '1,2,3|4,5' "#{ splitAt 3, [1 2 3 4 5] .join \| }"
-eq 2 (res = splitAt 3 []).length
-ok isEmptyList res.0
-ok isEmptyList res.1
+# split-at
+eq '1,2,3|4,5' "#{ split-at 3, [1 2 3 4 5] .join \| }"
+eq 2 (res = split-at 3 []).length
+ok is-empty-list res.0
+ok is-empty-list res.1
 
-eq 'abc|de' "#{ splitAt 3, 'abcde' .join \| }"
-eq 2 (res = splitAt 3 '').length
+eq 'abc|de' "#{ split-at 3, 'abcde' .join \| }"
+eq 2 (res = split-at 3 '').length
 eq '' res.0
 eq '' res.1
 
-# takeWhile
-eq '1,3,5' "#{ takeWhile odd, [1 3 5 4 8 7 9] }"
-ok isEmptyList takeWhile odd, []
+# take-while
+ok arr-eq [1,3,5] takeWhile odd, [1 3 5 4 8 7 9]
+ok is-empty-list takeWhile odd, []
 
 eq 'mmmmm' takeWhile (is 'm'), 'mmmmmhmm'
 eq '' takeWhile (is 'm'), ''
 
-# dropWhile
-eq '7,9,10' "#{ dropWhile even, [2 4 6 7 9 10] }"
-ok isEmptyList dropWhile odd, []
+# drop-while
+ok arr-eq [7,9,10] drop-while even, [2 4 6 7 9 10]
+ok is-empty-list drop-while odd, []
 
-eq 'hmm' dropWhile (is \m), 'mmmmmhmm'
-eq '' dropWhile (is \m), ''
+eq 'hmm' drop-while (is \m), 'mmmmmhmm'
+eq '' drop-while (is \m), ''
 
 # span
 eq '2,4,6|7,9,10' "#{ span even, [2 4 6 7 9 10] .join \|}"
 eq 2 (res = span even, []).length
-ok isEmptyList res.0
-ok isEmptyList res.1
+ok is-empty-list res.0
+ok is-empty-list res.1
 
 eq 'mmmmm|hmm' "#{ span (is \m), 'mmmmmhmm' .join \|}"
 eq 2 (res = span (is \m), '').length
 eq '' res.0
 eq '' res.1
 
-# breakIt
-eq '1,2|3,4,5' "#{ breakIt (== 3), [1 2 3 4 5] .join \|}"
-eq 2 (res = breakIt even, []).length
-ok isEmptyList res.0
-ok isEmptyList res.1
+# break-it
+eq '1,2|3,4,5' "#{ break-it (== 3), [1 2 3 4 5] .join \|}"
+eq 2 (res = break-it even, []).length
+ok is-empty-list res.0
+ok is-empty-list res.1
 
-eq 'mmmmm|hmm' "#{ breakIt (== \h), 'mmmmmhmm' .join \|}"
-eq 2 (res = breakIt (== \h), '').length
+eq 'mmmmm|hmm' "#{ break-it (== \h), 'mmmmmhmm' .join \|}"
+eq 2 (res = break-it (== \h), '').length
 eq ''  res.0
 eq '' res.1
 
-# listToObj
-objEq {a: 'b', c: 'd', e: 1}, listToObj [['a' 'b'] ['c' 'd'] ['e' 1]]
-ok isEmptyObject listToObj []
+# list-to-obj
+ok obj-eq {a: 'b', c: 'd', e: 1}, list-to-obj [['a' 'b'] ['c' 'd'] ['e' 1]]
+ok is-empty-object list-to-obj []
 
-# objToFunc
-eq 2 (objToFunc {one: 1, two: 2})(\two)
+# obj-to-func
+eq 2 (obj-to-func {one: 1, two: 2})(\two)
 
 # zip
 eq '1,4|2,5' "#{ zip [1 2] [4 5] .join \| }"
-ok isEmptyList zip [] []
+ok is-empty-list zip [] []
 
-# zipWith
-eq '4,4,4' "#{ zipWith (+), [1 2 3], [3 2 1] }"
-ok isEmptyList zipWith id, [], []
+# zip-with
+ok arr-eq [4,4,4] zip-with (+), [1 2 3], [3 2 1]
+ok is-empty-list zip-with id, [], []
 
-# zipAll
-eq '1,4,7|2,5,8|3,6,9' "#{ zipAll [1 2 3] [4 5 6] [7 8 9] .join \| }"
-ok isEmptyList zipAll [] []
+# zip-all
+eq '1,4,7|2,5,8|3,6,9' "#{ zip-all [1 2 3] [4 5 6] [7 8 9] .join \| }"
+ok is-empty-list zip-all [] []
 
-# zipAllWith
-eq '5,5,5' "#{ zipAllWith (-> &0 + &1 + &2), [1 2 3], [3 2 1], [1 1 1] }"
-ok isEmptyList zipAllWith id, [], []
-
-# compose
-addTwo = (x) -> x + 2
-timesTwo = (x) -> x * 2
-minusOne = (x) -> x - 1
-composed = compose addTwo, timesTwo, minusOne
-eq 9, composed 3
+# zip-all-with
+ok arr-eq [5,5,5] zip-all-with (-> &0 + &1 + &2), [1 2 3], [3 2 1], [1 1 1]
+ok is-empty-list zip-all-with id, [], []
 
 # curry
 add = (x, y) -> x + y
-addCurried = curry add
-addFour = addCurried 4
-eq 6 addFour 2
+add-curried = curry add
+add-four = add-curried 4
+eq 6 add-four 2
 
-# id 
+# id
 eq 5 id 5
 
 # flip
@@ -402,20 +425,28 @@ eq 89 (fix (fib) -> (n, minus=0) ->
   | otherwise        => fib(n, minus+1) + fib(n, minus+2))(10)
 
 # lines
-eq 'one|two|three' "#{ lines 'one\ntwo\nthree' .join \| }"
-ok isEmptyList lines ''
+ok arr-eq <[ one two three ]> lines 'one\ntwo\nthree'
+ok is-empty-list lines ''
 
 # unlines
 eq 'one\ntwo\nthree' unlines [\one \two \three]
 eq '' unlines []
 
 # words
-eq 'what|is|this' "#{ words 'what is this' .join \| }"
-ok isEmptyList words '' 
-eq 'what|is|this' "#{ words 'what   is  this' .join \| }"
+ok arr-eq <[ what is this ]> words 'what is this'
+ok is-empty-list words ''
+ok arr-eq <[ what is this ]> words 'what   is  this'
 
 # unwords
 eq 'what is this' unwords [\what \is \this]
+eq '' unwords []
+
+# chars
+ok arr-eq <[ h e l l o ]> chars 'hello'
+ok is-empty-list words ''
+
+# unchars
+eq 'there' unchars ['t', 'h', 'e', 'r', 'e']
 eq '' unwords []
 
 # max
@@ -519,9 +550,9 @@ eq 1 ceiling 0.1
 # floor
 eq 0 floor 0.9
 
-# isItNaN
-ok isItNaN Math.sqrt -1
-ok not isItNaN '0'
+# is-it-NaN
+ok is-it-NaN Math.sqrt -1
+ok not is-it-NaN '0'
 
 # even
 ok even -2
@@ -539,16 +570,38 @@ eq 6 gcd 12 18
 # lcm
 eq 36 lcm 12 18
 
+
+## util
+
+ok is-empty-list []
+ok not is-empty-list [1]
+
+ok arr-eq [1 2] [1 2]
+ok not arr-eq [2 1] [1 2]
+
+ok is-empty-object {}
+ok not is-empty-object {a: 1}
+
+ok obj-eq {a: 1, b: 2} {b: 2, a: 1}
+ok not obj-eq {a: 1} {a: 1, b: 2}
+
 # functions for testing
-function isEmptyList(x)
-  '[object Array]' is {}.toString.call x and not x.length
+function is-empty-list x
+  typeof! x is 'Array' and not x.length
 
-function objEq(xs, ys)
+function arr-eq xs, ys
+  return false unless xs.length is ys.length
+  for x, i in xs
+    return false unless x is ys[i]
+  true
+
+function obj-eq xs, ys
   for xk, xv of xs
-    for yk, yv of ys
-      return no if xk isnt yk or xv isnt yv
-  yes
+    return false unless xk of ys and xv is ys[xk]
+  for yk of ys
+    return false unless yk of xs
+  true
 
-function isEmptyObject(xs)
-  for x of xs then return no
-  yes
+function is-empty-object xs
+  for x of xs then return false
+  true

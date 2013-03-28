@@ -1,12 +1,11 @@
-# This is low level LiveScript - this is not an 
-# example of how you should write LiveScript. 
+# This is low level LiveScript - this is not an
+# example of how you should write LiveScript.
 # Code reuse has taken a back seat to performance,
-# because the functions in this libaray will be 
+# because the functions in this libaray will be
 # called often, and the code here, once set, will
-# not change often. 
+# not change often.
 
-export objToFunc = objToFunc = (obj) ->
-  (key) -> obj[key]
+export obj-to-func = (obj) -> (obj.)
 
 export each = (f, xs) -->
   if typeof! xs is \Object
@@ -16,34 +15,43 @@ export each = (f, xs) -->
   xs
 
 export map = (f, xs) -->
-  f = objToFunc f if typeof! f isnt \Function
+  f = obj-to-func f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
     {[key, f x] for key, x of xs}
   else
     result = [f x for x in xs]
-    if type is \String then result * '' else result
+    if type is \String then result.join '' else result
 
 export filter = (f, xs) -->
-  f = objToFunc f if typeof! f isnt \Function
+  f = obj-to-func f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
     {[key, x] for key, x of xs when f x}
   else
     result = [x for x in xs when f x]
-    if type is \String then result * '' else result
+    if type is \String then result.join '' else result
+
+export compact = (xs) -->
+  f = obj-to-func f if typeof! f isnt \Function
+  type = typeof! xs
+  if type is \Object
+    {[key, x] for key, x of xs when x}
+  else
+    result = [x for x in xs when x]
+    if type is \String then result.join '' else result
 
 export reject = (f, xs) -->
-  f = objToFunc f if typeof! f isnt \Function
+  f = obj-to-func f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
     {[key, x] for key, x of xs when not f x}
   else
     result = [x for x in xs when not f x]
-    if type is \String then result * '' else result
+    if type is \String then result.join '' else result
 
 export partition = (f, xs) -->
-  f = objToFunc f if typeof! f isnt \Function
+  f = obj-to-func f if typeof! f isnt \Function
   type = typeof! xs
   if type is \Object
     passed = {}
@@ -54,14 +62,14 @@ export partition = (f, xs) -->
     passed = []
     failed = []
     for x in xs
-      (if f x then passed else failed)push x
+      (if f x then passed else failed).push x
     if type is \String
       passed *= ''
       failed *= ''
   [passed, failed]
 
 export find = (f, xs) -->
-  f = objToFunc f if typeof! f isnt \Function
+  f = obj-to-func f if typeof! f isnt \Function
   if typeof! xs is \Object
     for , x of xs when f x then return x
   else
@@ -69,20 +77,20 @@ export find = (f, xs) -->
   void
 
 export head = export first = (xs) ->
-  return void if not xs.length
+  return void unless xs.length
   xs.0
 
 export tail = (xs) ->
-  return void if not xs.length
+  return void unless xs.length
   xs.slice 1
 
 export last = (xs) ->
-  return void if not xs.length
+  return void unless xs.length
   xs[*-1]
 
 export initial = (xs) ->
-  return void if not xs.length
-  xs.slice 0 xs.length - 1
+  return void unless xs.length
+  xs.slice 0 (xs.length - 1)
 
 export empty = (xs) ->
   if typeof! xs is \Object
@@ -100,20 +108,74 @@ export len = (xs) ->
   xs = values xs if typeof! xs is \Object
   xs.length
 
-export cons = (x, xs) -->
-  if typeof! xs is \String then x + xs else [x] ++ xs
-
-export append = (xs, ys) -->
-  if typeof! ys is \String then xs + ys else xs ++ ys
-
 export join = (sep, xs) -->
   xs = values xs if typeof! xs is \Object
   xs.join sep
 
+export split = (sep, xs) -->
+  xs = values xs if typeof! xs is \Object
+  xs.split sep
+
 export reverse = (xs) ->
   if typeof! xs is \String
-  then (xs / '')reverse! * ''
-  else xs.slice!reverse!
+  then xs.split '' .reverse!.join ''
+  else xs.slice!.reverse!
+
+export unique = (xs) ->
+  result = []
+  if typeof! xs is \Object
+    for , x of xs when x not in result then result.push x
+  else
+    for x   in xs when x not in result then result.push x
+  if typeof! xs is \String then result.join '' else result
+
+export concat = (xss) -> fold (++), [], xss
+
+export concat-map = (f, xs) -->
+  map f, xs |> concat
+
+export flatten = (xs) -->
+  xs = values xs if typeof! xs is \Object
+  concat [(if typeof! x in <[ Array Arguments ]> then flatten x else x) for x in xs]
+
+export difference = ([xs, ...yss]) ->
+  results = []
+  :outer for x in xs
+    for ys in yss
+      continue outer if x in ys
+    results.push x
+  results
+
+export intersection = ([xs, ...yss]) ->
+  results = []
+  :outer for x in xs
+    for ys in yss
+      continue outer unless x in ys
+    results.push x
+  results
+
+export union = (xss) ->
+  unique concat xss
+
+export count-by = (f, xs) -->
+  results = {}
+  for x in xs
+    key = f x
+    if key of results
+      results[key] += 1
+    else
+      results[key] = 1
+  results
+
+export group-by = (f, xs) -->
+  results = {}
+  for x in xs
+    key = f x
+    if key of results
+      results[key].push x
+    else
+      results[key] = [x]
+  results
 
 export fold = export foldl = (f, memo, xs) -->
   if typeof! xs is \Object
@@ -124,62 +186,58 @@ export fold = export foldl = (f, memo, xs) -->
 
 export fold1 = export foldl1 = (f, xs) --> fold f, xs.0, xs.slice 1
 
-export foldr = (f, memo, xs) --> fold f, memo, xs.slice!reverse!
+export foldr = (f, memo, xs) --> fold f, memo, xs.slice!.reverse!
 
 export foldr1 = (f, xs) -->
-  xs.=slice!reverse!
+  xs.=slice!.reverse!
   fold f, xs.0, xs.slice 1
 
 export unfoldr = export unfold = (f, b) -->
   if (f b)?
-    [that.0] ++ unfoldr f, that.1
+    [that.0] ++ (unfoldr f, that.1)
   else
     []
 
-export andList = (xs) ->
+export and-list = (xs) ->
   for x in xs when not x
     return false
   true
 
-export orList = (xs) ->
+export or-list = (xs) ->
   for x in xs when x
     return true
   false
 
 export any = (f, xs) -->
-  f = objToFunc f if typeof! f isnt \Function
+  f = obj-to-func f if typeof! f isnt \Function
   for x in xs when f x
     return yes
   no
 
 export all = (f, xs) -->
-  f = objToFunc f if typeof! f isnt \Function
+  f = obj-to-func f if typeof! f isnt \Function
   for x in xs when not f x
     return no
   yes
-
-export unique = (xs) ->
-  result = []
-  if typeof! xs is \Object
-    for , x of xs when x not in result then result.push x
-  else
-    for x   in xs when x not in result then result.push x
-  if typeof! xs is \String then result * '' else result
-
-export sort = (xs) ->
-  xs.concat!sort (x, y) ->
-    | x > y =>  1
-    | x < y => -1
-    | _     =>  0
-
-export sortBy = (f, xs) -->
-  return [] unless xs.length
-  xs.concat!sort f
 
 export compare = (f, x, y) -->
   | (f x) > (f y) =>  1
   | (f x) < (f y) => -1
   | otherwise     =>  0
+
+export sort = (xs) ->
+  xs.concat!.sort (x, y) ->
+    | x > y =>  1
+    | x < y => -1
+    | _     =>  0
+
+export sort-with = (f, xs) -->
+  return [] unless xs.length
+  xs.concat!.sort f
+
+export sort-by = (f, xs) -->
+  return [] unless xs.length
+  xs.concat!.sort (compare f)
 
 export sum = (xs) ->
   result = 0
@@ -199,11 +257,7 @@ export product = (xs) ->
 
 export mean = export average = (xs) -> (sum xs) / len xs
 
-export concat = (xss) -> fold append, [], xss
-
-export concatMap = (f, xs) --> fold ((memo, x) -> append memo, f x), [], xs
-
-export listToObj = (xs) ->
+export list-to-obj = (xs) ->
   {[x.0, x.1] for x in xs}
 
 export maximum = (xs) -> fold1 (>?), xs
@@ -219,11 +273,11 @@ export scan = export scanl = (f, memo, xs) -->
 export scan1 = export scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
 
 export scanr = (f, memo, xs) -->
-  xs.=slice!reverse!
+  xs.=slice!.reverse!
   scan f, memo, xs .reverse!
 
 export scanr1 = (f, xs) -->
-  xs.=slice!reverse!
+  xs.=slice!.reverse!
   scan f, xs.0, xs.slice 1 .reverse!
 
 export replicate = (n, x) -->
@@ -243,29 +297,29 @@ export drop = (n, xs) -->
   | not xs.length => xs
   | otherwise     => xs.slice n
 
-export splitAt = (n, xs) --> [(take n, xs), (drop n, xs)]
+export split-at = (n, xs) --> [(take n, xs), (drop n, xs)]
 
-export takeWhile = (p, xs) -->
-  return xs if not xs.length
-  p = objToFunc p if typeof! p isnt \Function
+export take-while = (p, xs) -->
+  return xs unless xs.length
+  p = obj-to-func p if typeof! p isnt \Function
   result = []
   for x in xs
-    break if not p x
+    break unless p x
     result.push x
-  if typeof! xs is \String then result * '' else result
+  if typeof! xs is \String then result.join '' else result
 
-export dropWhile = (p, xs) -->
-  return xs if not xs.length
-  p = objToFunc p if typeof! p isnt \Function
+export drop-while = (p, xs) -->
+  return xs unless xs.length
+  p = obj-to-func p if typeof! p isnt \Function
   i = 0
   for x in xs
-    break if not p x
+    break unless p x
     ++i
   drop i, xs
 
-export span = (p, xs) --> [(takeWhile p, xs), (dropWhile p, xs)]
+export span = (p, xs) --> [(take-while p, xs), (drop-while p, xs)]
 
-export breakIt = (p, xs) --> span (not) << p, xs
+export break-it = (p, xs) --> span (not) << p, xs
 
 export zip = (xs, ys) -->
   result = []
@@ -275,14 +329,14 @@ export zip = (xs, ys) -->
       result[j]?push z
   result
 
-export zipWith = (f,xs, ys) -->
-  f = objToFunc f if typeof! f isnt \Function
+export zip-with = (f,xs, ys) -->
+  f = obj-to-func f if typeof! f isnt \Function
   if not xs.length or not ys.length
     []
   else
     [f.apply this, zs for zs in zip.call this, xs, ys]
 
-export zipAll = (...xss) ->
+export zip-all = (...xss) ->
   result = []
   for xs, i in xss
     for x, j in xs
@@ -290,19 +344,12 @@ export zipAll = (...xss) ->
       result[j]?push x
   result
 
-export zipAllWith = (f, ...xss) ->
-  f = objToFunc f if typeof! f isnt \Function
+export zip-all-with = (f, ...xss) ->
+  f = obj-to-func f if typeof! f isnt \Function
   if not xss.0.length or not xss.1.length
     []
   else
-    [f.apply this, xs for xs in zipAll.apply this, xss]
-
-export compose = (...funcs) ->
-  ->
-    args = arguments
-    for f in funcs
-      args = [f.apply this, args]
-    args.0
+    [f.apply this, xs for xs in zip-all.apply this, xss]
 
 export curry = (f) ->
   curry$ f # using util method curry$ from livescript
@@ -316,16 +363,20 @@ export fix = (f) ->
     (g, x) -> -> f(g g) ...arguments
 
 export lines = (str) ->
-  return [] if not str.length
+  return [] unless str.length
   str / \\n
 
-export unlines = (strs) -> strs * \\n
+export unlines = (.join '\n')
 
 export words = (str) ->
-  return [] if not str.length
+  return [] unless str.length
   str / /[ ]+/
 
-export unwords = (strs) -> strs * ' '
+export unwords = (.join ' ')
+
+export chars = (.split '')
+
+export unchars = (.join '')
 
 export max = (>?)
 
@@ -393,7 +444,7 @@ export ceiling = Math.ceil
 
 export floor = Math.floor
 
-export isItNaN = (x) -> x isnt x
+export is-it-NaN = (x) -> x isnt x
 
 export even = (x) -> x % 2 == 0
 
@@ -412,9 +463,9 @@ export lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
 
 # meta
-export installPrelude = !(target) ->
-  unless target.prelude?isInstalled
+export install-prelude = !(target) ->
+  unless target.prelude?is-installed
     target <<< out$ # using out$ generated by livescript
-    target <<< target.prelude.isInstalled = true
+    target <<< target.prelude.is-installed = true
 
 export prelude = out$

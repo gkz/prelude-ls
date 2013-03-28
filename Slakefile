@@ -37,8 +37,8 @@ build = ({browser, min} || {}) ->
     }();
     """
   slobber "#{name}.js" """
-    // prelude.ls 0.6.0
-    // Copyright (c) 2012 George Zahariev
+    // prelude.ls 0.7.0-dev
+    // Copyright (c) 2013 George Zahariev
     // Released under the MIT License
     // raw.github.com/gkz/prelude-ls/master/LICNSE
     #{ if min then minify js else js}
@@ -67,7 +67,10 @@ function runTests
   global <<<
     eq: strictEqual
     throws: (msg, fun) ->
-      try do fun catch return eq e?message, msg
+      try
+        fun!
+      catch
+        return eq e?message, msg
       ok false "should throw: #msg"
   process.on \exit ->
     time = ((Date.now! - startTime) / 1e3)toFixed 2

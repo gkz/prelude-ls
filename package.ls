@@ -1,10 +1,13 @@
 name    : \prelude-ls
-version : \0.6.0
+version : \0.7.0-dev
 
-description : "prelude.ls is a JavaScript functional programming library. It is the recommended base library for, and is written in, LiveScript. It is based off of Haskell's Prelude module."
+description : "prelude.ls is a JavaScript functional programming library. It is the recommended base library for, and is written in, LiveScript. It is inspired in part by Haskell's Prelude module, and other utility libraries."
 keywords    :
   \library
   \prelude
+  \functional
+  \array
+  \utility
   \livescript
   \ls
   \coffeescript
@@ -26,5 +29,9 @@ files       :
   \LICENSE
 
 main : \./prelude.js
+
+dev-dependencies:
+  LiveScript: '~1.1.1'
+  'uglify-js': '~1.3.0'
 
 repository: type: \git, url: \git://github.com/gkz/prelude-ls.git

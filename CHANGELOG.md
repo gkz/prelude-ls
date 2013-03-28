@@ -1,3 +1,10 @@
+# 0.7.0
+* added `compact`, `split`, `flatten`, `difference`, `intersection`, `union`, `count-by`, `group-by`, `chars`, `unchars`
+* removed `cons`, `append`, `compose`
+* `sort-by` renamed `sort-with`
+* added new `sort-by`
+* fixed up style and compiled with LiveScript 1.1.1
+
 # 0.6.0
 * fixed various bugs
 * added `fix`, a fixpoint (Y combinator) for anonymous recursive functions
