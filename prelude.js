@@ -2,7 +2,7 @@
 // Copyright (c) 2013 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, each, map, filter, compact, reject, partition, find, head, first, tail, last, initial, empty, values, keys, len, join, split, reverse, unique, concat, concatMap, flatten, difference, intersection, union, countBy, groupBy, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, unfold, andList, orList, any, all, compare, sort, sortWith, sortBy, sum, product, mean, average, listToObj, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, zipAll, zipAllWith, curry, id, flip, fix, lines, unlines, words, unwords, chars, unchars, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, installPrelude, prelude, out$ = typeof exports != 'undefined' && exports || this, toString$ = {}.toString, join$ = [].join, slice$ = [].slice, split$ = ''.split;
+var objToFunc, each, map, filter, compact, reject, partition, find, head, first, tail, last, initial, empty, values, keys, len, join, split, reverse, unique, concat, flatten, difference, intersection, union, countBy, groupBy, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, unfold, concatMap, andList, orList, any, all, compare, sort, sortWith, sortBy, sum, product, mean, average, listToObj, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, zipAll, zipAllWith, curry, id, flip, fix, lines, unlines, words, unwords, chars, unchars, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, installPrelude, prelude, out$ = typeof exports != 'undefined' && exports || this, toString$ = {}.toString, join$ = [].join, slice$ = [].slice, split$ = ''.split;
 out$.objToFunc = objToFunc = function(obj){
   return function(it){
     return obj[it];
@@ -290,10 +290,6 @@ out$.concat = concat = function(xss){
     return x$.concat(y$);
   }), [], xss);
 };
-out$.concatMap = concatMap = curry$(function(f, xs){
-  return concat(
-  map(f, xs));
-});
 out$.flatten = flatten = curry$(function(xs){
   var x;
   if (toString$.call(xs).slice(8, -1) === 'Object') {
@@ -407,6 +403,11 @@ out$.unfoldr = unfoldr = out$.unfold = unfold = curry$(function(f, b){
   } else {
     return [];
   }
+});
+out$.concatMap = concatMap = curry$(function(f, xs){
+  return fold(function(memo, x){
+    return memo.concat(f(x));
+  }, [], xs);
 });
 out$.andList = andList = function(xs){
   var i$, len$, x;

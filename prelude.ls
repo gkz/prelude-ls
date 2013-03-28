@@ -131,9 +131,6 @@ export unique = (xs) ->
 
 export concat = (xss) -> fold (++), [], xss
 
-export concat-map = (f, xs) -->
-  map f, xs |> concat
-
 export flatten = (xs) -->
   xs = values xs if typeof! xs is \Object
   concat [(if typeof! x in <[ Array Arguments ]> then flatten x else x) for x in xs]
@@ -197,6 +194,9 @@ export unfoldr = export unfold = (f, b) -->
     [that.0] ++ (unfoldr f, that.1)
   else
     []
+
+export concat-map = (f, xs) -->
+  fold ((memo, x) -> memo ++ f x), [], xs
 
 export and-list = (xs) ->
   for x in xs when not x
