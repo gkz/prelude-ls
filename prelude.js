@@ -2,7 +2,7 @@
 // Copyright (c) 2013 George Zahariev
 // Released under the MIT License
 // raw.github.com/gkz/prelude-ls/master/LICNSE
-var objToFunc, listToObj, each, map, filter, compact, reject, partition, find, head, first, tail, last, initial, empty, values, keys, len, join, reverse, unique, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, unfold, concat, concatMap, flatten, difference, intersection, union, countBy, groupBy, andList, orList, any, all, compare, sort, sortWith, sortBy, sum, product, mean, average, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, zip, zipWith, zipAll, zipAllWith, curry, id, flip, fix, split, lines, unlines, words, unwords, chars, unchars, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, prelude, exports, toString$ = {}.toString, join$ = [].join, slice$ = [].slice;
+var objToFunc, listToObj, each, map, filter, compact, reject, partition, find, head, first, tail, last, initial, empty, values, keys, len, join, reverse, unique, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, unfold, concat, concatMap, flatten, difference, intersection, union, countBy, groupBy, andList, orList, any, all, compare, sort, sortWith, sortBy, sum, product, mean, average, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakList, zip, zipWith, zipAll, zipAllWith, curry, id, flip, fix, split, lines, unlines, words, unwords, chars, unchars, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, prelude, toString$ = {}.toString, join$ = [].join, slice$ = [].slice;
 objToFunc = function(obj){
   return function(it){
     return obj[it];
@@ -945,6 +945,7 @@ prelude = {
   pow: pow,
   sin: sin,
   tan: tan,
+  cos: cos,
   acos: acos,
   asin: asin,
   atan: atan,
@@ -960,15 +961,8 @@ prelude = {
   lcm: lcm
 };
 prelude.prelude = prelude;
-prelude.installPrelude = function(target){
-  var ref$;
-  if (!((ref$ = target.prelude) != null && ref$.isInstalled)) {
-    import$(target, prelude);
-    import$(target, target.prelude.isInstalled = true);
-  }
-};
 if (typeof exports != 'undefined' && exports !== null) {
-  exports = prelude;
+  import$(exports, prelude);
 }
 function curry$(f, bound){
   var context,

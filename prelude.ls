@@ -464,15 +464,11 @@ prelude = {
   replicate, take, drop, split-at, take-while, drop-while, span, break-list
   list-to-obj, obj-to-func, zip, zip-with, zip-all, zip-all-with, curry, id, flip, fix
   lines, unlines, words, unwords, chars, unchars, max, min, negate, abs, signum
-  quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan
+  quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos
   acos, asin, atan, atan2, truncate, round, ceiling, floor
   is-it-NaN, even, odd, gcd, lcm
 }
+
 prelude.prelude = prelude
 
-prelude.install-prelude = !(target) ->
-  unless target.prelude?.is-installed
-    target <<< prelude
-    target <<< target.prelude.is-installed = true
-
-exports = prelude if exports?
+exports <<< prelude if exports?

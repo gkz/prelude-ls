@@ -1,3 +1,5 @@
+global <<< require \./prelude.js
+
 # each
 ok is-empty-list each ->, []
 eq '1,2' "#{ each (.pop!), [[1 5] [2 6]] }"

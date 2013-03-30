@@ -56,7 +56,7 @@ task \build:all 'build prelude.js, build prelude-min.js, and test' ->
   invoke \build:browser
   invoke \test
 
-task \test 'run test/' -> runTests!
+task \test 'run tests.ls/' -> runTests!
 
 function runTests
   global.LiveScript = LiveScript
@@ -72,20 +72,22 @@ function runTests
       catch
         return eq e?message, msg
       ok false "should throw: #msg"
+
   process.on \exit ->
     time = ((Date.now! - startTime) / 1e3)toFixed 2
     message = "passed #passedTests tests in #time seconds"
     say if failedTests
     then tint "failed #failedTests and #message" red
     else tint message
-  code = slurp \prelude.ls
-  code += slurp filename = path.join \test.ls
+
+  filename = 'tests.ls'
+  code = slurp filename
   try LiveScript.run code, {filename} catch
     ++failedTests
     return say e unless stk = e?stack
     msg = e.message or ''+ /^[^]+?(?=\n    at )/exec stk
     if m = /^(AssertionError:) "(.+)" (===) "(.+)"$/exec msg
-      for i in [2 4] then m[i] = tint m[i]replace(/\\n/g \\n), bold 
+      for i in [2 4] then m[i] = tint m[i]replace(/\\n/g \\n), bold
       msg  = m.slice(1)join \\n
     [, row, col]? = //#filename:(\d+):(\d+)\)?$//m.exec stk
     if row and col

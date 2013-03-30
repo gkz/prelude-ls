@@ -4,6 +4,7 @@
 * `sort-by` renamed `sort-with`
 * added new `sort-by`
 * fixed up style and compiled with LiveScript 1.1.1
+* remove `install-prelude`, just use `target <<< prelude` instead
 
 # 0.6.0
 * fixed various bugs
