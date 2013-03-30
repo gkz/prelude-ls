@@ -112,7 +112,7 @@ ok arr-eq [1 2 3] values sadf: 1, asdf: 2, fdas: 3
 ok arr-eq <[ sadf asdf fdas ]> keys sadf: 1, asdf: 2, fdas: 3
 ok arr-eq <[ 0 1 2 ]> keys [1 2 3]
 
-# length
+# len
 eq 5 len list
 eq 0 len []
 
@@ -124,9 +124,6 @@ eq 0 len ''
 
 # join
 eq '1,2,3' join \, [1 2 3]
-
-# split
-ok arr-eq <[ 1 2 3 ]> split '|' '1|2|3'
 
 # reverse
 ok arr-eq [5 4 3 2 1] reverse list
@@ -179,8 +176,11 @@ eq '' fold (+), '', ''
 eq 12 fold (+), 0, {a: 1, b: 2, c: 3, d: 6}
 eq 0 fold (+), 0, {}
 
+eq 12 foldl (+), 0, [1 2 3 6]
+
 # fold1
 eq 12 fold1 (+), [1 2 3 6]
+eq 12 foldl1 (+), [1 2 3 6]
 
 # foldr
 eq -1 foldr (-), 9, [1 2 3 4]
@@ -266,6 +266,7 @@ eq 1  product {}
 
 # mean
 eq 4 mean [2 3 4 5 6]
+eq 4 average [2 3 4 5 6]
 ok is-it-NaN mean []
 
 eq 4 mean {a: 2, b: 3, c: 4, d: 5, e: 6}
@@ -368,14 +369,14 @@ eq 2 (res = span (is \m), '').length
 eq '' res.0
 eq '' res.1
 
-# break-it
-eq '1,2|3,4,5' "#{ break-it (== 3), [1 2 3 4 5] .join \|}"
-eq 2 (res = break-it even, []).length
+# break-list
+eq '1,2|3,4,5' "#{ break-list (== 3), [1 2 3 4 5] .join \|}"
+eq 2 (res = break-list even, []).length
 ok is-empty-list res.0
 ok is-empty-list res.1
 
-eq 'mmmmm|hmm' "#{ break-it (== \h), 'mmmmmhmm' .join \|}"
-eq 2 (res = break-it (== \h), '').length
+eq 'mmmmm|hmm' "#{ break-list (== \h), 'mmmmmhmm' .join \|}"
+eq 2 (res = break-list (== \h), '').length
 eq ''  res.0
 eq '' res.1
 
@@ -423,6 +424,9 @@ eq 89 (fix (fib) -> (n) ->
 eq 89 (fix (fib) -> (n, minus=0) ->
   | (n - minus) <= 1 => 1
   | otherwise        => fib(n, minus+1) + fib(n, minus+2))(10)
+
+# split
+ok arr-eq <[ 1 2 3 ]> split '|' '1|2|3'
 
 # lines
 ok arr-eq <[ one two three ]> lines 'one\ntwo\nthree'
