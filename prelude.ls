@@ -5,10 +5,15 @@
 # called often, and the code here, once set, will
 # not change often.
 
+id = (x) -> x
+
 obj-to-func = (obj) -> (obj.)
 
 list-to-obj = (xs) ->
   {[x.0, x.1] for x in xs}
+
+lists-to-obj = (keys, values) -->
+  {[key, values[i]] for key, i in keys}
 
 each = (f, xs) -->
   if typeof! xs is \Object
@@ -26,6 +31,12 @@ map = (f, xs) -->
     result = [f x for x in xs]
     if type is \String then result.join '' else result
 
+compact = (xs) -->
+  if typeof! xs is \Object
+    {[key, x] for key, x of xs when x}
+  else
+    [x for x in xs when x]
+
 filter = (f, xs) -->
   f = obj-to-func f unless typeof! f is \Function
   type = typeof! xs
@@ -34,12 +45,6 @@ filter = (f, xs) -->
   else
     result = [x for x in xs when f x]
     if type is \String then result.join '' else result
-
-compact = (xs) -->
-  if typeof! xs is \Object
-    {[key, x] for key, x of xs when x}
-  else
-    [x for x in xs when x]
 
 reject = (f, xs) -->
   f = obj-to-func f unless typeof! f is \Function
@@ -82,7 +87,7 @@ head = first = (xs) ->
 
 tail = (xs) ->
   return void unless xs.length
-  xs.slice 1
+  (if typeof! xs is \String then '' else []).slice.call xs, 1
 
 last = (xs) ->
   return void unless xs.length
@@ -90,7 +95,7 @@ last = (xs) ->
 
 initial = (xs) ->
   return void unless xs.length
-  xs.slice 0 (xs.length - 1)
+  (if typeof! xs is \String then '' else []).slice.call xs, 0, (xs.length - 1)
 
 empty = (xs) ->
   if typeof! xs is \Object
@@ -109,36 +114,28 @@ len = (xs) ->
   xs = values xs if typeof! xs is \Object
   xs.length
 
-join = (sep, xs) -->
-  xs = values xs if typeof! xs is \Object
-  xs.join sep
-
 reverse = (xs) ->
   if typeof! xs is \String
   then xs.split '' .reverse!.join ''
-  else xs.concat!.reverse!
+  else [].concat xs .reverse!
 
 unique = (xs) ->
   result = []
-  if typeof! xs is \Object
-    for , x of xs when x not in result then result.push x
-  else
-    for x   in xs when x not in result then result.push x
+  for x in xs when x not in result then result.push x
   if typeof! xs is \String then result.join '' else result
 
 fold = foldl = (f, memo, xs) -->
-  if typeof! xs is \Object
-    for , x of xs then memo = f memo, x
-  else
-    for x in xs then memo = f memo, x
+  for x in xs then memo = f memo, x
   memo
 
-fold1 = foldl1 = (f, xs) --> fold f, xs.0, xs.slice 1
+fold1 = foldl1 = (f, xs) -->
+  fold f, xs.0, [].slice.call xs, 1
 
-foldr = (f, memo, xs) --> fold f, memo, xs.concat!.reverse!
+foldr = (f, memo, xs) -->
+  fold f, memo, ([].concat xs .reverse!)
 
 foldr1 = (f, xs) -->
-  xs.=concat!.reverse!
+  xs = [].concat xs .reverse!
   fold f, xs.0, xs.slice 1
 
 unfoldr = unfold = (f, b) -->
@@ -222,41 +219,44 @@ all = (f, xs) -->
   true
 
 compare = (f, x, y) -->
-  | (f x) > (f y) =>  1
-  | (f x) < (f y) => -1
-  | otherwise     =>  0
+  if (f x) > (f y)
+    1
+  else if (f x) < (f y)
+    -1
+  else
+    0
 
 sort = (xs) ->
-  xs.concat!.sort (x, y) ->
-    | x > y =>  1
-    | x < y => -1
-    | _     =>  0
+  [].concat xs .sort (x, y) ->
+    if x > y
+      1
+    else if x < y
+      -1
+    else
+      0
 
 sort-with = (f, xs) -->
   return [] unless xs.length
-  xs.concat!.sort f
+  [].concat xs .sort f
 
 sort-by = (f, xs) -->
   return [] unless xs.length
-  xs.concat!.sort (compare f)
+  [].concat xs .sort (compare f)
 
 sum = (xs) ->
   result = 0
-  if typeof! xs is \Object
-    for , x of xs then result += x
-  else
-    for x   in xs then result += x
+  for x in xs then result += x
   result
 
 product = (xs) ->
   result = 1
-  if typeof! xs is \Object
-    for , x of xs then result *= x
-  else
-    for x   in xs then result *= x
+  for x in xs then result *= x
   result
 
-mean = average = (xs) -> (sum xs) / len xs
+mean = average = (xs) ->
+  sum = 0
+  for x in xs then sum += x
+  sum / xs.length
 
 maximum = (xs) -> fold1 (>?), xs
 
@@ -264,19 +264,20 @@ minimum = (xs) -> fold1 (<?), xs
 
 scan = scanl = (f, memo, xs) -->
   last = memo
-  if typeof! xs is \Object
-  then [memo] ++ [last = f last, x for , x of xs]
-  else [memo] ++ [last = f last, x for x in xs]
+  [memo] ++ [last = f last, x for x in xs]
 
-scan1 = scanl1 = (f, xs) --> scan f, xs.0, xs.slice 1
+scan1 = scanl1 = (f, xs) -->
+  return void unless xs.length
+  scan f, xs.0, [].slice.call xs, 1
 
 scanr = (f, memo, xs) -->
-  xs.=slice!.reverse!
-  scan f, memo, xs .reverse!
+  xs = [].concat xs .reverse!
+  (scan f, memo, xs).reverse!
 
 scanr1 = (f, xs) -->
-  xs.=slice!.reverse!
-  scan f, xs.0, xs.slice 1 .reverse!
+  return void unless xs.length
+  xs = [].concat xs .reverse!
+  (scan f, xs.0, xs.slice 1).reverse!
 
 replicate = (n, x) -->
   [x for from 0 til n]
@@ -287,13 +288,13 @@ take = (n, xs) -->
   else if not xs.length
     xs
   else
-    xs.slice 0, n
+    (if typeof! xs is \String then '' else []).slice.call xs, 0, n
 
 drop = (n, xs) -->
   if n <= 0 or not xs.length
     xs
   else
-    xs.slice n
+    (if typeof! xs is \String then '' else []).slice.call xs, n
 
 split-at = (n, xs) --> [(take n, xs), (drop n, xs)]
 
@@ -321,38 +322,37 @@ break-list = (p, xs) --> span (not) << p, xs
 
 zip = (xs, ys) -->
   result = []
-  for zs, i in [xs, ys]
-    for z, j in zs
-      result.push [] if i is 0
-      result[j]?.push z
+  for x, i in xs
+    break if i is ys.length
+    result.push [x, ys[i]]
   result
 
 zip-with = (f,xs, ys) -->
   f = obj-to-func f unless typeof! f is \Function
-  if not xs.length or not ys.length
-    []
-  else
-    [f.apply this, zs for zs in zip.call this, xs, ys]
+  result = []
+  ys-length = ys.length
+  for x, i in xs
+    break if i is ys-length
+    result.push f x, ys[i]
+  result
 
 zip-all = (...xss) ->
-  result = []
-  for xs, i in xss
-    for x, j in xs
-      result.push [] if i is 0
-      result[j]?.push x
-  result
+  min-length = 9e9
+  for xs in xss
+    min-length <?= xs.length
+
+  [[xs[i] for xs in xss] for i from 0 til min-length]
 
 zip-all-with = (f, ...xss) ->
   f = obj-to-func f unless typeof! f is \Function
-  if not xss.0.length or not xss.1.length
-    []
-  else
-    [f.apply this, xs for xs in zip-all.apply this, xss]
+  min-length = 9e9
+  for xs in xss
+    min-length <?= xs.length
+
+  [f.apply(null, [xs[i] for xs in xss]) for i from 0 til min-length]
 
 curry = (f) ->
   curry$ f # using util method curry$ from livescript
-
-id = (x) -> x
 
 flip = (f, x, y) --> f y, x
 
@@ -362,6 +362,10 @@ fix = (f) ->
 
 split = (sep, str) -->
   str.split sep
+
+join = (sep, xs) -->
+  xs = values xs if typeof! xs is \Object
+  xs.join sep
 
 lines = (str) ->
   return [] unless str.length
@@ -388,9 +392,12 @@ negate = (x) -> -x
 abs = Math.abs
 
 signum = (x) ->
-  | x < 0     => -1
-  | x > 0     =>  1
-  | otherwise =>  0
+  if x < 0
+    -1
+  else if x > 0
+    1
+  else
+    0
 
 quot = (x, y) --> ~~(x / y)
 
@@ -455,20 +462,22 @@ lcm = (x, y) -->
   Math.abs Math.floor (x / (gcd x, y) * y)
 
 prelude = {
-  each, map, filter, compact, reject, partition, find
-  head, first, tail, last, initial, empty, values, keys, len
-  join, split, reverse, difference, intersection, union, count-by, group-by
-  fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list
-  any, all, unique, compare, sort, sort-with, sort-by, sum, product, mean, average
-  concat, concat-map, flatten, maximum, minimum, scan, scan1, scanl, scanl1, scanr, scanr1
-  replicate, take, drop, split-at, take-while, drop-while, span, break-list
-  list-to-obj, obj-to-func, zip, zip-with, zip-all, zip-all-with, curry, id, flip, fix
-  lines, unlines, words, unwords, chars, unchars, max, min, negate, abs, signum
-  quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos
-  acos, asin, atan, atan2, truncate, round, ceiling, floor
-  is-it-NaN, even, odd, gcd, lcm
+  id, obj-to-func, list-to-obj, lists-to-obj,
+  each, map, filter, compact, reject, partition, find,
+  head, first, tail, last, initial, empty, values, keys, len,
+  reverse, difference, intersection, union, count-by, group-by,
+  fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
+  any, all, unique, compare, sort, sort-with, sort-by, sum, product, mean, average,
+  concat, concat-map, flatten, maximum, minimum, scan, scan1, scanl, scanl1, scanr, scanr1,
+  replicate, take, drop, split-at, take-while, drop-while, span, break-list,
+  zip, zip-with, zip-all, zip-all-with, curry, flip, fix,
+  split, join, lines, unlines, words, unwords, chars, unchars,
+  max, min, negate, abs, signum, quot, rem, div, mod, recip,
+  pi, tau, exp, sqrt, ln, pow, sin, tan, cos, acos, asin, atan, atan2,
+  truncate, round, ceiling, floor, is-it-NaN, even, odd, gcd, lcm
 }
 
+prelude.VERSION = '0.7.0-dev'
 prelude.prelude = prelude
 
 exports <<< prelude if exports?

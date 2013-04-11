@@ -1,10 +1,20 @@
-# 0.7.0
+# 0.7.0-dev
 * added `compact`, `split`, `flatten`, `difference`, `intersection`, `union`, `count-by`, `group-by`, `chars`, `unchars`
+* added `lists-to-obj` which takes a list of keys and list of values and zips them up into an object
 * removed `cons`, `append`, `compose`
 * `sort-by` renamed `sort-with`
 * added new `sort-by`
+* `unique` doesn't support objects, use `unique values object`
+* `fold` and siblings don't support objects, use `fold f, memo, values object`
+* `fold` and siblings don't support strings, use `fold f, memo, chars string`
+* `scan` and siblings don't support objects, use `scan f, values object`
+* `maximum` and `minimum` don't support objects, use `maximum values object` instead
+* `break-it` renamed `break-list`
+* `sum`, `product`, and `mean` (alias `average`) don't support objects, simply use `sum values object`, etc.
 * fixed up style and compiled with LiveScript 1.1.1
 * remove `install-prelude`, just use `target <<< prelude` instead
+* use Make instead of Slake
+* greatly improved tests
 
 # 0.6.0
 * fixed various bugs
