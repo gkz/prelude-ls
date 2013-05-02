@@ -1,18 +1,20 @@
 # 0.7.0-dev
+* massive update - separated functions into separate modules
+* functions do not accept multiple types anymore - use different versions in their respective modules in some cases (eg. `Obj.map`), or use `chars` or `values` in other cases to transform into a list
+* objects are no longer transformed into functions, simply use `(obj.)` in LiveScript to do that
+* browser version now using browserify - use `prelude = require('prelude-ls)`
 * added `compact`, `split`, `flatten`, `difference`, `intersection`, `union`, `count-by`, `group-by`, `chars`, `unchars`
-* added `lists-to-obj` which takes a list of keys and list of values and zips them up into an object
-* removed `cons`, `append`, `compose`
-* `sort-by` renamed `sort-with`
+* added `lists-to-obj` which takes a list of keys and list of values and zips them up into an object, and the converse `obj-to-lists`
+* added `pairs-to-obj` which takes a list of pairs (2 element lists) and creates an object, and the converse `obj-to-pairs`
+* removed `cons`, `append` - use the concat operator
+* removed `compose` - use the compose operator
+* removed `obj-to-func` - use partially applied access (eg. `(obj.)`)
+* removed `length` - use `(.length)`
+* `sort-by` renamed to `sort-with`
 * added new `sort-by`
-* `unique` doesn't support objects, use `unique values object`
-* `fold` and siblings don't support objects, use `fold f, memo, values object`
-* `fold` and siblings don't support strings, use `fold f, memo, chars string`
-* `scan` and siblings don't support objects, use `scan f, values object`
-* `maximum` and `minimum` don't support objects, use `maximum values object` instead
-* `break-it` renamed `break-list`
-* `sum`, `product`, and `mean` (alias `average`) don't support objects, simply use `sum values object`, etc.
+* `break-it` renamed `break-list`, (`Str.break-str` for the string version)
+* added `Str.repeat` which creates a new string by repeating the input n times
 * fixed up style and compiled with LiveScript 1.1.1
-* remove `install-prelude`, just use `target <<< prelude` instead
 * use Make instead of Slake
 * greatly improved tests
 

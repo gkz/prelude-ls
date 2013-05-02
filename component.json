@@ -1,6 +1,0 @@
-{
-  "name": "prelude-ls",
-  "version": "0.7.0-dev",
-  "main": "prelude.js",
-  "dependencies": { }
-}

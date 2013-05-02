@@ -1,0 +1,26 @@
+Prelude = require '../lib/Prelude.js'
+{curry, flip, fix} = Prelude.Func
+require! assert
+{equal: eq, deep-equal: deep-eq, ok} = assert
+
+suite 'curry' ->
+  test 'simple function' ->
+    add = (x, y) -> x + y
+    add-curried = curry add
+    add-four = add-curried 4
+    eq 6 add-four 2
+
+suite 'flip' ->
+  test 'minus op' ->
+    eq 10, (flip (-)) 5 15
+
+suite 'fix' ->
+  test 'single arg' ->
+    eq 89, (fix (fib) -> (n) ->
+      | n <= 1      => 1
+      | otherwise   => fib(n-1) + fib(n-2))(10)
+
+  test 'multi-arg variation' ->
+    eq 89, (fix (fib) -> (n, minus=0) ->
+      | (n - minus) <= 1 => 1
+      | otherwise        => fib(n, minus+1) + fib(n, minus+2))(10)

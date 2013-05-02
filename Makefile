@@ -1,39 +1,50 @@
 default: all
 
+SRC = $(shell find src -name "*.ls" -type f | sort)
+LIB = $(SRC:src/%.ls=lib/%.js)
 LS = node_modules/LiveScript
 LSC = node_modules/.bin/lsc
+BROWSERIFY = node_modules/.bin/browserify
 UGLIFYJS = node_modules/.bin/uglifyjs
 MOCHA = node_modules/.bin/mocha
 
-all: build
+lib:
+	mkdir lib/
 
-prelude.js: prelude.ls
-	$(LSC) --compile --bare prelude.ls
+lib/%.js: src/%.ls lib
+	$(LSC) --compile --bare --print "$<" > "$@"
 
-prelude-browser.js: prelude.js
-	./build-browser > prelude-browser.js
+browser:
+	mkdir browser/
 
-prelude-browser-min.js: prelude-browser.js
-	$(UGLIFYJS) prelude-browser.js --mangle --comments "all" > prelude-browser-min.js
+prelude-browser.js: $(LIB) browser
+	$(BROWSERIFY) -r ./lib/Prelude.js:prelude-ls > browser/prelude-browser.js
+
+prelude-browser-min.js: browser/prelude-browser.js
+	$(UGLIFYJS) browser/prelude-browser.js --mangle --comments "all" > browser/prelude-browser-min.js
 
 package.json: package.ls
 	$(LSC) --compile --json package.ls
 
-.PHONY: build build-browser test install loc clean
+.PHONY: build-browser test install loc clean
 
-build: prelude.js package.json
+all: $(LIB)
+
+build: all package.json
 
 build-browser: prelude-browser.js prelude-browser-min.js
 
 test: build
 	$(MOCHA) --reporter dot --ui tdd --compilers ls:$(LS)
 
-install:
+dev-install:
 	npm install .
 
 loc:
-	wc --lines prelude.ls
+	wc --lines src/*
 
 clean:
 	rm --force ./*.js
+	rm --force --recursive lib
+	rm --force --recursive browser
 	rm --force package.json

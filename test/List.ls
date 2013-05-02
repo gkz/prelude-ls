@@ -1,127 +1,47 @@
-global <<< require \../prelude.js
+Prelude = require '../lib/Prelude.js'
+{id, compare} = Prelude
+{even, odd, floor, is-it-NaN} = Prelude.Num
+{
+  each, map, filter, compact, reject, partition, find,
+  head, first, tail, last, initial, empty,
+  reverse, difference, intersection, union, count-by, group-by,
+  fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
+  any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
+  concat, concat-map, flatten,
+  maximum, minimum, scan, scan1, scanl, scanl1, scanr, scanr1,
+  slice, take, drop, split-at, take-while, drop-while, span, break-list,
+  zip, zip-with, zip-all, zip-all-with,
+} = Prelude.List
 require! assert
 {equal: eq, deep-equal: deep-eq, ok} = assert
-
-suite 'id' ->
-  test 'number' ->
-    eq 5, id 5
-
-  test 'object is the same' ->
-    obj = {}
-    eq obj, id obj
-
-suite 'obj-to-func' ->
-  test 'empty object as input' ->
-    f = obj-to-func {}
-    eq void, f 'ha'
-
-  test 'object to function' ->
-    f = obj-to-func one: 1, two: 2
-    eq 2, f 'two'
-
-  test 'list to function' ->
-    f = obj-to-func [1 2]
-    eq 2, f '1'
-
-suite 'list-to-obj' ->
-  test 'empty list as input' ->
-    deep-eq {}, list-to-obj []
-
-  test 'list as object' ->
-    deep-eq {a: 'b', c: 'd', e: 1}, list-to-obj [['a' 'b'] ['c' 'd'] ['e' 1]]
-
-suite 'lists-to-obj' ->
-  test 'empty lists as input' ->
-    deep-eq {}, lists-to-obj [] []
-
-  test 'two lists of the same length' ->
-    deep-eq  {a: 1, b: 2, c: 3}, lists-to-obj <[ a b c ]> [1 2 3]
-
-  test 'first list is shorter' ->
-    deep-eq  {a: 1, b: 2}, lists-to-obj <[ a b ]> [1 2 3]
-
-  test 'first list is longer' ->
-    deep-eq  {a: 1, b: 2, c: void}, lists-to-obj <[ a b c ]> [1 2]
 
 suite 'each' ->
   test 'empty list as input' ->
     deep-eq [], each id, []
 
-  test 'empty object as input' ->
-    deep-eq {}, each id, {}
-
-  test 'empty string as input' ->
-    eq '', each id, ''
-
-  test 'returns input, iterate over string' ->
-    test-target = 0
-    eq 'hello' each (-> ++test-target), 'hello'
-    eq 5 test-target
-
   test 'side effects affect input (and thus result)' ->
     deep-eq [[1],[2]] each (.pop!), [[1 5] [2 6]]
-
-  test 'iterate over object values' ->
-    count = 4
-    each (-> count += it), {a: 1, b: 2, c: 3}
-    eq 10 count
 
 suite 'map' ->
   test 'empty list as input' ->
     deep-eq [], map id, []
 
-  test 'empty object as input' ->
-    deep-eq {}, map id, {}
-
-  test 'empty string as input' ->
-    eq '', map id, ''
-
   test 'mapping over array' ->
     deep-eq [2 3 4], map (+ 1), [1 2 3]
-
-  test 'mapping over object' ->
-    deep-eq {a:2, b:4}, map (* 2), {a:1, b:2}
-
-  test 'mapping over string' ->
-    eq 'ABC', map (.to-upper-case!), 'abc'
-
-  test 'using object as function' ->
-    deep-eq [1, 2, 3, 4], map {one: 1, two: 2, three: 3, four: 4}, <[ one two three four ]>
-
-  test 'using array as function' ->
-    deep-eq {power: \on, light: \off}, map [\off \on], {power: 1, light: 0}
 
 suite 'compact' ->
   test 'empty list as input' ->
     deep-eq [], compact []
 
-  test 'empty object as input' ->
-    deep-eq {}, compact {}
-
   test 'compacting array' ->
     deep-eq [1 true 'ha'], compact [0 1 false true '' 'ha']
-
-  test 'compacting object' ->
-    deep-eq {b:1, e: 'ha'}, compact {a: 0, b: 1, c: false, d: '', e: 'ha'}
 
 suite 'filter' ->
   test 'empty list as input' ->
     deep-eq [], filter id, []
 
-  test 'empty object as input' ->
-    deep-eq {}, filter id, {}
-
-  test 'empty string as input' ->
-    eq '', filter id, ''
-
   test 'filtering array' ->
     deep-eq [2, 4], filter even, [1 to 5]
-
-  test 'filtering object' ->
-    deep-eq {b: 2}, filter (== 2), {a:1, b:2}
-
-  test 'filtering string' ->
-    eq 'abcc', filter (in [\a to \c]), 'abcdefcf'
 
   test 'filter on true returns original list' ->
     deep-eq [1 2 3], filter (-> true), [1 2 3]
@@ -133,20 +53,8 @@ suite 'reject' ->
   test 'empty list as input' ->
     deep-eq [], reject id, []
 
-  test 'empty object as input' ->
-    deep-eq {}, reject id, {}
-
-  test 'empty string as input' ->
-    eq '', reject id, ''
-
   test 'reject list' ->
     deep-eq [1 3 5], reject even, [1 to 5]
-
-  test 'reject object' ->
-    deep-eq {a: 1}, reject (==2), {a:1, b:2}
-
-  test 'reject string' ->
-    eq 'deff', reject (in [\a to \c]), 'abcdefcf'
 
   test 'reject on true returns empty list' ->
     deep-eq [], reject (-> true), [1 2 3]
@@ -158,20 +66,8 @@ suite 'partition' ->
   test 'empty list as input' ->
     deep-eq [[],[]], partition id, []
 
-  test 'empty object as input' ->
-    deep-eq [{}, {}], partition id, {}
-
-  test 'empty string as input' ->
-    deep-eq ['', ''], partition id, ''
-
   test 'partition list' ->
     deep-eq [[76 88 77 90],[49 58 43]], partition (>60), [49 58 76 43 88 77 90]
-
-  test 'partition object' ->
-    deep-eq [{b: 2}, {a: 1, c: 3}], partition (==2), {a:1, b:2, c:3}
-
-  test 'partition string' ->
-    deep-eq ['abcc', 'deff'], partition (in [\a to \c]), 'abcdefcf'
 
   test 'partition on true returns original list as passing, empty list as failing' ->
     deep-eq [[1 2 3],[]], partition (-> true), [1 2 3]
@@ -183,20 +79,8 @@ suite 'find' ->
   test 'empty list as input' ->
     eq void, find id, []
 
-  test 'empty object as input' ->
-    eq void, find id, {}
-
-  test 'empty string as input' ->
-    eq void, find id, ''
-
   test 'find from list' ->
     eq 4, find even, [3 1 4 8 6]
-
-  test 'find from object' ->
-    eq 2, find (==2), {a:1, b:2}
-
-  test 'find from string' ->
-    eq 'b' find (== \b), 'abs'
 
   test 'finding nothing when function always false' ->
     eq void, find (-> false), [1 2 3]
@@ -206,33 +90,23 @@ suite 'find' ->
 
 suite 'list portions' ->
   list = [1 2 3 4 5]
-  string = 'abcde'
 
   suite 'head' ->
     test 'empty list as input' ->
       eq void, head []
 
-    test 'empty string as input' ->
-      eq void, head ''
-
     test 'list' ->
       eq 1, head list
 
-    test 'string' ->
-      eq 'a', head string
+    test 'first as alias' ->
+      eq first, head
 
   suite 'tail' ->
     test 'empty list as input' ->
       eq void, tail []
 
-    test 'empty string as input' ->
-      eq void, tail ''
-
     test 'list' ->
       deep-eq [2 3 4 5], tail list
-
-    test 'string' ->
-      eq 'bcde', tail string
 
     test 'one element list' ->
       deep-eq [], tail [1]
@@ -241,14 +115,8 @@ suite 'list portions' ->
     test 'empty list as input' ->
       eq void, last []
 
-    test 'empty string as input' ->
-      eq void, last ''
-
     test 'list' ->
       eq 5, last list
-
-    test 'string' ->
-      eq 'e', last string
 
     test 'one element list' ->
       eq 1, last [1]
@@ -257,14 +125,8 @@ suite 'list portions' ->
     test 'empty list as input' ->
       eq void, initial []
 
-    test 'empty string as input' ->
-      eq void, initial ''
-
     test 'list' ->
       deep-eq [1 2 3 4], initial list
-
-    test 'string' ->
-      eq 'abcd', initial string
 
     test 'one element list' ->
       deep-eq [], initial [1]
@@ -273,86 +135,24 @@ suite 'empty' ->
   test 'empty list as input' ->
     ok empty []
 
-  test 'empty object as input' ->
-    ok empty {}
-
-  test 'empty string as input' ->
-    ok empty ''
-
   test 'non-empty list as input' ->
     ok not empty [1]
-
-  test 'non-empty object as input' ->
-    ok not empty {x: 1}
-
-  test 'non-empty string as input' ->
-    ok not empty '1'
-
-suite 'values' ->
-  test 'empty object as input' ->
-    deep-eq [], values {}
-
-  test 'object as input' ->
-    deep-eq [1 2 3], values sadf: 1, asdf: 2, fdas: 3
-
-suite 'keys' ->
-  test 'empty object as input' ->
-    deep-eq [], keys {}
-
-  test 'object as input' ->
-    deep-eq <[ sadf asdf fdas ]>, keys sadf: 1, asdf: 2, fdas: 3
-
-  test 'list as input' ->
-    deep-eq <[ 0 1 2 ]>, keys [1 2 3]
-
-suite 'len' ->
-  test 'empty list as input' ->
-    eq 0, len []
-
-  test 'empty object as input' ->
-    eq 0, len {}
-
-  test 'empty string as input' ->
-    eq 0, len ''
-
-  test 'list as input' ->
-    eq 5, len [1 2 3 4 5]
-
-  test 'object as input' ->
-    eq 3, len {x: 1, y: 2, z: 3}
-
-  test 'string as input' ->
-    eq 4, len 'abcd'
 
 suite 'reverse' ->
   test 'empty list as input' ->
     deep-eq [], reverse []
-
-  test 'empty string as input' ->
-    eq '', reverse ''
 
   test 'reverse list, it is unmodified' ->
     list = [1 2 3 4 5]
     deep-eq [5 4 3 2 1], reverse list
     deep-eq [1 2 3 4 5], list
 
-  test 'reverse string, it is unmodified' ->
-    string = 'abcd'
-    eq 'dcba', reverse string
-    eq 'abcd', string
-
 suite 'unique' ->
   test 'empty list as input' ->
     deep-eq [], unique []
 
-  test 'empty string as input' ->
-    eq '', unique ''
-
   test 'unique list' ->
     deep-eq [1,2,3,4,5,6], unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6]
-
-  test 'unique string' ->
-    eq 'abcd', unique 'aaabbbcccdd'
 
 suite 'fold' ->
   test 'empty list as input' ->
@@ -392,7 +192,7 @@ suite 'unfoldr' ->
   test 'complex case' ->
     deep-eq [10,9,8,7,6,5,4,3,2,1], unfoldr (-> if it == 0 then null else [it, it - 1]), 10
 
-  test 'returning null right away results in empty list' ->
+  test 'returning null right away results in a one item list' ->
     deep-eq [], unfoldr (-> null), 'a'
 
 suite 'concat' ->
@@ -512,13 +312,8 @@ suite 'any' ->
   test 'false' ->
     ok not any even, [1 3 7 5]
 
-  test 'string as input' ->
-    ok any (== \M), 'mmmhMmm'
-    ok not any (== \Z), 'mmmhMmm'
-    ok not any (== \Z), ''
-
 suite 'all' ->
-  test 'empty string as input' ->
+  test 'empty list as input' ->
     ok all even, []
 
   test 'true' ->
@@ -526,22 +321,6 @@ suite 'all' ->
 
   test 'false' ->
     ok not all even, [2 5 6]
-
-  test 'string as input' ->
-    ok all (== \M), 'MMMMMM'
-    ok not all (== \M), 'MMMmMM'
-    ok all (== \M), ''
-
-suite 'compare' ->
-  test 'simple case using id' ->
-    eq 1, compare id, 2, 1
-    eq -1, compare id, 1, 2
-    eq 0, compare id, 1, 1
-
-  test 'more complex case' ->
-    eq -1, compare (.length), [1 to 3], [0 to 5]
-    eq  1, compare (.length), [1 to 9], [0 to 5]
-    eq  0, compare (.length), [1 to 4], [4 to 7]
 
 suite 'sort' ->
   test 'empty list as input' ->
@@ -657,29 +436,22 @@ suite 'scanr1' ->
   test 'complex case' ->
     deep-eq [10,9,7,4], scanr1 (+), [1 2 3 4]
 
-suite 'replicate' ->
-  test 'zero as input' ->
-    deep-eq [], replicate 0 0
-    deep-eq [], replicate 0 'a'
+suite 'slice' ->
+  test 'zero to zero' ->
+    deep-eq [], slice 0 0 [1 2 3 4 5]
 
-  test 'number as input' ->
-    deep-eq [3,3,3,3], replicate 4 3
+  test 'empty lsit as input' ->
+    deep-eq [], slice  2 3 []
 
-  test 'string as input' ->
-    deep-eq <[ a a a a ]>, replicate 4 'a'
+  test 'parts' ->
+    deep-eq [3 4], slice 2 4 [1 2 3 4 5]
 
 suite 'take' ->
   test 'empty list as input' ->
     deep-eq [], take 3 []
 
-  test 'empty string as input' ->
-    deep-eq '', take 3 ''
-
   test 'zero on list' ->
     deep-eq [], take 0 [1 2 3 4 5]
-
-  test 'zero on string' ->
-    eq '', take 0 'abcde'
 
   test 'negative number' ->
     deep-eq [], take -1 [1 2 3 4 5]
@@ -690,21 +462,12 @@ suite 'take' ->
   test 'list' ->
     deep-eq [1 2 3], take 3 [1 2 3 4 5]
 
-  test 'string' ->
-    eq 'ab', take 2 'abcde'
-
 suite 'drop' ->
   test 'empty list as input' ->
     deep-eq [], drop 3 []
 
-  test 'empty string as input' ->
-    deep-eq '', drop 3 ''
-
   test 'zero on list' ->
     deep-eq [1 2 3 4 5], drop 0 [1 2 3 4 5]
-
-  test 'zero on string' ->
-    eq 'abcde', drop 0 'abcde'
 
   test 'negative number' ->
     deep-eq [1 2 3 4 5], drop -1 [1 2 3 4 5]
@@ -715,21 +478,12 @@ suite 'drop' ->
   test 'list' ->
     deep-eq [4 5], drop 3 [1 2 3 4 5]
 
-  test 'string' ->
-    eq 'cde', drop 2 'abcde'
-
 suite 'split-at' ->
   test 'empty list as input' ->
     deep-eq [[], []], split-at 3 []
 
-  test 'empty string as input' ->
-    deep-eq ['', ''], split-at 3 ''
-
   test 'zero on list' ->
     deep-eq [[], [1 2 3 4 5]], split-at 0 [1 2 3 4 5]
-
-  test 'zero on string' ->
-    deep-eq ['', 'abcde'], split-at 0 'abcde'
 
   test 'negative number' ->
     deep-eq [[], [1 2 3 4 5]], split-at -1 [1 2 3 4 5]
@@ -740,60 +494,33 @@ suite 'split-at' ->
   test 'list' ->
     deep-eq [[1 2 3], [4 5]], split-at 3 [1 2 3 4 5]
 
-  test 'string' ->
-    deep-eq ['ab', 'cde'], split-at 2 'abcde'
-
 suite 'take-while' ->
   test 'empty list as input' ->
     deep-eq [], take-while id, []
 
-  test 'empty string as input' ->
-    eq '', take-while id, ''
-
   test 'list' ->
     deep-eq [1 3 5], take-while odd, [1 3 5 4 8 7 9]
-
-  test 'string' ->
-    eq 'mmmmm', take-while (is 'm'), 'mmmmmhmm'
 
 suite 'drop-while' ->
   test 'empty list as input' ->
     deep-eq [], drop-while id, []
 
-  test 'empty string as input' ->
-    eq '', drop-while id, ''
-
   test 'list' ->
     deep-eq [7 9 10], drop-while even, [2 4 6 7 9 10]
-
-  test 'string' ->
-    eq 'hmm', drop-while (is \m), 'mmmmmhmm'
 
 suite 'span' ->
   test 'empty list as input' ->
     deep-eq [[], []], span id, []
 
-  test 'empty string as input' ->
-    deep-eq ['', ''], span id, ''
-
   test 'list' ->
     deep-eq [[2 4 6], [7 9 10]], span even, [2 4 6 7 9 10]
-
-  test 'string' ->
-    deep-eq ['mmmmm', 'hmm'] span (is \m), 'mmmmmhmm'
 
 suite 'break-list' ->
   test 'empty list as input' ->
     deep-eq [[], []], break-list id, []
 
-  test 'empty string as input' ->
-    deep-eq ['', ''], break-list id, ''
-
   test 'list' ->
     deep-eq [[1 2], [3 4 5]], break-list (== 3), [1 2 3 4 5]
-
-  test 'string' ->
-    deep-eq ['mmmmm', 'hmm'] break-list (is \h), 'mmmmmhmm'
 
 suite 'zip' ->
   test 'empty lists as input' ->
@@ -849,296 +576,3 @@ suite 'zip-all-with' ->
 
   test 'second list shorter' ->
     deep-eq [5 7], zip-all-with (+), [1 2 3] [4 5]
-
-suite 'curry' ->
-  test 'simple function' ->
-    add = (x, y) -> x + y
-    add-curried = curry add
-    add-four = add-curried 4
-    eq 6 add-four 2
-
-suite 'flip' ->
-  test 'minus op' ->
-    eq 10, (flip (-)) 5 15
-
-suite 'fix' ->
-  test 'single arg' ->
-    eq 89, (fix (fib) -> (n) ->
-      | n <= 1      => 1
-      | otherwise   => fib(n-1) + fib(n-2))(10)
-
-  test 'multi-arg variation' ->
-    eq 89, (fix (fib) -> (n, minus=0) ->
-      | (n - minus) <= 1 => 1
-      | otherwise        => fib(n, minus+1) + fib(n, minus+2))(10)
-
-suite 'split' ->
-  test 'empty string as input' ->
-    deep-eq [], split '' ''
-
-  test 'string of some length' ->
-    deep-eq <[ 1 2 3 ]>, split '|' '1|2|3'
-
-suite 'join' ->
-  test 'empty list as input' ->
-    eq '' join '', []
-
-  test 'list as input' ->
-    eq '1,2,3', join ',' [1 2 3]
-
-  test 'empty string as seperator' ->
-    eq '123', join '' [1 2 3]
-
-suite 'lines' ->
-  test 'empty string as input' ->
-    deep-eq [], lines ''
-
-  test 'string as input' ->
-    deep-eq <[ one two three ]>, lines 'one\ntwo\nthree'
-
-suite 'unlines' ->
-  test 'empty array as input' ->
-    eq '', unlines []
-
-  test 'array as input' ->
-    eq 'one\ntwo\nthree', unlines [\one \two \three]
-
-suite 'words' ->
-  test 'empty string as input' ->
-    deep-eq [], words ''
-
-  test 'string as input' ->
-    deep-eq <[ what is this ]>, words 'what   is  this'
-
-suite 'unwords' ->
-  test 'empty array as input' ->
-    eq '', unwords []
-
-  test 'array as input' ->
-    eq 'what is this', unwords [\what \is \this]
-
-suite 'chars' ->
-  test 'empty string as input' ->
-    deep-eq [], chars ''
-
-  test 'string as input' ->
-    deep-eq <[ h e l l o ]>, chars 'hello'
-
-suite 'unchars' ->
-  test 'empty array as input' ->
-    eq '', unchars []
-
-  test 'array as input' ->
-    eq 'there', unchars ['t', 'h', 'e', 'r', 'e']
-
-suite 'max' ->
-  test 'numbers' ->
-    eq 3, max 3 3
-    eq 3, max 2 3
-    eq 3, max 3 2
-
-  test 'characters' ->
-    eq \b, max \a \b
-
-suite 'min' ->
-  test 'numbers' ->
-    eq 0, min 9 0
-
-  test 'characters' ->
-    eq \a, min \a \b
-
-suite 'negate' ->
-  test 'zero' ->
-    eq 0, negate 0
-
-  test 'negative number' ->
-    eq -2, negate 2
-
-  test 'positive number' ->
-    eq 3, negate -3
-
-suite 'abs' ->
-  test 'zero' ->
-    eq 0, abs 0
-
-  test 'negative number' ->
-    eq 4 abs -4
-
-  test 'positive number' ->
-    eq 4 abs  4
-
-suite 'signum' ->
-  test 'zero' ->
-    eq 0  signum 0
-
-  test 'negative number' ->
-    eq -1 signum -5.3
-
-  test 'positive number' ->
-    eq 1  signum 8
-
-suite 'quot' ->
-  test 'simple' ->
-    eq -6 quot -20 3
-
-suite 'rem' ->
-  test 'simple' ->
-    eq -2 rem -20 3
-
-suite 'div' ->
-  test 'simple' ->
-    eq -7 div -20 3
-
-suite 'mod' ->
-  test 'simple' ->
-    eq 1 mod -20 3
-
-suite 'recip' ->
-  test 'zero' ->
-    eq Infinity, recip 0
-
-  test 'larger than 1' ->
-    eq 0.5, recip 2
-
-  test 'between 0 and 1' ->
-    eq 2, recip 0.5
-
-suite 'pi' ->
-  test 'constant' ->
-    eq 3.141592653589793, pi
-
-suite 'tau' ->
-  test 'constant' ->
-    eq 6.283185307179586, tau
-
-suite 'exp' ->
-  test 'simple' ->
-    eq 2.718281828459045, exp 1
-
-suite 'sqrt' ->
-  test 'negative numbers' ->
-    ok is-it-NaN sqrt -1
-
-  test 'simple' ->
-    eq 2 sqrt 4
-
-suite 'ln' ->
-  test 'simple' ->
-    eq 0.6931471805599453, ln 2
-
-suite 'pow' ->
-  test 'simple' ->
-    eq 4, pow 2 2
-    eq 4, pow -2 2
-
-  test 'with negative numbers' ->
-    eq 0.25, pow 2 -2
-
-  test 'between one and zero' ->
-    eq 4, pow 16 0.5
-
-suite 'sin' ->
-  test 'zero' ->
-    eq 0, sin 0
-
-  test 'one' ->
-    eq 0.8414709848078965, sin 1
-
-suite 'tan' ->
-  test 'zero' ->
-    eq 0, tan 0
-
-  test 'one' ->
-    eq 1.5574077246549023, tan 1
-
-suite 'cos' ->
-  test 'zero' ->
-    eq 1, cos 0
-
-  test 'one' ->
-    eq 0.5403023058681398, cos 1
-
-suite 'acos' ->
-  test 'number' ->
-    eq 1.4706289056333368, acos 0.1
-
-suite 'asin' ->
-  test 'number' ->
-    eq 1.5707963267948966, asin 1
-
-suite 'atan' ->
-  test 'number' ->
-    eq 0.7853981633974483, atan 1
-
-suite 'atan2' ->
-  test 'number' ->
-    eq 0.4636476090008061, atan2 1 2
-
-suite 'truncate' ->
-  test 'zero' ->
-    eq 0, truncate 0
-
-  test 'positive number' ->
-    eq  1 truncate  1.5
-
-  test 'negative number' ->
-    eq -1 truncate -1.5
-
-suite 'round' ->
-  test 'up' ->
-    eq 1 round 0.6
-    eq 1 round 0.5
-
-  test 'down' ->
-    eq 0 round 0.4
-
-suite 'ceiling' ->
-  test 'zero' ->
-    eq 0, ceiling 0
-
-  test 'positive number' ->
-    eq 1, ceiling 0.1
-
-  test 'negative number' ->
-    eq 0, ceiling -0.9
-
-suite 'floor' ->
-  test 'zero' ->
-    eq 0, floor 0
-
-  test 'positive number' ->
-    eq 0, floor 0.9
-
-  test 'negative number' ->
-    eq -1, floor -0.1
-
-suite 'is-it-NaN' ->
-  test 'true' ->
-    ok is-it-NaN Math.sqrt -1
-
-  test 'false' ->
-    ok not is-it-NaN '0'
-
-suite 'even' ->
-  test 'true' ->
-    ok even 0
-    ok even -2
-
-  test 'false' ->
-    ok not even 7
-
-suite 'odd' ->
-  test 'true' ->
-    ok odd 3
-
-  test 'false' ->
-    ok not odd -4
-    ok not odd 0
-
-suite 'gcd' ->
-  test 'some numbers' ->
-    eq 6 gcd 12 18
-
-suite 'lcm' ->
-  test 'some numbers' ->
-    eq 36, lcm 12 18
