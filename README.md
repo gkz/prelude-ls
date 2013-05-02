@@ -4,3 +4,11 @@ is a JavaScript functional programming library. It is the recommended base libra
 See **[the prelude.ls site](http://gkz.github.com/prelude-ls/)** for examples, a reference, and more.
 
 You can install via npm `npm install prelude-ls`
+
+### Development
+
+`make test` to test
+
+`make build` to build `lib` from `src`
+
+`make build-browser` to build browser versions
