@@ -34,6 +34,8 @@ engines:
 repository:
   type: 'git'
   url: 'git://github.com/gkz/prelude-ls.git'
+scripts:
+  test: "make test"
 
 dev-dependencies:
   LiveScript: '~1.1.1'
