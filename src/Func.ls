@@ -7,8 +7,11 @@ fix = (f) ->
   ( (g, x) -> -> f(g g) ...arguments ) do
     (g, x) -> -> f(g g) ...arguments
 
+apply = (f, list) -->
+  f.apply null, list
+
 #? memoize, wrap
 
 module.exports = {
-  curry, flip, fix,
+  curry, flip, fix, apply
 }
