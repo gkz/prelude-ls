@@ -8,18 +8,6 @@ require! [
 
 id = (x) -> x
 
-to-bool = (x) -> !!x
-
-to-number = (x) -> +x
-
-to-int = (x) -> parse-int x, 10
-
-to-float = (x) -> parse-float x
-
-to-string = (x) -> '' + x
-
-to-func = (obj) -> (obj.)
-
 is-type = (type, x) --> typeof! x is type
 
 compare = (f, x, y) -->
