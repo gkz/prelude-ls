@@ -3,7 +3,7 @@
 * functions do not accept multiple types anymore - use different versions in their respective modules in some cases (eg. `Obj.map`), or use `chars` or `values` in other cases to transform into a list
 * objects are no longer transformed into functions, simply use `(obj.)` in LiveScript to do that
 * browser version now using browserify - use `prelude = require('prelude-ls')`
-* added `compact`, `split`, `flatten`, `difference`, `intersection`, `union`, `count-by`, `group-by`, `chars`, `unchars`
+* added `compact`, `split`, `flatten`, `difference`, `intersection`, `union`, `count-by`, `group-by`, `chars`, `unchars`, `apply`
 * added `lists-to-obj` which takes a list of keys and list of values and zips them up into an object, and the converse `obj-to-lists`
 * added `pairs-to-obj` which takes a list of pairs (2 element lists) and creates an object, and the converse `obj-to-pairs`
 * removed `cons`, `append` - use the concat operator
