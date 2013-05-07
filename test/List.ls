@@ -1,5 +1,5 @@
 Prelude = require '../lib/Prelude.js'
-{id, compare} = Prelude
+{id} = Prelude
 {even, odd, floor, is-it-NaN} = Prelude.Num
 {
   each, map, filter, compact, reject, partition, find,
@@ -337,8 +337,11 @@ suite 'sort-with' ->
     deep-eq [], sort-with id, []
 
   test 'complex case' ->
-    obj = one: 1, two: 2, three: 3
-    deep-eq ['one','two','three'], sort-with (compare (obj.)), <[ three one two ]>
+    f = (x, y) ->
+      | x.length > y.length => 1
+      | x.length < y.length => -1
+      | otherwise           => 0
+    deep-eq ['one','two','three'], sort-with (f), <[ three one two ]>
 
 suite 'sort-by' ->
   test 'empty list as input' ->

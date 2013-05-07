@@ -1,4 +1,4 @@
-{id, is-type, compare, replicate} = require '../lib/Prelude.js'
+{id, is-type, replicate} = require '../lib/Prelude.js'
 require! assert
 {equal: eq, deep-equal: deep-eq, ok} = assert
 
@@ -29,17 +29,6 @@ suite 'is-type' ->
     class A
 
     ok is-type 'Object' new A
-
-suite 'compare' ->
-  test 'simple case using id' ->
-    eq 1, compare id, 2, 1
-    eq -1, compare id, 1, 2
-    eq 0, compare id, 1, 1
-
-  test 'more complex case' ->
-    eq -1, compare (.length), [1 to 3], [0 to 5]
-    eq  1, compare (.length), [1 to 9], [0 to 5]
-    eq  0, compare (.length), [1 to 4], [4 to 7]
 
 suite 'replicate' ->
   test 'zero as input' ->

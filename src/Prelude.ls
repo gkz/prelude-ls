@@ -10,14 +10,6 @@ id = (x) -> x
 
 is-type = (type, x) --> typeof! x is type
 
-compare = (f, x, y) -->
-  if (f x) > (f y)
-    1
-  else if (f x) < (f y)
-    -1
-  else
-    0
-
 replicate = (n, x) -->
   [x for til n]
 
@@ -29,16 +21,16 @@ Str <<< List{
 prelude = {
   Func, List, Obj, Str, Num,
   id, is-type
-  replicate, compare,
+  replicate,
 }
 prelude <<< List{
   each, map, filter, compact, reject, partition, find,
   head, first, tail, last, initial, empty,
   reverse, difference, intersection, union, count-by, group-by,
-  fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
+  fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
   any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
   concat, concat-map, flatten,
-  maximum, minimum, scan, scan1, scanl, scanl1, scanr, scanr1,
+  maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1,
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
   zip, zip-with, zip-all, zip-all-with,
 }

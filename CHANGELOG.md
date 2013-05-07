@@ -12,6 +12,7 @@
 * removed `length` - use `(.length)`
 * `sort-by` renamed to `sort-with`
 * added new `sort-by`
+* removed `compare` - just use the new `sort-by`
 * `break-it` renamed `break-list`, (`Str.break-str` for the string version)
 * added `Str.repeat` which creates a new string by repeating the input n times
 * fixed up style and compiled with LiveScript 1.1.1
