@@ -68,7 +68,7 @@ foldr1 = (f, xs) -->
   ys = xs.concat!.reverse!
   fold f, ys.0, ys.slice 1
 
-unfoldr = unfold = (f, b) -->
+unfoldr = (f, b) -->
   result = []
   x = b
   while (f x)?

@@ -15,6 +15,7 @@
 * removed `compare` - just use the new `sort-by`
 * `break-it` renamed `break-list`, (`Str.break-str` for the string version)
 * added `Str.repeat` which creates a new string by repeating the input n times
+* `unfold` as alias to `unfoldr` is no longer used
 * fixed up style and compiled with LiveScript 1.1.1
 * use Make instead of Slake
 * greatly improved tests
