@@ -1,7 +1,15 @@
 Prelude = require '../lib/Prelude.js'
-{curry, flip, fix, apply} = Prelude.Func
+{apply, curry, flip, fix} = Prelude.Func
 require! assert
 {equal: eq, deep-equal: deep-eq, ok} = assert
+
+suite 'apply' ->
+  test 'empty list' ->
+    f = -> 1
+    eq 1, apply f, []
+
+  test 'a couple of args' ->
+    eq 5, apply (+), [2 3]
 
 suite 'curry' ->
   test 'simple function' ->
@@ -24,11 +32,3 @@ suite 'fix' ->
     eq 89, (fix (fib) -> (n, minus=0) ->
       | (n - minus) <= 1 => 1
       | otherwise        => fib(n, minus+1) + fib(n, minus+2))(10)
-
-suite 'apply' ->
-  test 'empty list' ->
-    f = -> 1
-    eq 1, apply f, []
-
-  test 'a couple of args' ->
-    eq 5, apply (+), [2 3]
