@@ -405,6 +405,9 @@ suite 'minimum' ->
   test 'multi element list' ->
     eq 2, minimum [4 3 2 6 9]
 
+  test 'list of strings' ->
+    eq 'a', minimum ['c', 'e', 'a', 'd', 'b']
+
 suite 'scan' ->
   test 'empty list as input' ->
     deep-eq [null], scan id, null, []
