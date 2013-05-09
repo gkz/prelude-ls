@@ -1,7 +1,7 @@
 Prelude = require '../lib/Prelude.js'
 {id} = Prelude
 {
-  split, join, lines, unlines, words, unwords, chars, unchars, reverse, repeat,
+  split, join, lines, unlines, words, unwords, chars, unchars, empty, reverse, repeat,
   slice, take, drop, split-at, take-while, drop-while, span, break-str
 } = Prelude.Str
 require! assert
@@ -65,6 +65,13 @@ suite 'unchars' ->
 
   test 'array as input' ->
     eq 'there', unchars ['t', 'h', 'e', 'r', 'e']
+
+suite 'empty' ->
+  test 'empty string as input' ->
+    ok empty ''
+
+  test 'string as input' ->
+    ok not empty 'a'
 
 suite 'reverse' ->
   test 'empty string as input' ->

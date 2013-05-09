@@ -15,7 +15,7 @@ replicate = (n, x) -->
 
 
 Str <<< List{
-  slice, take, drop, split-at, take-while, drop-while, span, break-str: break-list
+  empty, slice, take, drop, split-at, take-while, drop-while, span, break-str: break-list
 }
 
 prelude = {
