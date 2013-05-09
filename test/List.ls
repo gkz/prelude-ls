@@ -349,11 +349,11 @@ suite 'sort-by' ->
 
   test 'complex case' ->
     arr =
-      [1 2 3]
-      [4]
-      [5 6 7 8]
-      [9 10]
-    deep-eq [4,9,10,1,2,3,5,6,7,8], flatten sort-by (.length), arr
+      'hey'
+      'a'
+      'there'
+      'ha'
+    deep-eq ['a', 'ha', 'hey', 'there'], sort-by (.length), arr
 
 suite 'sum' ->
   test 'empty list as input' ->
