@@ -1,8 +1,8 @@
 # prelude.ls [![Build Status](https://travis-ci.org/gkz/prelude-ls.png?branch=master)](https://travis-ci.org/gkz/prelude-ls)
 
-is a JavaScript functional programming library. It is the recommended base library for, and is written in, <a href="http://gkz.github.com/LiveScript/">LiveScript</a>. It is inspired in part by Haskell's Prelude module, and other utility libraries.
+is a functionally oriented utility library. It is powerful and flexible. Almost all of its functions are curried. It is written in, and is the recommended base library for, <a href="http://livescript.net">LiveScript</a>.
 
-See **[the prelude.ls site](http://gkz.github.com/prelude-ls/)** for examples, a reference, and more.
+See **[the prelude.ls site](http://gkz.github.io/prelude-ls/)** for examples, a reference, and more.
 
 You can install via npm `npm install prelude-ls`
 
