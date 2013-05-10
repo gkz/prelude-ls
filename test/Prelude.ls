@@ -1,4 +1,4 @@
-{id, is-type, replicate} = require '../lib/Prelude.js'
+{id, is-type, replicate} = require '..'
 require! assert
 {equal: eq, deep-equal: deep-eq, ok} = assert
 

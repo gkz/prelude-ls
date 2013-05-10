@@ -1,4 +1,4 @@
-Prelude = require '../lib/Prelude.js'
+Prelude = require '..'
 {id} = Prelude
 {
   split, join, lines, unlines, words, unwords, chars, unchars, empty, reverse, repeat,

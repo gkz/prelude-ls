@@ -1,9 +1,8 @@
-Prelude = require '../lib/Prelude.js'
 {
   max, min, negate, abs, signum, quot, rem, div, mod, recip,
   pi, tau, exp, sqrt, ln, pow, sin, tan, cos, acos, asin, atan, atan2,
   truncate, round, ceiling, floor, is-it-NaN, even, odd, gcd, lcm,
-} = Prelude.Num
+} = require '..'
 require! assert
 {equal: eq, deep-equal: deep-eq, ok} = assert
 

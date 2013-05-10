@@ -1,4 +1,4 @@
-Prelude = require '../lib/Prelude.js'
+Prelude = require '..'
 {id} = Prelude
 {even, odd, floor, is-it-NaN} = Prelude.Num
 {

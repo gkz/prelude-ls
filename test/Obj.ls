@@ -1,4 +1,4 @@
-Prelude = require '../lib/Prelude.js'
+Prelude = require '..'
 {id} = Prelude
 {
   values, keys,

@@ -1,7 +1,7 @@
 require=(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({"prelude-ls":[function(require,module,exports){
-module.exports=require('m3LtPL');
-},{}],"m3LtPL":[function(require,module,exports){
-var Func, List, Obj, Str, Num, id, toBool, toNumber, toInt, toFloat, toString, toFunc, isType, compare, replicate, prelude, toString$ = {}.toString;
+module.exports=require('bcmc1g');
+},{}],"bcmc1g":[function(require,module,exports){
+var Func, List, Obj, Str, Num, id, isType, replicate, prelude, toString$ = {}.toString;
 Func = require('./Func.js');
 List = require('./List.js');
 Obj = require('./Obj.js');
@@ -10,37 +10,8 @@ Num = require('./Num.js');
 id = function(x){
   return x;
 };
-toBool = function(x){
-  return !!x;
-};
-toNumber = function(x){
-  return +x;
-};
-toInt = function(x){
-  return parseInt(x, 10);
-};
-toFloat = function(x){
-  return parseFloat(x);
-};
-toString = function(x){
-  return '' + x;
-};
-toFunc = function(obj){
-  return function(it){
-    return obj[it];
-  };
-};
 isType = curry$(function(type, x){
   return toString$.call(x).slice(8, -1) === type;
-});
-compare = curry$(function(f, x, y){
-  if (f(x) > f(y)) {
-    return 1;
-  } else if (f(x) < f(y)) {
-    return -1;
-  } else {
-    return 0;
-  }
 });
 replicate = curry$(function(n, x){
   var i$, results$ = [];
@@ -49,6 +20,7 @@ replicate = curry$(function(n, x){
   }
   return results$;
 });
+Str.empty = List.empty;
 Str.slice = List.slice;
 Str.take = List.take;
 Str.drop = List.drop;
@@ -65,8 +37,7 @@ prelude = {
   Num: Num,
   id: id,
   isType: isType,
-  replicate: replicate,
-  compare: compare
+  replicate: replicate
 };
 prelude.each = List.each;
 prelude.map = List.map;
@@ -88,8 +59,8 @@ prelude.union = List.union;
 prelude.countBy = List.countBy;
 prelude.groupBy = List.groupBy;
 prelude.fold = List.fold;
-prelude.fold1 = List.fold1;
 prelude.foldl = List.foldl;
+prelude.fold1 = List.fold1;
 prelude.foldl1 = List.foldl1;
 prelude.foldr = List.foldr;
 prelude.foldr1 = List.foldr1;
@@ -112,8 +83,8 @@ prelude.flatten = List.flatten;
 prelude.maximum = List.maximum;
 prelude.minimum = List.minimum;
 prelude.scan = List.scan;
-prelude.scan1 = List.scan1;
 prelude.scanl = List.scanl;
+prelude.scan1 = List.scan1;
 prelude.scanl1 = List.scanl1;
 prelude.scanr = List.scanr;
 prelude.scanr1 = List.scanr1;
@@ -129,6 +100,7 @@ prelude.zip = List.zip;
 prelude.zipWith = List.zipWith;
 prelude.zipAll = List.zipAll;
 prelude.zipAllWith = List.zipAllWith;
+prelude.apply = Func.apply;
 prelude.curry = Func.curry;
 prelude.flip = Func.flip;
 prelude.fix = Func.fix;
@@ -194,8 +166,8 @@ function curry$(f, bound){
   return _curry();
 }
 
-},{"./Func.js":1,"./List.js":2,"./Str.js":3,"./Num.js":4,"./Obj.js":5}],1:[function(require,module,exports){
-var curry, flip, fix;
+},{"./Func.js":1,"./Obj.js":2,"./Num.js":3,"./List.js":4,"./Str.js":5}],1:[function(require,module,exports){
+var curry, flip, fix, apply;
 curry = function(f){
   return curry$(f);
 };
@@ -213,10 +185,14 @@ fix = function(f){
     };
   });
 };
+apply = curry$(function(f, list){
+  return f.apply(null, list);
+});
 module.exports = {
   curry: curry,
   flip: flip,
-  fix: fix
+  fix: fix,
+  apply: apply
 };
 function curry$(f, bound){
   var context,
@@ -233,7 +209,293 @@ function curry$(f, bound){
 }
 
 },{}],2:[function(require,module,exports){
-var each, map, compact, filter, reject, partition, find, head, first, tail, last, initial, empty, reverse, unique, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, unfold, concat, concatMap, flatten, difference, intersection, union, countBy, groupBy, andList, orList, any, all, sort, sortWith, sortBy, sum, product, mean, average, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, slice, take, drop, splitAt, takeWhile, dropWhile, span, breakList, zip, zipWith, zipAll, zipAllWith, slice$ = [].slice;
+var values, keys, pairsToObj, objToPairs, listsToObj, objToLists, empty, each, map, compact, filter, reject, partition, find;
+values = function(object){
+  var i$, x, results$ = [];
+  for (i$ in object) {
+    x = object[i$];
+    results$.push(x);
+  }
+  return results$;
+};
+keys = function(object){
+  var x, results$ = [];
+  for (x in object) {
+    results$.push(x);
+  }
+  return results$;
+};
+pairsToObj = function(object){
+  var i$, len$, x, results$ = {};
+  for (i$ = 0, len$ = object.length; i$ < len$; ++i$) {
+    x = object[i$];
+    results$[x[0]] = x[1];
+  }
+  return results$;
+};
+objToPairs = function(object){
+  var key, value, results$ = [];
+  for (key in object) {
+    value = object[key];
+    results$.push([key, value]);
+  }
+  return results$;
+};
+listsToObj = curry$(function(keys, values){
+  var i$, len$, i, key, results$ = {};
+  for (i$ = 0, len$ = keys.length; i$ < len$; ++i$) {
+    i = i$;
+    key = keys[i$];
+    results$[key] = values[i];
+  }
+  return results$;
+});
+objToLists = function(objectect){
+  var keys, values, key, value;
+  keys = [];
+  values = [];
+  for (key in objectect) {
+    value = objectect[key];
+    keys.push(key);
+    values.push(value);
+  }
+  return [keys, values];
+};
+empty = function(object){
+  var x;
+  for (x in object) {
+    return false;
+  }
+  return true;
+};
+each = curry$(function(f, object){
+  var i$, x;
+  for (i$ in object) {
+    x = object[i$];
+    f(x);
+  }
+  return object;
+});
+map = curry$(function(f, object){
+  var k, x, results$ = {};
+  for (k in object) {
+    x = object[k];
+    results$[k] = f(x);
+  }
+  return results$;
+});
+compact = curry$(function(object){
+  var k, x, results$ = {};
+  for (k in object) {
+    x = object[k];
+if (x) {
+      results$[k] = x;
+    }
+  }
+  return results$;
+});
+filter = curry$(function(f, object){
+  var k, x, results$ = {};
+  for (k in object) {
+    x = object[k];
+if (f(x)) {
+      results$[k] = x;
+    }
+  }
+  return results$;
+});
+reject = curry$(function(f, object){
+  var k, x, results$ = {};
+  for (k in object) {
+    x = object[k];
+if (!f(x)) {
+      results$[k] = x;
+    }
+  }
+  return results$;
+});
+partition = curry$(function(f, object){
+  var passed, failed, k, x;
+  passed = {};
+  failed = {};
+  for (k in object) {
+    x = object[k];
+    (f(x) ? passed : failed)[k] = x;
+  }
+  return [passed, failed];
+});
+find = curry$(function(f, object){
+  var i$, x;
+  for (i$ in object) {
+    x = object[i$];
+    if (f(x)) {
+      return x;
+    }
+  }
+});
+module.exports = {
+  values: values,
+  keys: keys,
+  pairsToObj: pairsToObj,
+  objToPairs: objToPairs,
+  listsToObj: listsToObj,
+  objToLists: objToLists,
+  empty: empty,
+  each: each,
+  map: map,
+  filter: filter,
+  compact: compact,
+  reject: reject,
+  partition: partition,
+  find: find
+};
+function curry$(f, bound){
+  var context,
+  _curry = function(args) {
+    return f.length > 1 ? function(){
+      var params = args ? args.concat() : [];
+      context = bound ? context || this : this;
+      return params.push.apply(params, arguments) <
+          f.length && arguments.length ?
+        _curry.call(context, params) : f.apply(context, params);
+    } : f;
+  };
+  return _curry();
+}
+
+},{}],3:[function(require,module,exports){
+var max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm;
+max = curry$(function(x$, y$){
+  return x$ > y$ ? x$ : y$;
+});
+min = curry$(function(x$, y$){
+  return x$ < y$ ? x$ : y$;
+});
+negate = function(x){
+  return -x;
+};
+abs = Math.abs;
+signum = function(x){
+  if (x < 0) {
+    return -1;
+  } else if (x > 0) {
+    return 1;
+  } else {
+    return 0;
+  }
+};
+quot = curry$(function(x, y){
+  return ~~(x / y);
+});
+rem = curry$(function(x$, y$){
+  return x$ % y$;
+});
+div = curry$(function(x, y){
+  return Math.floor(x / y);
+});
+mod = curry$(function(x$, y$){
+  var ref$;
+  return ((x$) % (ref$ = y$) + ref$) % ref$;
+});
+recip = (function(it){
+  return 1 / it;
+});
+pi = Math.PI;
+tau = pi * 2;
+exp = Math.exp;
+sqrt = Math.sqrt;
+ln = Math.log;
+pow = curry$(function(x$, y$){
+  return Math.pow(x$, y$);
+});
+sin = Math.sin;
+tan = Math.tan;
+cos = Math.cos;
+asin = Math.asin;
+acos = Math.acos;
+atan = Math.atan;
+atan2 = curry$(function(x, y){
+  return Math.atan2(x, y);
+});
+truncate = function(x){
+  return ~~x;
+};
+round = Math.round;
+ceiling = Math.ceil;
+floor = Math.floor;
+isItNaN = function(x){
+  return x !== x;
+};
+even = function(x){
+  return x % 2 === 0;
+};
+odd = function(x){
+  return x % 2 !== 0;
+};
+gcd = curry$(function(x, y){
+  var z;
+  x = Math.abs(x);
+  y = Math.abs(y);
+  while (y !== 0) {
+    z = x % y;
+    x = y;
+    y = z;
+  }
+  return x;
+});
+lcm = curry$(function(x, y){
+  return Math.abs(Math.floor(x / gcd(x, y) * y));
+});
+module.exports = {
+  max: max,
+  min: min,
+  negate: negate,
+  abs: abs,
+  signum: signum,
+  quot: quot,
+  rem: rem,
+  div: div,
+  mod: mod,
+  recip: recip,
+  pi: pi,
+  tau: tau,
+  exp: exp,
+  sqrt: sqrt,
+  ln: ln,
+  pow: pow,
+  sin: sin,
+  tan: tan,
+  cos: cos,
+  acos: acos,
+  asin: asin,
+  atan: atan,
+  atan2: atan2,
+  truncate: truncate,
+  round: round,
+  ceiling: ceiling,
+  floor: floor,
+  isItNaN: isItNaN,
+  even: even,
+  odd: odd,
+  gcd: gcd,
+  lcm: lcm
+};
+function curry$(f, bound){
+  var context,
+  _curry = function(args) {
+    return f.length > 1 ? function(){
+      var params = args ? args.concat() : [];
+      context = bound ? context || this : this;
+      return params.push.apply(params, arguments) <
+          f.length && arguments.length ?
+        _curry.call(context, params) : f.apply(context, params);
+    } : f;
+  };
+  return _curry();
+}
+
+},{}],4:[function(require,module,exports){
+var each, map, compact, filter, reject, partition, find, head, first, tail, last, initial, empty, reverse, unique, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, concat, concatMap, flatten, difference, intersection, union, countBy, groupBy, andList, orList, any, all, sort, sortWith, sortBy, sum, product, mean, average, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, slice, take, drop, splitAt, takeWhile, dropWhile, span, breakList, zip, zipWith, zipAll, zipAllWith, slice$ = [].slice;
 each = curry$(function(f, xs){
   var i$, len$, x;
   for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
@@ -361,7 +623,7 @@ foldr1 = curry$(function(f, xs){
   ys = xs.concat().reverse();
   return fold(f, ys[0], ys.slice(1));
 });
-unfoldr = unfold = curry$(function(f, b){
+unfoldr = curry$(function(f, b){
   var result, x, that;
   result = [];
   x = b;
@@ -839,7 +1101,7 @@ function compose$(fs){
 }
 function not$(x){ return !x; }
 
-},{}],3:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var split, join, lines, unlines, words, unwords, chars, unchars, reverse, repeat;
 split = curry$(function(sep, str){
   return str.split(sep);
@@ -894,292 +1156,6 @@ module.exports = {
   unchars: unchars,
   reverse: reverse,
   repeat: repeat
-};
-function curry$(f, bound){
-  var context,
-  _curry = function(args) {
-    return f.length > 1 ? function(){
-      var params = args ? args.concat() : [];
-      context = bound ? context || this : this;
-      return params.push.apply(params, arguments) <
-          f.length && arguments.length ?
-        _curry.call(context, params) : f.apply(context, params);
-    } : f;
-  };
-  return _curry();
-}
-
-},{}],4:[function(require,module,exports){
-var max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm;
-max = curry$(function(x$, y$){
-  return x$ > y$ ? x$ : y$;
-});
-min = curry$(function(x$, y$){
-  return x$ < y$ ? x$ : y$;
-});
-negate = function(x){
-  return -x;
-};
-abs = Math.abs;
-signum = function(x){
-  if (x < 0) {
-    return -1;
-  } else if (x > 0) {
-    return 1;
-  } else {
-    return 0;
-  }
-};
-quot = curry$(function(x, y){
-  return ~~(x / y);
-});
-rem = curry$(function(x$, y$){
-  return x$ % y$;
-});
-div = curry$(function(x, y){
-  return Math.floor(x / y);
-});
-mod = curry$(function(x$, y$){
-  var ref$;
-  return ((x$) % (ref$ = y$) + ref$) % ref$;
-});
-recip = (function(it){
-  return 1 / it;
-});
-pi = Math.PI;
-tau = pi * 2;
-exp = Math.exp;
-sqrt = Math.sqrt;
-ln = Math.log;
-pow = curry$(function(x$, y$){
-  return Math.pow(x$, y$);
-});
-sin = Math.sin;
-tan = Math.tan;
-cos = Math.cos;
-asin = Math.asin;
-acos = Math.acos;
-atan = Math.atan;
-atan2 = curry$(function(x, y){
-  return Math.atan2(x, y);
-});
-truncate = function(x){
-  return ~~x;
-};
-round = Math.round;
-ceiling = Math.ceil;
-floor = Math.floor;
-isItNaN = function(x){
-  return x !== x;
-};
-even = function(x){
-  return x % 2 === 0;
-};
-odd = function(x){
-  return x % 2 !== 0;
-};
-gcd = curry$(function(x, y){
-  var z;
-  x = Math.abs(x);
-  y = Math.abs(y);
-  while (y !== 0) {
-    z = x % y;
-    x = y;
-    y = z;
-  }
-  return x;
-});
-lcm = curry$(function(x, y){
-  return Math.abs(Math.floor(x / gcd(x, y) * y));
-});
-module.exports = {
-  max: max,
-  min: min,
-  negate: negate,
-  abs: abs,
-  signum: signum,
-  quot: quot,
-  rem: rem,
-  div: div,
-  mod: mod,
-  recip: recip,
-  pi: pi,
-  tau: tau,
-  exp: exp,
-  sqrt: sqrt,
-  ln: ln,
-  pow: pow,
-  sin: sin,
-  tan: tan,
-  cos: cos,
-  acos: acos,
-  asin: asin,
-  atan: atan,
-  atan2: atan2,
-  truncate: truncate,
-  round: round,
-  ceiling: ceiling,
-  floor: floor,
-  isItNaN: isItNaN,
-  even: even,
-  odd: odd,
-  gcd: gcd,
-  lcm: lcm
-};
-function curry$(f, bound){
-  var context,
-  _curry = function(args) {
-    return f.length > 1 ? function(){
-      var params = args ? args.concat() : [];
-      context = bound ? context || this : this;
-      return params.push.apply(params, arguments) <
-          f.length && arguments.length ?
-        _curry.call(context, params) : f.apply(context, params);
-    } : f;
-  };
-  return _curry();
-}
-
-},{}],5:[function(require,module,exports){
-var values, keys, pairsToObj, objToPairs, listsToObj, objToLists, empty, each, map, compact, filter, reject, partition, find;
-values = function(object){
-  var i$, x, results$ = [];
-  for (i$ in object) {
-    x = object[i$];
-    results$.push(x);
-  }
-  return results$;
-};
-keys = function(object){
-  var x, results$ = [];
-  for (x in object) {
-    results$.push(x);
-  }
-  return results$;
-};
-pairsToObj = function(object){
-  var i$, len$, x, results$ = {};
-  for (i$ = 0, len$ = object.length; i$ < len$; ++i$) {
-    x = object[i$];
-    results$[x[0]] = x[1];
-  }
-  return results$;
-};
-objToPairs = function(object){
-  var key, value, results$ = [];
-  for (key in object) {
-    value = object[key];
-    results$.push([key, value]);
-  }
-  return results$;
-};
-listsToObj = curry$(function(keys, values){
-  var i$, len$, i, key, results$ = {};
-  for (i$ = 0, len$ = keys.length; i$ < len$; ++i$) {
-    i = i$;
-    key = keys[i$];
-    results$[key] = values[i];
-  }
-  return results$;
-});
-objToLists = function(objectect){
-  var keys, values, key, value;
-  keys = [];
-  values = [];
-  for (key in objectect) {
-    value = objectect[key];
-    keys.push(key);
-    values.push(value);
-  }
-  return [keys, values];
-};
-empty = function(object){
-  var x;
-  for (x in object) {
-    return false;
-  }
-  return true;
-};
-each = curry$(function(f, object){
-  var i$, x;
-  for (i$ in object) {
-    x = object[i$];
-    f(x);
-  }
-  return object;
-});
-map = curry$(function(f, object){
-  var k, x, results$ = {};
-  for (k in object) {
-    x = object[k];
-    results$[k] = f(x);
-  }
-  return results$;
-});
-compact = curry$(function(object){
-  var k, x, results$ = {};
-  for (k in object) {
-    x = object[k];
-if (x) {
-      results$[k] = x;
-    }
-  }
-  return results$;
-});
-filter = curry$(function(f, object){
-  var k, x, results$ = {};
-  for (k in object) {
-    x = object[k];
-if (f(x)) {
-      results$[k] = x;
-    }
-  }
-  return results$;
-});
-reject = curry$(function(f, object){
-  var k, x, results$ = {};
-  for (k in object) {
-    x = object[k];
-if (!f(x)) {
-      results$[k] = x;
-    }
-  }
-  return results$;
-});
-partition = curry$(function(f, object){
-  var passed, failed, k, x;
-  passed = {};
-  failed = {};
-  for (k in object) {
-    x = object[k];
-    (f(x) ? passed : failed)[k] = x;
-  }
-  return [passed, failed];
-});
-find = curry$(function(f, object){
-  var i$, x;
-  for (i$ in object) {
-    x = object[i$];
-    if (f(x)) {
-      return x;
-    }
-  }
-});
-module.exports = {
-  values: values,
-  keys: keys,
-  pairsToObj: pairsToObj,
-  objToPairs: objToPairs,
-  listsToObj: listsToObj,
-  objToLists: objToLists,
-  empty: empty,
-  each: each,
-  map: map,
-  filter: filter,
-  compact: compact,
-  reject: reject,
-  partition: partition,
-  find: find
 };
 function curry$(f, bound){
   var context,

@@ -1,5 +1,4 @@
-Prelude = require '../lib/Prelude.js'
-{apply, curry, flip, fix} = Prelude.Func
+{apply, curry, flip, fix} = require '..' .Func
 require! assert
 {equal: eq, deep-equal: deep-eq, ok} = assert
 

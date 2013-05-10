@@ -17,7 +17,7 @@ keywords:
   'collection'
   'utility'
 
-main: './prelude.js'
+main: 'lib/'
 files:
   'prelude.js'
   'README.md'
