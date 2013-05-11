@@ -1,5 +1,5 @@
 name: 'prelude-ls'
-version: '0.7.0-dev'
+version: '1.0.0'
 
 author: 'George Zahariev <z@georgezahariev.com>'
 
@@ -25,7 +25,7 @@ files:
   'README.md'
   'LICENSE'
 
-homepage: 'http://gkz.github.io/prelude-ls/'
+homepage: 'http://preludels.com'
 bugs: 'https://github.com/gkz/prelude-ls/issues'
 licenses:
   * type: 'MIT'
