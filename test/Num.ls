@@ -15,12 +15,20 @@ suite 'max' ->
   test 'characters' ->
     eq \b, max \a \b
 
+  test 'curried' ->
+    f = max 2
+    eq 3, f 3
+
 suite 'min' ->
   test 'numbers' ->
     eq 0, min 9 0
 
   test 'characters' ->
     eq \a, min \a \b
+
+  test 'curried' ->
+    f = min 9
+    eq 0, f 0
 
 suite 'negate' ->
   test 'zero' ->
@@ -54,19 +62,35 @@ suite 'signum' ->
 
 suite 'quot' ->
   test 'simple' ->
-    eq -6 quot -20 3
+    eq -6, quot -20 3
+
+  test 'curried' ->
+    f = quot -20
+    eq -6, f 3
 
 suite 'rem' ->
   test 'simple' ->
-    eq -2 rem -20 3
+    eq -2, rem -20 3
+
+  test 'curried' ->
+    f = rem -20
+    eq -2, f 3
 
 suite 'div' ->
   test 'simple' ->
-    eq -7 div -20 3
+    eq -7, div -20 3
+
+  test 'curried' ->
+    f = div -20
+    eq -7, f 3
 
 suite 'mod' ->
   test 'simple' ->
-    eq 1 mod -20 3
+    eq 1, mod -20 3
+
+  test 'curried' ->
+    f = mod -20
+    eq 1, f 3
 
 suite 'recip' ->
   test 'zero' ->
@@ -112,6 +136,10 @@ suite 'pow' ->
   test 'between one and zero' ->
     eq 4, pow 16 0.5
 
+  test 'curried' ->
+    f = pow 2
+    eq 4, f 2
+
 suite 'sin' ->
   test 'zero' ->
     eq 0, sin 0
@@ -148,6 +176,10 @@ suite 'atan' ->
 suite 'atan2' ->
   test 'number' ->
     eq 0.4636476090008061, atan2 1 2
+
+  test 'curried' ->
+    f = atan2 1
+    eq 0.4636476090008061, f 2
 
 suite 'truncate' ->
   test 'zero' ->
@@ -212,8 +244,16 @@ suite 'odd' ->
 
 suite 'gcd' ->
   test 'some numbers' ->
-    eq 6 gcd 12 18
+    eq 6, gcd 12 18
+
+  test 'curried' ->
+    f = gcd 12
+    eq 6, f 18
 
 suite 'lcm' ->
   test 'some numbers' ->
     eq 36, lcm 12 18
+
+  test 'curried' ->
+    f = lcm 12
+    eq 36, f 18

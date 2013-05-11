@@ -22,12 +22,20 @@ suite 'each' ->
   test 'side effects affect input (and thus result)' ->
     deep-eq [[1],[2]] each (.pop!), [[1 5] [2 6]]
 
+  test 'curried' ->
+    f = each (.pop!)
+    deep-eq [[1],[2]], f [[1 5] [2 6]]
+
 suite 'map' ->
   test 'empty list as input' ->
     deep-eq [], map id, []
 
   test 'mapping over array' ->
     deep-eq [2 3 4], map (+ 1), [1 2 3]
+
+  test 'curried' ->
+    f = map (+ 1)
+    deep-eq [2 3 4], f [1 2 3]
 
 suite 'compact' ->
   test 'empty list as input' ->
@@ -49,6 +57,10 @@ suite 'filter' ->
   test 'filter on false returns empty list' ->
     deep-eq [], filter (-> false), [1 2 3]
 
+  test 'curried' ->
+    f = filter even
+    deep-eq [2, 4], f [1 to 5]
+
 suite 'reject' ->
   test 'empty list as input' ->
     deep-eq [], reject id, []
@@ -61,6 +73,10 @@ suite 'reject' ->
 
   test 'reject on true returns original list' ->
     deep-eq [1 2 3], reject (-> false), [1 2 3]
+
+  test 'curried' ->
+    f = reject even
+    deep-eq [1 3 5], f [1 to 5]
 
 suite 'partition' ->
   test 'empty list as input' ->
@@ -75,6 +91,10 @@ suite 'partition' ->
   test 'partition on false returns empty list as failing, empty list as passing' ->
     deep-eq [[], [1 2 3]], partition (-> false), [1 2 3]
 
+  test 'curried' ->
+    f = partition (>60)
+    deep-eq [[76 88 77 90],[49 58 43]], f [49 58 76 43 88 77 90]
+
 suite 'find' ->
   test 'empty list as input' ->
     eq void, find id, []
@@ -87,6 +107,10 @@ suite 'find' ->
 
   test 'find first item when function always true' ->
     eq 1, find (-> true), [1 2 3]
+
+  test 'curried' ->
+    f = find even
+    eq 4, f [3 1 4 8 6]
 
 suite 'list portions' ->
   list = [1 2 3 4 5]
@@ -164,6 +188,13 @@ suite 'fold' ->
   test 'foldl is alias' ->
     eq fold, foldl
 
+  test 'curried' ->
+    f = fold (+)
+    eq 12, f 0, [1 2 3 6]
+
+    g = fold (+), 0
+    eq 12 g [1 2 3 6]
+
 suite 'fold1' ->
   test 'empty list as input' ->
     eq void, fold1 (+), []
@@ -174,6 +205,10 @@ suite 'fold1' ->
   test 'foldl1 as alais' ->
     eq fold1, foldl1
 
+  test 'curried' ->
+    f = fold1 (+)
+    eq 12, f [1 2 3 6]
+
 suite 'foldr' ->
   test 'empty list as input' ->
     eq 0, foldr (+), 0, []
@@ -181,12 +216,23 @@ suite 'foldr' ->
   test 'list as input' ->
     eq -1, foldr (-), 9, [1 2 3 4]
 
+  test 'curried' ->
+    f = foldr (-)
+    eq -1, f 9, [1 2 3 4]
+
+    g = foldr (-), 9
+    eq -1, g [1 2 3 4]
+
 suite 'foldr1' ->
   test 'empty list as input' ->
     eq void, foldr1 (+), []
 
   test 'list as input' ->
-    eq -1 foldr1 (-), [1 2 3 4 9]
+    eq -1, foldr1 (-), [1 2 3 4 9]
+
+  test 'curried' ->
+    f = foldr1 (-)
+    eq -1, f [1 2 3 4 9]
 
 suite 'unfoldr' ->
   test 'complex case' ->
@@ -194,6 +240,10 @@ suite 'unfoldr' ->
 
   test 'returning null right away results in a one item list' ->
     deep-eq [], unfoldr (-> null), 'a'
+
+  test 'curried' ->
+    f = unfoldr (-> if it == 0 then null else [it, it - 1])
+    deep-eq [10,9,8,7,6,5,4,3,2,1], f 10
 
 suite 'concat' ->
   test 'empty list as input' ->
@@ -214,6 +264,10 @@ suite 'concat-map' ->
 
   test 'using mapping and concatinating' ->
     deep-eq [1,1,2,1,2,3], concat-map (-> [1 to it]), [1 2 3]
+
+  test 'curried' ->
+    f = concat-map (-> [1 to it])
+    deep-eq [1,1,2,1,2,3], f [1 2 3]
 
 suite 'flatten' ->
   test 'empty list as input' ->
@@ -272,6 +326,10 @@ suite 'count-by' ->
   test 'list of strings' ->
     deep-eq {3: 2, 5: 1}, count-by (.length), <[ one two three ]>
 
+  test 'curried' ->
+    f = count-by floor
+    deep-eq {4: 1, 6: 2}, f [4.2, 6.1, 6.4]
+
 suite 'group-by' ->
   test 'empty list as input' ->
     deep-eq [], group-by id, []
@@ -281,6 +339,10 @@ suite 'group-by' ->
 
   test 'list of strings' ->
     deep-eq {3: <[ one two ]>, 5: <[ three ]>}, group-by (.length), <[ one two three ]>
+
+  test 'curried' ->
+    f = group-by floor
+    deep-eq {4: [4.2], 6: [6.1 6.4]}, f [4.2, 6.1, 6.4]
 
 suite 'and-list' ->
   test 'empty list as input' ->
@@ -312,6 +374,10 @@ suite 'any' ->
   test 'false' ->
     ok not any even, [1 3 7 5]
 
+  test 'curried' ->
+    f = any even
+    ok f [1 4 3]
+
 suite 'all' ->
   test 'empty list as input' ->
     ok all even, []
@@ -321,6 +387,10 @@ suite 'all' ->
 
   test 'false' ->
     ok not all even, [2 5 6]
+
+  test 'curried' ->
+    f = all even
+    ok f [2 4 6]
 
 suite 'sort' ->
   test 'empty list as input' ->
@@ -333,27 +403,37 @@ suite 'sort' ->
     deep-eq [2,5,6,12,334,4999], sort [334 12 5 2 4999 6]
 
 suite 'sort-with' ->
+  f = (x, y) ->
+    | x.length > y.length => 1
+    | x.length < y.length => -1
+    | otherwise           => 0
+
   test 'empty list as input' ->
     deep-eq [], sort-with id, []
 
   test 'complex case' ->
-    f = (x, y) ->
-      | x.length > y.length => 1
-      | x.length < y.length => -1
-      | otherwise           => 0
-    deep-eq ['one','two','three'], sort-with (f), <[ three one two ]>
+    deep-eq ['one','two','three'], sort-with f, <[ three one two ]>
+
+  test 'curried' ->
+    g = sort-with f
+    deep-eq ['one','two','three'], g <[ three one two ]>
 
 suite 'sort-by' ->
+  arr =
+    'hey'
+    'a'
+    'there'
+    'ha'
+
   test 'empty list as input' ->
     deep-eq [], sort-by id, []
 
   test 'complex case' ->
-    arr =
-      'hey'
-      'a'
-      'there'
-      'ha'
     deep-eq ['a', 'ha', 'hey', 'there'], sort-by (.length), arr
+
+  test 'curried' ->
+    f = sort-by (.length)
+    deep-eq ['a', 'ha', 'hey', 'there'], f arr
 
 suite 'sum' ->
   test 'empty list as input' ->
@@ -418,6 +498,13 @@ suite 'scan' ->
   test 'scanl as alias' ->
     eq scan, scanl
 
+  test 'curried' ->
+    f = scan ((x, y) -> 2 * x + y)
+    deep-eq [4,9,20,43], f 4, [1 2 3]
+
+    g = scan ((x, y) -> 2 * x + y), 4
+    deep-eq [4,9,20,43], g [1 2 3]
+
 suite 'scan1' ->
   test 'empty list as input' ->
     deep-eq void, scan1 id, []
@@ -428,6 +515,10 @@ suite 'scan1' ->
   test 'scanl1 as alias' ->
     eq scan1, scanl1
 
+  test 'curried' ->
+    f = scan1 (+)
+    deep-eq [1,3,6,10], f [1 2 3 4]
+
 suite 'scanr' ->
   test 'empty list as input' ->
     deep-eq [null], scanr id, null, []
@@ -435,12 +526,23 @@ suite 'scanr' ->
   test 'complex case' ->
     deep-eq [15,14,12,9,5], scanr (+), 5, [1 2 3 4]
 
+  test 'curried' ->
+    f = scanr (+)
+    deep-eq [15,14,12,9,5], f 5, [1 2 3 4]
+
+    g = scanr (+), 5
+    deep-eq [15,14,12,9,5], g [1 2 3 4]
+
 suite 'scanr1' ->
   test 'empty list as input' ->
     deep-eq void, scanr1 id, []
 
   test 'complex case' ->
     deep-eq [10,9,7,4], scanr1 (+), [1 2 3 4]
+
+  test 'curried' ->
+    f = scanr1 (+)
+    deep-eq [10,9,7,4], f [1 2 3 4]
 
 suite 'slice' ->
   test 'zero to zero' ->
@@ -451,6 +553,13 @@ suite 'slice' ->
 
   test 'parts' ->
     deep-eq [3 4], slice 2 4 [1 2 3 4 5]
+
+  test 'curried' ->
+    f = slice 2
+    deep-eq [3 4], f 4 [1 2 3 4 5]
+
+    g = slice 2 4
+    deep-eq [3 4], g [1 2 3 4 5]
 
 suite 'take' ->
   test 'empty list as input' ->
@@ -468,6 +577,10 @@ suite 'take' ->
   test 'list' ->
     deep-eq [1 2 3], take 3 [1 2 3 4 5]
 
+  test 'curried' ->
+    f = take 3
+    deep-eq [1 2 3], f [1 2 3 4 5]
+
 suite 'drop' ->
   test 'empty list as input' ->
     deep-eq [], drop 3 []
@@ -483,6 +596,10 @@ suite 'drop' ->
 
   test 'list' ->
     deep-eq [4 5], drop 3 [1 2 3 4 5]
+
+  test 'curried' ->
+    f = drop 3
+    deep-eq [4 5], f [1 2 3 4 5]
 
 suite 'split-at' ->
   test 'empty list as input' ->
@@ -500,12 +617,20 @@ suite 'split-at' ->
   test 'list' ->
     deep-eq [[1 2 3], [4 5]], split-at 3 [1 2 3 4 5]
 
+  test 'curried' ->
+    f = split-at 3
+    deep-eq [[1 2 3], [4 5]], f [1 2 3 4 5]
+
 suite 'take-while' ->
   test 'empty list as input' ->
     deep-eq [], take-while id, []
 
   test 'list' ->
     deep-eq [1 3 5], take-while odd, [1 3 5 4 8 7 9]
+
+  test 'curried' ->
+    f = take-while odd
+    deep-eq [1 3 5], f [1 3 5 4 8 7 9]
 
 suite 'drop-while' ->
   test 'empty list as input' ->
@@ -514,6 +639,10 @@ suite 'drop-while' ->
   test 'list' ->
     deep-eq [7 9 10], drop-while even, [2 4 6 7 9 10]
 
+  test 'curried' ->
+    f = drop-while even
+    deep-eq [7 9 10], f [2 4 6 7 9 10]
+
 suite 'span' ->
   test 'empty list as input' ->
     deep-eq [[], []], span id, []
@@ -521,12 +650,20 @@ suite 'span' ->
   test 'list' ->
     deep-eq [[2 4 6], [7 9 10]], span even, [2 4 6 7 9 10]
 
+  test 'curried' ->
+    f = span even
+    deep-eq [[2 4 6], [7 9 10]], f [2 4 6 7 9 10]
+
 suite 'break-list' ->
   test 'empty list as input' ->
     deep-eq [[], []], break-list id, []
 
   test 'list' ->
     deep-eq [[1 2], [3 4 5]], break-list (== 3), [1 2 3 4 5]
+
+  test 'curried' ->
+    f = break-list (== 3)
+    deep-eq [[1 2], [3 4 5]], f [1 2 3 4 5]
 
 suite 'zip' ->
   test 'empty lists as input' ->
@@ -541,6 +678,10 @@ suite 'zip' ->
   test 'second list shorter' ->
     deep-eq [[1 4], [2 5]], zip [1 2 3] [4 5]
 
+  test 'curried' ->
+    f = zip [1 2]
+    deep-eq [[1 4], [2 5]], f [4 5]
+
 suite 'zip-with' ->
   test 'empty lists as input' ->
     deep-eq [], zip-with id, [], []
@@ -553,6 +694,13 @@ suite 'zip-with' ->
 
   test 'second list shorter' ->
     deep-eq [5 7], zip-with (+), [1 2 3] [4 5]
+
+  test 'curried' ->
+    f = zip-with (+)
+    deep-eq [4 4 4], f [1 2 3], [3 2 1]
+
+    g = zip-with (+), [1 2 3]
+    deep-eq [4 4 4], g [3 2 1]
 
 suite 'zip-all' ->
   test 'empty lists as input' ->

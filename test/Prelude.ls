@@ -30,6 +30,10 @@ suite 'is-type' ->
 
     ok is-type 'Object' new A
 
+  test 'curried' ->
+    f = is-type 'Boolean'
+    ok f true
+
 suite 'replicate' ->
   test 'zero as input' ->
     deep-eq [], replicate 0 0
@@ -41,3 +45,6 @@ suite 'replicate' ->
   test 'string as input' ->
     deep-eq <[ a a a a ]>, replicate 4 'a'
 
+  test 'curried' ->
+    f = replicate 4
+    deep-eq [3,3,3,3], f 3

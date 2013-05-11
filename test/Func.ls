@@ -10,6 +10,10 @@ suite 'apply' ->
   test 'a couple of args' ->
     eq 5, apply (+), [2 3]
 
+  test 'curried' ->
+    f = apply (+)
+    eq 5, f [2 3]
+
 suite 'curry' ->
   test 'simple function' ->
     add = (x, y) -> x + y

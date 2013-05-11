@@ -14,6 +14,10 @@ suite 'split' ->
   test 'string of some length' ->
     deep-eq <[ 1 2 3 ]>, split '|' '1|2|3'
 
+  test 'curried' ->
+    f = split '|'
+    deep-eq <[ 1 2 3 ]>, f '1|2|3'
+
 suite 'join' ->
   test 'empty list as input' ->
     eq '' join '', []
@@ -23,6 +27,10 @@ suite 'join' ->
 
   test 'empty string as seperator' ->
     eq '123', join '' [1 2 3]
+
+  test 'curried' ->
+    f = join ','
+    eq '1,2,3', f [1 2 3]
 
 suite 'lines' ->
   test 'empty string as input' ->
@@ -92,6 +100,10 @@ suite 'repeat' ->
     eq 'aa', repeat 2 'a'
     eq 'hihihi', repeat 3 'hi'
 
+  test 'curried' ->
+    f = repeat 2
+    eq 'aa', f 'a'
+
 suite 'slice' ->
   test 'zero to zero' ->
     eq '', slice 0 0 'hello'
@@ -101,6 +113,13 @@ suite 'slice' ->
 
   test 'parts' ->
     eq 'll', slice 2 4 'hello'
+
+  test 'curried' ->
+    f = slice 2
+    eq 'll', f 4 'hello'
+
+    g = slice 2 4
+    eq 'll', g 'hello'
 
 suite 'take' ->
   test 'empty string as input' ->
@@ -112,6 +131,10 @@ suite 'take' ->
   test 'string' ->
     eq 'ab', take 2 'abcde'
 
+  test 'curried' ->
+    f = take 2
+    eq 'ab', f 'abcde'
+
 suite 'drop' ->
   test 'empty string as input' ->
     eq '', drop 3 ''
@@ -121,6 +144,10 @@ suite 'drop' ->
 
   test 'string' ->
     eq 'cde', drop 2 'abcde'
+
+  test 'curried' ->
+    f = drop 2
+    eq 'cde', f 'abcde'
 
 suite 'split-at' ->
   test 'empty string as input' ->
@@ -132,6 +159,10 @@ suite 'split-at' ->
   test 'string' ->
     deep-eq ['ab', 'cde'], split-at 2 'abcde'
 
+  test 'curried' ->
+    f = split-at 2
+    deep-eq ['ab', 'cde'], f 'abcde'
+
 suite 'take-while' ->
   test 'empty string as input' ->
     eq '', take-while id, ''
@@ -139,21 +170,39 @@ suite 'take-while' ->
   test 'string' ->
     eq 'mmmmm', take-while (is 'm'), 'mmmmmhmm'
 
+  test 'curried' ->
+    f = take-while (is 'm')
+    eq 'mmmmm', f 'mmmmmhmm'
+
 suite 'drop-while' ->
   test 'empty string as input' ->
     eq '', drop-while id, ''
+
   test 'string' ->
     eq 'hmm', drop-while (is \m), 'mmmmmhmm'
+
+  test 'curried' ->
+    f = drop-while (is \m)
+    eq 'hmm', f 'mmmmmhmm'
 
 suite 'span' ->
   test 'empty string as input' ->
     deep-eq ['', ''], span id, ''
+
   test 'string' ->
-    deep-eq ['mmmmm', 'hmm'] span (is \m), 'mmmmmhmm'
+    deep-eq ['mmmmm', 'hmm'], span (is \m), 'mmmmmhmm'
+
+  test 'curried' ->
+    f = span (is \m)
+    deep-eq ['mmmmm', 'hmm'], f 'mmmmmhmm'
 
 suite 'break-str' ->
   test 'empty string as input' ->
     deep-eq ['', ''], break-str id, ''
 
   test 'string' ->
-    deep-eq ['mmmmm', 'hmm'] break-str (is \h), 'mmmmmhmm'
+    deep-eq ['mmmmm', 'hmm'], break-str (is \h), 'mmmmmhmm'
+
+  test 'curried' ->
+    f = break-str (is \h)
+    deep-eq ['mmmmm', 'hmm'], f 'mmmmmhmm'

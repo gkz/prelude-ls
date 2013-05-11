@@ -49,6 +49,10 @@ suite 'lists-to-obj' ->
   test 'first list is longer' ->
     deep-eq  {a: 1, b: 2, c: void}, lists-to-obj <[ a b c ]> [1 2]
 
+  test 'curried' ->
+    f = lists-to-obj <[ a b c ]>
+    deep-eq  {a: 1, b: 2, c: 3}, f [1 2 3]
+
 suite 'obj-to-lists' ->
   test 'empty object as input' ->
     deep-eq [[], []], obj-to-lists {}
@@ -72,12 +76,22 @@ suite 'each' ->
     each (-> count += it), {a: 1, b: 2, c: 3}
     eq 10 count
 
+  test 'curried' ->
+    count = 4
+    f = each (-> count += it)
+    f {a: 1, b: 2, c: 3}
+    eq 10 count
+
 suite 'map' ->
   test 'empty object as input' ->
     deep-eq {}, map id, {}
 
   test 'mapping over object' ->
     deep-eq {a:2, b:4}, map (* 2), {a:1, b:2}
+
+  test 'curried' ->
+    f = map (* 2)
+    deep-eq {a:2, b:4}, f {a:1, b:2}
 
 suite 'compact' ->
   test 'empty object as input' ->
@@ -93,12 +107,20 @@ suite 'filter' ->
   test 'filtering object' ->
     deep-eq {b: 2}, filter (== 2), {a:1, b:2}
 
+  test 'curried' ->
+    f = filter (== 2)
+    deep-eq {b: 2}, f {a:1, b:2}
+
 suite 'reject' ->
   test 'empty object as input' ->
     deep-eq {}, reject id, {}
 
   test 'reject object' ->
     deep-eq {a: 1}, reject (==2), {a:1, b:2}
+
+  test 'curried' ->
+    f = reject (== 2)
+    deep-eq {a: 1}, f {a:1, b:2}
 
 suite 'partition' ->
   test 'empty object as input' ->
@@ -107,9 +129,17 @@ suite 'partition' ->
   test 'partition object' ->
     deep-eq [{b: 2}, {a: 1, c: 3}], partition (==2), {a:1, b:2, c:3}
 
+  test 'curried' ->
+    f = partition (== 2)
+    deep-eq [{b: 2}, {a: 1, c: 3}], f {a:1, b:2, c:3}
+
 suite 'find' ->
   test 'empty object as input' ->
     eq void, find id, {}
 
   test 'find from object' ->
     eq 2, find (==2), {a:1, b:2}
+
+  test 'curried' ->
+    f = find (== 2)
+    eq 2, f {a:1, b:2}
