@@ -1,619 +1,180 @@
-// prelude.ls 0.6.0
-// Copyright (c) 2012 George Zahariev
-// Released under the MIT License
-// raw.github.com/gkz/prelude-ls/master/LICNSE
-this.prelude = function(){
-  exports = {};
-  var objToFunc, each, map, filter, reject, partition, find, first, head, tail, last, initial, empty, values, keys, length, cons, append, join, reverse, foldl, fold, foldl1, fold1, foldr, foldr1, unfoldr, andList, orList, any, all, unique, sort, sortBy, compare, sum, product, average, mean, concat, concatMap, listToObj, maximum, minimum, scanl, scan, scanl1, scan1, scanr, scanr1, replicate, take, drop, splitAt, takeWhile, dropWhile, span, breakIt, zip, zipWith, zipAll, zipAllWith, compose, curry, id, flip, fix, lines, unlines, words, unwords, max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm, toString$ = {}.toString, slice$ = [].slice;
-exports.objToFunc = objToFunc = function(obj){
-  return function(key){
-    return obj[key];
-  };
-};
-exports.each = each = curry$(function(f, xs){
-  var i$, x, len$;
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    for (i$ in xs) {
-      x = xs[i$];
-      f(x);
-    }
-  } else {
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      f(x);
-    }
-  }
-  return xs;
-});
-exports.map = map = curry$(function(f, xs){
-  var type, key, x, res$, i$, len$, result, results$ = {};
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  type = toString$.call(xs).slice(8, -1);
-  if (type === 'Object') {
-    for (key in xs) {
-      x = xs[key];
-      results$[key] = f(x);
-    }
-    return results$;
-  } else {
-    res$ = [];
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      res$.push(f(x));
-    }
-    result = res$;
-    if (type === 'String') {
-      return result.join('');
-    } else {
-      return result;
-    }
-  }
-});
-exports.filter = filter = curry$(function(f, xs){
-  var type, key, x, res$, i$, len$, result, results$ = {};
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  type = toString$.call(xs).slice(8, -1);
-  if (type === 'Object') {
-    for (key in xs) {
-      x = xs[key];
-if (f(x)) {
-        results$[key] = x;
-      }
-    }
-    return results$;
-  } else {
-    res$ = [];
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      if (f(x)) {
-        res$.push(x);
-      }
-    }
-    result = res$;
-    if (type === 'String') {
-      return result.join('');
-    } else {
-      return result;
-    }
-  }
-});
-exports.reject = reject = curry$(function(f, xs){
-  var type, key, x, res$, i$, len$, result, results$ = {};
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  type = toString$.call(xs).slice(8, -1);
-  if (type === 'Object') {
-    for (key in xs) {
-      x = xs[key];
-if (!f(x)) {
-        results$[key] = x;
-      }
-    }
-    return results$;
-  } else {
-    res$ = [];
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      if (!f(x)) {
-        res$.push(x);
-      }
-    }
-    result = res$;
-    if (type === 'String') {
-      return result.join('');
-    } else {
-      return result;
-    }
-  }
-});
-exports.partition = partition = curry$(function(f, xs){
-  var type, passed, failed, key, x, i$, len$;
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  type = toString$.call(xs).slice(8, -1);
-  if (type === 'Object') {
-    passed = {};
-    failed = {};
-    for (key in xs) {
-      x = xs[key];
-      (f(x) ? passed : failed)[key] = x;
-    }
-  } else {
-    passed = [];
-    failed = [];
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      (f(x) ? passed : failed).push(x);
-    }
-    if (type === 'String') {
-      passed = passed.join('');
-      failed = failed.join('');
-    }
-  }
-  return [passed, failed];
-});
-exports.find = find = curry$(function(f, xs){
-  var i$, x, len$;
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    for (i$ in xs) {
-      x = xs[i$];
-      if (f(x)) {
-        return x;
-      }
-    }
-  } else {
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      if (f(x)) {
-        return x;
-      }
-    }
-  }
-});
-exports.head = head = exports.first = first = function(xs){
-  if (!xs.length) {
-    return;
-  }
-  return xs[0];
-};
-exports.tail = tail = function(xs){
-  if (!xs.length) {
-    return;
-  }
-  return xs.slice(1);
-};
-exports.last = last = function(xs){
-  if (!xs.length) {
-    return;
-  }
-  return xs[xs.length - 1];
-};
-exports.initial = initial = function(xs){
-  if (!xs.length) {
-    return;
-  }
-  return xs.slice(0, xs.length - 1);
-};
-exports.empty = empty = function(xs){
-  var x;
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    for (x in xs) {
-      return false;
-    }
-    return true;
-  }
-  return !xs.length;
-};
-exports.values = values = function(obj){
-  var i$, x, results$ = [];
-  for (i$ in obj) {
-    x = obj[i$];
-    results$.push(x);
-  }
-  return results$;
-};
-exports.keys = keys = function(obj){
-  var x, results$ = [];
-  for (x in obj) {
-    results$.push(x);
-  }
-  return results$;
-};
-exports.length = length = function(xs){
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    xs = values(xs);
-  }
-  return xs.length;
-};
-exports.cons = cons = curry$(function(x, xs){
-  if (toString$.call(xs).slice(8, -1) === 'String') {
-    return x + xs;
-  } else {
-    return [x].concat(xs);
-  }
-});
-exports.append = append = curry$(function(xs, ys){
-  if (toString$.call(ys).slice(8, -1) === 'String') {
-    return xs + ys;
-  } else {
-    return xs.concat(ys);
-  }
-});
-exports.join = join = curry$(function(sep, xs){
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    xs = values(xs);
-  }
-  return xs.join(sep);
-});
-exports.reverse = reverse = function(xs){
-  if (toString$.call(xs).slice(8, -1) === 'String') {
-    return xs.split('').reverse().join('');
-  } else {
-    return xs.slice().reverse();
-  }
-};
-exports.fold = fold = exports.foldl = foldl = curry$(function(f, memo, xs){
-  var i$, x, len$;
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    for (i$ in xs) {
-      x = xs[i$];
-      memo = f(memo, x);
-    }
-  } else {
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      memo = f(memo, x);
-    }
-  }
-  return memo;
-});
-exports.fold1 = fold1 = exports.foldl1 = foldl1 = curry$(function(f, xs){
-  return fold(f, xs[0], xs.slice(1));
-});
-exports.foldr = foldr = curry$(function(f, memo, xs){
-  return fold(f, memo, xs.reverse());
-});
-exports.foldr1 = foldr1 = curry$(function(f, xs){
-  xs.reverse();
-  return fold(f, xs[0], xs.slice(1));
-});
-exports.unfoldr = exports.unfold = unfoldr = curry$(function(f, b){
-  var that;
-  if ((that = f(b)) != null) {
-    return [that[0]].concat(unfoldr(f, that[1]));
-  } else {
-    return [];
-  }
-});
-exports.andList = andList = function(xs){
-  return fold(function(memo, x){
-    return memo && x;
-  }, true, xs);
-};
-exports.orList = orList = function(xs){
-  return fold(function(memo, x){
-    return memo || x;
-  }, false, xs);
-};
-exports.any = any = curry$(function(f, xs){
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  return fold(function(memo, x){
-    return memo || f(x);
-  }, false, xs);
-});
-exports.all = all = curry$(function(f, xs){
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  return fold(function(memo, x){
-    return memo && f(x);
-  }, true, xs);
-});
-exports.unique = unique = function(xs){
-  var result, i$, x, len$;
-  result = [];
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    for (i$ in xs) {
-      x = xs[i$];
-      if (!in$(x, result)) {
-        result.push(x);
-      }
-    }
-  } else {
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      if (!in$(x, result)) {
-        result.push(x);
-      }
-    }
-  }
-  if (toString$.call(xs).slice(8, -1) === 'String') {
-    return result.join('');
-  } else {
-    return result;
-  }
-};
-exports.sort = sort = function(xs){
-  return xs.concat().sort(function(x, y){
-    switch (false) {
-    case !(x > y):
-      return 1;
-    case !(x < y):
-      return -1;
-    default:
-      return 0;
-    }
-  });
-};
-exports.sortBy = sortBy = curry$(function(f, xs){
-  if (!xs.length) {
-    return [];
-  }
-  return xs.concat().sort(f);
-});
-exports.compare = compare = curry$(function(f, x, y){
-  switch (false) {
-  case !(f(x) > f(y)):
-    return 1;
-  case !(f(x) < f(y)):
-    return -1;
-  default:
-    return 0;
-  }
-});
-exports.sum = sum = function(xs){
-  var result, i$, x, len$;
-  result = 0;
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    for (i$ in xs) {
-      x = xs[i$];
-      result += x;
-    }
-  } else {
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      result += x;
-    }
-  }
-  return result;
-};
-exports.product = product = function(xs){
-  var result, i$, x, len$;
-  result = 1;
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    for (i$ in xs) {
-      x = xs[i$];
-      result *= x;
-    }
-  } else {
-    for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-      x = xs[i$];
-      result *= x;
-    }
-  }
-  return result;
-};
-exports.mean = mean = exports.average = average = function(xs){
-  return sum(xs) / length(xs);
-};
-exports.concat = concat = function(xss){
-  return fold(append, [], xss);
-};
-exports.concatMap = concatMap = curry$(function(f, xs){
-  return concat(map(f, xs));
-});
-exports.listToObj = listToObj = function(xs){
-  var result, i$, len$, x;
-  result = {};
-  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-    x = xs[i$];
-    result[x[0]] = x[1];
-  }
-  return result;
-};
-exports.maximum = maximum = function(xs){
-  return fold1(max, xs);
-};
-exports.minimum = minimum = function(xs){
-  return fold1(min, xs);
-};
-exports.scan = scan = exports.scanl = scanl = curry$(function(f, memo, xs){
-  var last, x;
-  last = memo;
-  if (toString$.call(xs).slice(8, -1) === 'Object') {
-    return [memo].concat((function(){
-      var i$, ref$, results$ = [];
-      for (i$ in ref$ = xs) {
-        x = ref$[i$];
-        results$.push(last = f(last, x));
-      }
-      return results$;
-    }()));
-  } else {
-    return [memo].concat((function(){
-      var i$, ref$, len$, results$ = [];
-      for (i$ = 0, len$ = (ref$ = xs).length; i$ < len$; ++i$) {
-        x = ref$[i$];
-        results$.push(last = f(last, x));
-      }
-      return results$;
-    }()));
-  }
-});
-exports.scan1 = scan1 = exports.scanl1 = scanl1 = curry$(function(f, xs){
-  return scan(f, xs[0], xs.slice(1));
-});
-exports.scanr = scanr = curry$(function(f, memo, xs){
-  xs.reverse();
-  return scan(f, memo, xs).reverse();
-});
-exports.scanr1 = scanr1 = curry$(function(f, xs){
-  xs.reverse();
-  return scan(f, xs[0], xs.slice(1)).reverse();
-});
-exports.replicate = replicate = curry$(function(n, x){
-  var result, i;
-  result = [];
-  i = 0;
-  for (; i < n; ++i) {
-    result.push(x);
-  }
-  return result;
-});
-exports.take = take = curry$(function(n, xs){
-  switch (false) {
-  case !(n <= 0):
-    if (toString$.call(xs).slice(8, -1) === 'String') {
-      return '';
-    } else {
-      return [];
-    }
-    break;
-  case !!xs.length:
-    return xs;
-  default:
-    return xs.slice(0, n);
-  }
-});
-exports.drop = drop = curry$(function(n, xs){
-  switch (false) {
-  case !(n <= 0):
-    return xs;
-  case !!xs.length:
-    return xs;
-  default:
-    return xs.slice(n);
-  }
-});
-exports.splitAt = splitAt = curry$(function(n, xs){
-  return [take(n, xs), drop(n, xs)];
-});
-exports.takeWhile = takeWhile = curry$(function(p, xs){
-  var result, i$, len$, x;
-  if (!xs.length) {
-    return xs;
-  }
-  if (toString$.call(p).slice(8, -1) !== 'Function') {
-    p = objToFunc(p);
-  }
-  result = [];
-  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-    x = xs[i$];
-    if (!p(x)) {
-      break;
-    }
-    result.push(x);
-  }
-  if (toString$.call(xs).slice(8, -1) === 'String') {
-    return result.join('');
-  } else {
-    return result;
-  }
-});
-exports.dropWhile = dropWhile = curry$(function(p, xs){
-  var i, i$, len$, x;
-  if (!xs.length) {
-    return xs;
-  }
-  if (toString$.call(p).slice(8, -1) !== 'Function') {
-    p = objToFunc(p);
-  }
-  i = 0;
-  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
-    x = xs[i$];
-    if (!p(x)) {
-      break;
-    }
-    ++i;
-  }
-  return drop(i, xs);
-});
-exports.span = span = curry$(function(p, xs){
-  return [takeWhile(p, xs), dropWhile(p, xs)];
-});
-exports.breakIt = breakIt = curry$(function(p, xs){
-  return span(compose$([not$, p]), xs);
-});
-exports.zip = zip = curry$(function(xs, ys){
-  var result, i, ref$, len$, zs, j, len1$, z, ref1$;
-  result = [];
-  for (i = 0, len$ = (ref$ = [xs, ys]).length; i < len$; ++i) {
-    zs = ref$[i];
-    for (j = 0, len1$ = zs.length; j < len1$; ++j) {
-      z = zs[j];
-      if (i === 0) {
-        result.push([]);
-      }
-      if ((ref1$ = result[j]) != null) {
-        ref1$.push(z);
-      }
-    }
-  }
-  return result;
-});
-exports.zipWith = zipWith = curry$(function(f, xs, ys){
-  var i$, ref$, len$, zs, results$ = [];
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  if (!xs.length || !ys.length) {
-    return [];
-  } else {
-    for (i$ = 0, len$ = (ref$ = zip.call(this, xs, ys)).length; i$ < len$; ++i$) {
-      zs = ref$[i$];
-      results$.push(f.apply(this, zs));
-    }
-    return results$;
-  }
-});
-exports.zipAll = zipAll = function(){
-  var xss, result, i, len$, xs, j, len1$, x, ref$;
-  xss = slice$.call(arguments);
-  result = [];
-  for (i = 0, len$ = xss.length; i < len$; ++i) {
-    xs = xss[i];
-    for (j = 0, len1$ = xs.length; j < len1$; ++j) {
-      x = xs[j];
-      if (i === 0) {
-        result.push([]);
-      }
-      if ((ref$ = result[j]) != null) {
-        ref$.push(x);
-      }
-    }
-  }
-  return result;
-};
-exports.zipAllWith = zipAllWith = function(f){
-  var xss, i$, ref$, len$, xs, results$ = [];
-  xss = slice$.call(arguments, 1);
-  if (toString$.call(f).slice(8, -1) !== 'Function') {
-    f = objToFunc(f);
-  }
-  if (!xss[0].length || !xss[1].length) {
-    return [];
-  } else {
-    for (i$ = 0, len$ = (ref$ = zipAll.apply(this, xss)).length; i$ < len$; ++i$) {
-      xs = ref$[i$];
-      results$.push(f.apply(this, xs));
-    }
-    return results$;
-  }
-};
-exports.compose = compose = function(){
-  var funcs;
-  funcs = slice$.call(arguments);
-  return function(){
-    var args, i$, ref$, len$, f;
-    args = arguments;
-    for (i$ = 0, len$ = (ref$ = funcs).length; i$ < len$; ++i$) {
-      f = ref$[i$];
-      args = [f.apply(this, args)];
-    }
-    return args[0];
-  };
-};
-exports.curry = curry = function(f){
-  return curry$(f);
-};
-exports.id = id = function(x){
+require=(function(e,t,n){function i(n,s){if(!t[n]){if(!e[n]){var o=typeof require=="function"&&require;if(!s&&o)return o(n,!0);if(r)return r(n,!0);throw new Error("Cannot find module '"+n+"'")}var u=t[n]={exports:{}};e[n][0].call(u.exports,function(t){var r=e[n][1][t];return i(r?r:t)},u,u.exports)}return t[n].exports}var r=typeof require=="function"&&require;for(var s=0;s<n.length;s++)i(n[s]);return i})({"prelude-ls":[function(require,module,exports){
+module.exports=require('bcmc1g');
+},{}],"bcmc1g":[function(require,module,exports){
+var Func, List, Obj, Str, Num, id, isType, replicate, prelude, toString$ = {}.toString;
+Func = require('./Func.js');
+List = require('./List.js');
+Obj = require('./Obj.js');
+Str = require('./Str.js');
+Num = require('./Num.js');
+id = function(x){
   return x;
 };
-exports.flip = flip = curry$(function(f, x, y){
+isType = curry$(function(type, x){
+  return toString$.call(x).slice(8, -1) === type;
+});
+replicate = curry$(function(n, x){
+  var i$, results$ = [];
+  for (i$ = 0; i$ < n; ++i$) {
+    results$.push(x);
+  }
+  return results$;
+});
+Str.empty = List.empty;
+Str.slice = List.slice;
+Str.take = List.take;
+Str.drop = List.drop;
+Str.splitAt = List.splitAt;
+Str.takeWhile = List.takeWhile;
+Str.dropWhile = List.dropWhile;
+Str.span = List.span;
+Str.breakStr = List.breakList;
+prelude = {
+  Func: Func,
+  List: List,
+  Obj: Obj,
+  Str: Str,
+  Num: Num,
+  id: id,
+  isType: isType,
+  replicate: replicate
+};
+prelude.each = List.each;
+prelude.map = List.map;
+prelude.filter = List.filter;
+prelude.compact = List.compact;
+prelude.reject = List.reject;
+prelude.partition = List.partition;
+prelude.find = List.find;
+prelude.head = List.head;
+prelude.first = List.first;
+prelude.tail = List.tail;
+prelude.last = List.last;
+prelude.initial = List.initial;
+prelude.empty = List.empty;
+prelude.reverse = List.reverse;
+prelude.difference = List.difference;
+prelude.intersection = List.intersection;
+prelude.union = List.union;
+prelude.countBy = List.countBy;
+prelude.groupBy = List.groupBy;
+prelude.fold = List.fold;
+prelude.foldl = List.foldl;
+prelude.fold1 = List.fold1;
+prelude.foldl1 = List.foldl1;
+prelude.foldr = List.foldr;
+prelude.foldr1 = List.foldr1;
+prelude.unfoldr = List.unfoldr;
+prelude.andList = List.andList;
+prelude.orList = List.orList;
+prelude.any = List.any;
+prelude.all = List.all;
+prelude.unique = List.unique;
+prelude.sort = List.sort;
+prelude.sortWith = List.sortWith;
+prelude.sortBy = List.sortBy;
+prelude.sum = List.sum;
+prelude.product = List.product;
+prelude.mean = List.mean;
+prelude.average = List.average;
+prelude.concat = List.concat;
+prelude.concatMap = List.concatMap;
+prelude.flatten = List.flatten;
+prelude.maximum = List.maximum;
+prelude.minimum = List.minimum;
+prelude.scan = List.scan;
+prelude.scanl = List.scanl;
+prelude.scan1 = List.scan1;
+prelude.scanl1 = List.scanl1;
+prelude.scanr = List.scanr;
+prelude.scanr1 = List.scanr1;
+prelude.slice = List.slice;
+prelude.take = List.take;
+prelude.drop = List.drop;
+prelude.splitAt = List.splitAt;
+prelude.takeWhile = List.takeWhile;
+prelude.dropWhile = List.dropWhile;
+prelude.span = List.span;
+prelude.breakList = List.breakList;
+prelude.zip = List.zip;
+prelude.zipWith = List.zipWith;
+prelude.zipAll = List.zipAll;
+prelude.zipAllWith = List.zipAllWith;
+prelude.apply = Func.apply;
+prelude.curry = Func.curry;
+prelude.flip = Func.flip;
+prelude.fix = Func.fix;
+prelude.split = Str.split;
+prelude.join = Str.join;
+prelude.lines = Str.lines;
+prelude.unlines = Str.unlines;
+prelude.words = Str.words;
+prelude.unwords = Str.unwords;
+prelude.chars = Str.chars;
+prelude.unchars = Str.unchars;
+prelude.values = Obj.values;
+prelude.keys = Obj.keys;
+prelude.pairsToObj = Obj.pairsToObj;
+prelude.objToPairs = Obj.objToPairs;
+prelude.listsToObj = Obj.listsToObj;
+prelude.objToLists = Obj.objToLists;
+prelude.max = Num.max;
+prelude.min = Num.min;
+prelude.negate = Num.negate;
+prelude.abs = Num.abs;
+prelude.signum = Num.signum;
+prelude.quot = Num.quot;
+prelude.rem = Num.rem;
+prelude.div = Num.div;
+prelude.mod = Num.mod;
+prelude.recip = Num.recip;
+prelude.pi = Num.pi;
+prelude.tau = Num.tau;
+prelude.exp = Num.exp;
+prelude.sqrt = Num.sqrt;
+prelude.ln = Num.ln;
+prelude.pow = Num.pow;
+prelude.sin = Num.sin;
+prelude.tan = Num.tan;
+prelude.cos = Num.cos;
+prelude.acos = Num.acos;
+prelude.asin = Num.asin;
+prelude.atan = Num.atan;
+prelude.atan2 = Num.atan2;
+prelude.truncate = Num.truncate;
+prelude.round = Num.round;
+prelude.ceiling = Num.ceiling;
+prelude.floor = Num.floor;
+prelude.isItNaN = Num.isItNaN;
+prelude.even = Num.even;
+prelude.odd = Num.odd;
+prelude.gcd = Num.gcd;
+prelude.lcm = Num.lcm;
+prelude.VERSION = '1.0.0';
+module.exports = prelude;
+function curry$(f, bound){
+  var context,
+  _curry = function(args) {
+    return f.length > 1 ? function(){
+      var params = args ? args.concat() : [];
+      context = bound ? context || this : this;
+      return params.push.apply(params, arguments) <
+          f.length && arguments.length ?
+        _curry.call(context, params) : f.apply(context, params);
+    } : f;
+  };
+  return _curry();
+}
+
+},{"./Func.js":1,"./Obj.js":2,"./Num.js":3,"./List.js":4,"./Str.js":5}],1:[function(require,module,exports){
+var curry, flip, fix, apply;
+curry = function(f){
+  return curry$(f);
+};
+flip = curry$(function(f, x, y){
   return f(y, x);
 });
-exports.fix = fix = function(f){
+fix = function(f){
   return function(g, x){
     return function(){
       return f(g(g)).apply(null, arguments);
@@ -624,101 +185,254 @@ exports.fix = fix = function(f){
     };
   });
 };
-exports.lines = lines = function(str){
-  if (!str.length) {
-    return [];
+apply = curry$(function(f, list){
+  return f.apply(null, list);
+});
+module.exports = {
+  curry: curry,
+  flip: flip,
+  fix: fix,
+  apply: apply
+};
+function curry$(f, bound){
+  var context,
+  _curry = function(args) {
+    return f.length > 1 ? function(){
+      var params = args ? args.concat() : [];
+      context = bound ? context || this : this;
+      return params.push.apply(params, arguments) <
+          f.length && arguments.length ?
+        _curry.call(context, params) : f.apply(context, params);
+    } : f;
+  };
+  return _curry();
+}
+
+},{}],2:[function(require,module,exports){
+var values, keys, pairsToObj, objToPairs, listsToObj, objToLists, empty, each, map, compact, filter, reject, partition, find;
+values = function(object){
+  var i$, x, results$ = [];
+  for (i$ in object) {
+    x = object[i$];
+    results$.push(x);
   }
-  return str.split('\n');
+  return results$;
 };
-exports.unlines = unlines = function(strs){
-  return strs.join('\n');
-};
-exports.words = words = function(str){
-  if (!str.length) {
-    return [];
+keys = function(object){
+  var x, results$ = [];
+  for (x in object) {
+    results$.push(x);
   }
-  return str.split(/[ ]+/);
+  return results$;
 };
-exports.unwords = unwords = function(strs){
-  return strs.join(' ');
+pairsToObj = function(object){
+  var i$, len$, x, results$ = {};
+  for (i$ = 0, len$ = object.length; i$ < len$; ++i$) {
+    x = object[i$];
+    results$[x[0]] = x[1];
+  }
+  return results$;
 };
-exports.max = max = curry$(function(x, y){
-  if (x > y) {
-    return x;
-  } else {
-    return y;
+objToPairs = function(object){
+  var key, value, results$ = [];
+  for (key in object) {
+    value = object[key];
+    results$.push([key, value]);
+  }
+  return results$;
+};
+listsToObj = curry$(function(keys, values){
+  var i$, len$, i, key, results$ = {};
+  for (i$ = 0, len$ = keys.length; i$ < len$; ++i$) {
+    i = i$;
+    key = keys[i$];
+    results$[key] = values[i];
+  }
+  return results$;
+});
+objToLists = function(objectect){
+  var keys, values, key, value;
+  keys = [];
+  values = [];
+  for (key in objectect) {
+    value = objectect[key];
+    keys.push(key);
+    values.push(value);
+  }
+  return [keys, values];
+};
+empty = function(object){
+  var x;
+  for (x in object) {
+    return false;
+  }
+  return true;
+};
+each = curry$(function(f, object){
+  var i$, x;
+  for (i$ in object) {
+    x = object[i$];
+    f(x);
+  }
+  return object;
+});
+map = curry$(function(f, object){
+  var k, x, results$ = {};
+  for (k in object) {
+    x = object[k];
+    results$[k] = f(x);
+  }
+  return results$;
+});
+compact = curry$(function(object){
+  var k, x, results$ = {};
+  for (k in object) {
+    x = object[k];
+if (x) {
+      results$[k] = x;
+    }
+  }
+  return results$;
+});
+filter = curry$(function(f, object){
+  var k, x, results$ = {};
+  for (k in object) {
+    x = object[k];
+if (f(x)) {
+      results$[k] = x;
+    }
+  }
+  return results$;
+});
+reject = curry$(function(f, object){
+  var k, x, results$ = {};
+  for (k in object) {
+    x = object[k];
+if (!f(x)) {
+      results$[k] = x;
+    }
+  }
+  return results$;
+});
+partition = curry$(function(f, object){
+  var passed, failed, k, x;
+  passed = {};
+  failed = {};
+  for (k in object) {
+    x = object[k];
+    (f(x) ? passed : failed)[k] = x;
+  }
+  return [passed, failed];
+});
+find = curry$(function(f, object){
+  var i$, x;
+  for (i$ in object) {
+    x = object[i$];
+    if (f(x)) {
+      return x;
+    }
   }
 });
-exports.min = min = curry$(function(x, y){
-  if (x > y) {
-    return y;
-  } else {
-    return x;
-  }
+module.exports = {
+  values: values,
+  keys: keys,
+  pairsToObj: pairsToObj,
+  objToPairs: objToPairs,
+  listsToObj: listsToObj,
+  objToLists: objToLists,
+  empty: empty,
+  each: each,
+  map: map,
+  filter: filter,
+  compact: compact,
+  reject: reject,
+  partition: partition,
+  find: find
+};
+function curry$(f, bound){
+  var context,
+  _curry = function(args) {
+    return f.length > 1 ? function(){
+      var params = args ? args.concat() : [];
+      context = bound ? context || this : this;
+      return params.push.apply(params, arguments) <
+          f.length && arguments.length ?
+        _curry.call(context, params) : f.apply(context, params);
+    } : f;
+  };
+  return _curry();
+}
+
+},{}],3:[function(require,module,exports){
+var max, min, negate, abs, signum, quot, rem, div, mod, recip, pi, tau, exp, sqrt, ln, pow, sin, tan, cos, asin, acos, atan, atan2, truncate, round, ceiling, floor, isItNaN, even, odd, gcd, lcm;
+max = curry$(function(x$, y$){
+  return x$ > y$ ? x$ : y$;
 });
-exports.negate = negate = function(x){
+min = curry$(function(x$, y$){
+  return x$ < y$ ? x$ : y$;
+});
+negate = function(x){
   return -x;
 };
-exports.abs = abs = Math.abs;
-exports.signum = signum = function(x){
-  switch (false) {
-  case !(x < 0):
+abs = Math.abs;
+signum = function(x){
+  if (x < 0) {
     return -1;
-  case !(x > 0):
+  } else if (x > 0) {
     return 1;
-  default:
+  } else {
     return 0;
   }
 };
-exports.quot = quot = curry$(function(x, y){
+quot = curry$(function(x, y){
   return ~~(x / y);
 });
-exports.rem = rem = curry$(function(x, y){
-  return x % y;
+rem = curry$(function(x$, y$){
+  return x$ % y$;
 });
-exports.div = div = curry$(function(x, y){
+div = curry$(function(x, y){
   return Math.floor(x / y);
 });
-exports.mod = mod = curry$(function(x, y){
+mod = curry$(function(x$, y$){
   var ref$;
-  return ((x) % (ref$ = y) + ref$) % ref$;
+  return ((x$) % (ref$ = y$) + ref$) % ref$;
 });
-exports.recip = recip = function(x){
-  return 1 / x;
-};
-exports.pi = pi = Math.PI;
-exports.tau = tau = pi * 2;
-exports.exp = exp = Math.exp;
-exports.sqrt = sqrt = Math.sqrt;
-exports.ln = ln = Math.log;
-exports.pow = pow = curry$(function(x, y){
-  return Math.pow(x, y);
+recip = (function(it){
+  return 1 / it;
 });
-exports.sin = sin = Math.sin;
-exports.tan = tan = Math.tan;
-exports.cos = cos = Math.cos;
-exports.asin = asin = Math.asin;
-exports.acos = acos = Math.acos;
-exports.atan = atan = Math.atan;
-exports.atan2 = atan2 = curry$(function(x, y){
+pi = Math.PI;
+tau = pi * 2;
+exp = Math.exp;
+sqrt = Math.sqrt;
+ln = Math.log;
+pow = curry$(function(x$, y$){
+  return Math.pow(x$, y$);
+});
+sin = Math.sin;
+tan = Math.tan;
+cos = Math.cos;
+asin = Math.asin;
+acos = Math.acos;
+atan = Math.atan;
+atan2 = curry$(function(x, y){
   return Math.atan2(x, y);
 });
-exports.truncate = truncate = function(x){
+truncate = function(x){
   return ~~x;
 };
-exports.round = round = Math.round;
-exports.ceiling = ceiling = Math.ceil;
-exports.floor = floor = Math.floor;
-exports.isItNaN = isItNaN = function(x){
+round = Math.round;
+ceiling = Math.ceil;
+floor = Math.floor;
+isItNaN = function(x){
   return x !== x;
 };
-exports.even = even = function(x){
+even = function(x){
   return x % 2 === 0;
 };
-exports.odd = odd = function(x){
+odd = function(x){
   return x % 2 !== 0;
 };
-exports.gcd = gcd = curry$(function(x, y){
+gcd = curry$(function(x, y){
   var z;
   x = Math.abs(x);
   y = Math.abs(y);
@@ -729,27 +443,654 @@ exports.gcd = gcd = curry$(function(x, y){
   }
   return x;
 });
-exports.lcm = lcm = curry$(function(x, y){
+lcm = curry$(function(x, y){
   return Math.abs(Math.floor(x / gcd(x, y) * y));
 });
-exports.installPrelude = function(target){
-  var ref$;
-  if (!((ref$ = target.prelude) != null && ref$.isInstalled)) {
-    import$(target, exports);
-    target.prelude.isInstalled = true;
+module.exports = {
+  max: max,
+  min: min,
+  negate: negate,
+  abs: abs,
+  signum: signum,
+  quot: quot,
+  rem: rem,
+  div: div,
+  mod: mod,
+  recip: recip,
+  pi: pi,
+  tau: tau,
+  exp: exp,
+  sqrt: sqrt,
+  ln: ln,
+  pow: pow,
+  sin: sin,
+  tan: tan,
+  cos: cos,
+  acos: acos,
+  asin: asin,
+  atan: atan,
+  atan2: atan2,
+  truncate: truncate,
+  round: round,
+  ceiling: ceiling,
+  floor: floor,
+  isItNaN: isItNaN,
+  even: even,
+  odd: odd,
+  gcd: gcd,
+  lcm: lcm
+};
+function curry$(f, bound){
+  var context,
+  _curry = function(args) {
+    return f.length > 1 ? function(){
+      var params = args ? args.concat() : [];
+      context = bound ? context || this : this;
+      return params.push.apply(params, arguments) <
+          f.length && arguments.length ?
+        _curry.call(context, params) : f.apply(context, params);
+    } : f;
+  };
+  return _curry();
+}
+
+},{}],4:[function(require,module,exports){
+var each, map, compact, filter, reject, partition, find, head, first, tail, last, initial, empty, reverse, unique, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, concat, concatMap, flatten, difference, intersection, union, countBy, groupBy, andList, orList, any, all, sort, sortWith, sortBy, sum, product, mean, average, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, slice, take, drop, splitAt, takeWhile, dropWhile, span, breakList, zip, zipWith, zipAll, zipAllWith, slice$ = [].slice;
+each = curry$(function(f, xs){
+  var i$, len$, x;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    f(x);
+  }
+  return xs;
+});
+map = curry$(function(f, xs){
+  var i$, len$, x, results$ = [];
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    results$.push(f(x));
+  }
+  return results$;
+});
+compact = curry$(function(xs){
+  var i$, len$, x, results$ = [];
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (x) {
+      results$.push(x);
+    }
+  }
+  return results$;
+});
+filter = curry$(function(f, xs){
+  var i$, len$, x, results$ = [];
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (f(x)) {
+      results$.push(x);
+    }
+  }
+  return results$;
+});
+reject = curry$(function(f, xs){
+  var i$, len$, x, results$ = [];
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (!f(x)) {
+      results$.push(x);
+    }
+  }
+  return results$;
+});
+partition = curry$(function(f, xs){
+  var passed, failed, i$, len$, x;
+  passed = [];
+  failed = [];
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    (f(x) ? passed : failed).push(x);
+  }
+  return [passed, failed];
+});
+find = curry$(function(f, xs){
+  var i$, len$, x;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (f(x)) {
+      return x;
+    }
+  }
+});
+head = first = function(xs){
+  if (!xs.length) {
+    return;
+  }
+  return xs[0];
+};
+tail = function(xs){
+  if (!xs.length) {
+    return;
+  }
+  return xs.slice(1);
+};
+last = function(xs){
+  if (!xs.length) {
+    return;
+  }
+  return xs[xs.length - 1];
+};
+initial = function(xs){
+  var len;
+  len = xs.length;
+  if (!len) {
+    return;
+  }
+  return xs.slice(0, len - 1);
+};
+empty = function(xs){
+  return !xs.length;
+};
+reverse = function(xs){
+  return xs.concat().reverse();
+};
+unique = function(xs){
+  var result, i$, len$, x;
+  result = [];
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (!in$(x, result)) {
+      result.push(x);
+    }
+  }
+  return result;
+};
+fold = foldl = curry$(function(f, memo, xs){
+  var i$, len$, x;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    memo = f(memo, x);
+  }
+  return memo;
+});
+fold1 = foldl1 = curry$(function(f, xs){
+  return fold(f, xs[0], xs.slice(1));
+});
+foldr = curry$(function(f, memo, xs){
+  return fold(f, memo, xs.concat().reverse());
+});
+foldr1 = curry$(function(f, xs){
+  var ys;
+  ys = xs.concat().reverse();
+  return fold(f, ys[0], ys.slice(1));
+});
+unfoldr = curry$(function(f, b){
+  var result, x, that;
+  result = [];
+  x = b;
+  while ((that = f(x)) != null) {
+    result.push(that[0]);
+    x = that[1];
+  }
+  return result;
+});
+concat = function(xss){
+  return [].concat.apply([], xss);
+};
+concatMap = curry$(function(f, xs){
+  var x;
+  return [].concat.apply([], (function(){
+    var i$, ref$, len$, results$ = [];
+    for (i$ = 0, len$ = (ref$ = xs).length; i$ < len$; ++i$) {
+      x = ref$[i$];
+      results$.push(f(x));
+    }
+    return results$;
+  }()));
+});
+flatten = curry$(function(xs){
+  var x;
+  return [].concat.apply([], (function(){
+    var i$, ref$, len$, results$ = [];
+    for (i$ = 0, len$ = (ref$ = xs).length; i$ < len$; ++i$) {
+      x = ref$[i$];
+      if (x.length != null) {
+        results$.push(flatten(x));
+      } else {
+        results$.push(x);
+      }
+    }
+    return results$;
+  }()));
+});
+difference = function(xs){
+  var yss, results, i$, len$, x, j$, len1$, ys;
+  yss = slice$.call(arguments, 1);
+  results = [];
+  outer: for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    for (j$ = 0, len1$ = yss.length; j$ < len1$; ++j$) {
+      ys = yss[j$];
+      if (in$(x, ys)) {
+        continue outer;
+      }
+    }
+    results.push(x);
+  }
+  return results;
+};
+intersection = function(xs){
+  var yss, results, i$, len$, x, j$, len1$, ys;
+  yss = slice$.call(arguments, 1);
+  results = [];
+  outer: for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    for (j$ = 0, len1$ = yss.length; j$ < len1$; ++j$) {
+      ys = yss[j$];
+      if (!in$(x, ys)) {
+        continue outer;
+      }
+    }
+    results.push(x);
+  }
+  return results;
+};
+union = function(){
+  var xss, results, i$, len$, xs, j$, len1$, x;
+  xss = slice$.call(arguments);
+  results = [];
+  for (i$ = 0, len$ = xss.length; i$ < len$; ++i$) {
+    xs = xss[i$];
+    for (j$ = 0, len1$ = xs.length; j$ < len1$; ++j$) {
+      x = xs[j$];
+      if (!in$(x, results)) {
+        results.push(x);
+      }
+    }
+  }
+  return results;
+};
+countBy = curry$(function(f, xs){
+  var results, i$, len$, x, key;
+  results = {};
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    key = f(x);
+    if (key in results) {
+      results[key] += 1;
+    } else {
+      results[key] = 1;
+    }
+  }
+  return results;
+});
+groupBy = curry$(function(f, xs){
+  var results, i$, len$, x, key;
+  results = {};
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    key = f(x);
+    if (key in results) {
+      results[key].push(x);
+    } else {
+      results[key] = [x];
+    }
+  }
+  return results;
+});
+andList = function(xs){
+  var i$, len$, x;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (!x) {
+      return false;
+    }
+  }
+  return true;
+};
+orList = function(xs){
+  var i$, len$, x;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (x) {
+      return true;
+    }
+  }
+  return false;
+};
+any = curry$(function(f, xs){
+  var i$, len$, x;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (f(x)) {
+      return true;
+    }
+  }
+  return false;
+});
+all = curry$(function(f, xs){
+  var i$, len$, x;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    if (!f(x)) {
+      return false;
+    }
+  }
+  return true;
+});
+sort = function(xs){
+  return xs.concat().sort(function(x, y){
+    if (x > y) {
+      return 1;
+    } else if (x < y) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+};
+sortWith = curry$(function(f, xs){
+  if (!xs.length) {
+    return [];
+  }
+  return xs.concat().sort(f);
+});
+sortBy = curry$(function(f, xs){
+  if (!xs.length) {
+    return [];
+  }
+  return xs.concat().sort(function(x, y){
+    if (f(x) > f(y)) {
+      return 1;
+    } else if (f(x) < f(y)) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+});
+sum = function(xs){
+  var result, i$, len$, x;
+  result = 0;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    result += x;
+  }
+  return result;
+};
+product = function(xs){
+  var result, i$, len$, x;
+  result = 1;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    x = xs[i$];
+    result *= x;
+  }
+  return result;
+};
+mean = average = function(xs){
+  var sum, len, i$, i;
+  sum = 0;
+  len = xs.length;
+  for (i$ = 0; i$ < len; ++i$) {
+    i = i$;
+    sum += xs[i];
+  }
+  return sum / len;
+};
+maximum = function(xs){
+  var max, i$, ref$, len$, x;
+  max = xs[0];
+  for (i$ = 0, len$ = (ref$ = xs.slice(1)).length; i$ < len$; ++i$) {
+    x = ref$[i$];
+    if (x > max) {
+      max = x;
+    }
+  }
+  return max;
+};
+minimum = function(xs){
+  var min, i$, ref$, len$, x;
+  min = xs[0];
+  for (i$ = 0, len$ = (ref$ = xs.slice(1)).length; i$ < len$; ++i$) {
+    x = ref$[i$];
+    if (x < min) {
+      min = x;
+    }
+  }
+  return min;
+};
+scan = scanl = curry$(function(f, memo, xs){
+  var last, x;
+  last = memo;
+  return [memo].concat((function(){
+    var i$, ref$, len$, results$ = [];
+    for (i$ = 0, len$ = (ref$ = xs).length; i$ < len$; ++i$) {
+      x = ref$[i$];
+      results$.push(last = f(last, x));
+    }
+    return results$;
+  }()));
+});
+scan1 = scanl1 = curry$(function(f, xs){
+  if (!xs.length) {
+    return;
+  }
+  return scan(f, xs[0], xs.slice(1));
+});
+scanr = curry$(function(f, memo, xs){
+  xs = xs.concat().reverse();
+  return scan(f, memo, xs).reverse();
+});
+scanr1 = curry$(function(f, xs){
+  if (!xs.length) {
+    return;
+  }
+  xs = xs.concat().reverse();
+  return scan(f, xs[0], xs.slice(1)).reverse();
+});
+slice = curry$(function(x, y, xs){
+  return xs.slice(x, y);
+});
+take = curry$(function(n, xs){
+  if (n <= 0) {
+    return xs.slice(0, 0);
+  } else if (!xs.length) {
+    return xs;
+  } else {
+    return xs.slice(0, n);
+  }
+});
+drop = curry$(function(n, xs){
+  if (n <= 0 || !xs.length) {
+    return xs;
+  } else {
+    return xs.slice(n);
+  }
+});
+splitAt = curry$(function(n, xs){
+  return [take(n, xs), drop(n, xs)];
+});
+takeWhile = curry$(function(p, xs){
+  var len, i$, i;
+  len = xs.length;
+  if (!len) {
+    return xs;
+  }
+  for (i$ = 0; i$ < len; ++i$) {
+    i = i$;
+    if (!p(xs[i])) {
+      break;
+    }
+  }
+  return xs.slice(0, i);
+});
+dropWhile = curry$(function(p, xs){
+  var len, i$, i;
+  len = xs.length;
+  if (!len) {
+    return xs;
+  }
+  for (i$ = 0; i$ < len; ++i$) {
+    i = i$;
+    if (!p(xs[i])) {
+      break;
+    }
+  }
+  return xs.slice(i);
+});
+span = curry$(function(p, xs){
+  return [takeWhile(p, xs), dropWhile(p, xs)];
+});
+breakList = curry$(function(p, xs){
+  return span(compose$([not$, p]), xs);
+});
+zip = curry$(function(xs, ys){
+  var result, len, i$, len$, i, x;
+  result = [];
+  len = ys.length;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    i = i$;
+    x = xs[i$];
+    if (i === len) {
+      break;
+    }
+    result.push([x, ys[i]]);
+  }
+  return result;
+});
+zipWith = curry$(function(f, xs, ys){
+  var result, len, i$, len$, i, x;
+  result = [];
+  len = ys.length;
+  for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
+    i = i$;
+    x = xs[i$];
+    if (i === len) {
+      break;
+    }
+    result.push(f(x, ys[i]));
+  }
+  return result;
+});
+zipAll = function(){
+  var xss, minLength, i$, len$, xs, ref$, i, lresult$, j$, results$ = [];
+  xss = slice$.call(arguments);
+  minLength = 9e9;
+  for (i$ = 0, len$ = xss.length; i$ < len$; ++i$) {
+    xs = xss[i$];
+    minLength <= (ref$ = xs.length) || (minLength = ref$);
+  }
+  for (i$ = 0; i$ < minLength; ++i$) {
+    i = i$;
+    lresult$ = [];
+    for (j$ = 0, len$ = xss.length; j$ < len$; ++j$) {
+      xs = xss[j$];
+      lresult$.push(xs[i]);
+    }
+    results$.push(lresult$);
+  }
+  return results$;
+};
+zipAllWith = function(f){
+  var xss, minLength, i$, len$, xs, ref$, i, results$ = [];
+  xss = slice$.call(arguments, 1);
+  minLength = 9e9;
+  for (i$ = 0, len$ = xss.length; i$ < len$; ++i$) {
+    xs = xss[i$];
+    minLength <= (ref$ = xs.length) || (minLength = ref$);
+  }
+  for (i$ = 0; i$ < minLength; ++i$) {
+    i = i$;
+    results$.push(f.apply(null, (fn$())));
+  }
+  return results$;
+  function fn$(){
+    var i$, ref$, len$, results$ = [];
+    for (i$ = 0, len$ = (ref$ = xss).length; i$ < len$; ++i$) {
+      xs = ref$[i$];
+      results$.push(xs[i]);
+    }
+    return results$;
   }
 };
-exports.prelude = exports;
-function curry$(f, args){
-  return f.length > 1 ? function(){
-    var params = args ? args.concat() : [];
-    return params.push.apply(params, arguments) < f.length && arguments.length ?
-      curry$.call(this, f, params) : f.apply(this, params);
-  } : f;
+module.exports = {
+  each: each,
+  map: map,
+  filter: filter,
+  compact: compact,
+  reject: reject,
+  partition: partition,
+  find: find,
+  head: head,
+  first: first,
+  tail: tail,
+  last: last,
+  initial: initial,
+  empty: empty,
+  reverse: reverse,
+  difference: difference,
+  intersection: intersection,
+  union: union,
+  countBy: countBy,
+  groupBy: groupBy,
+  fold: fold,
+  fold1: fold1,
+  foldl: foldl,
+  foldl1: foldl1,
+  foldr: foldr,
+  foldr1: foldr1,
+  unfoldr: unfoldr,
+  andList: andList,
+  orList: orList,
+  any: any,
+  all: all,
+  unique: unique,
+  sort: sort,
+  sortWith: sortWith,
+  sortBy: sortBy,
+  sum: sum,
+  product: product,
+  mean: mean,
+  average: average,
+  concat: concat,
+  concatMap: concatMap,
+  flatten: flatten,
+  maximum: maximum,
+  minimum: minimum,
+  scan: scan,
+  scan1: scan1,
+  scanl: scanl,
+  scanl1: scanl1,
+  scanr: scanr,
+  scanr1: scanr1,
+  slice: slice,
+  take: take,
+  drop: drop,
+  splitAt: splitAt,
+  takeWhile: takeWhile,
+  dropWhile: dropWhile,
+  span: span,
+  breakList: breakList,
+  zip: zip,
+  zipWith: zipWith,
+  zipAll: zipAll,
+  zipAllWith: zipAllWith
+};
+function curry$(f, bound){
+  var context,
+  _curry = function(args) {
+    return f.length > 1 ? function(){
+      var params = args ? args.concat() : [];
+      context = bound ? context || this : this;
+      return params.push.apply(params, arguments) <
+          f.length && arguments.length ?
+        _curry.call(context, params) : f.apply(context, params);
+    } : f;
+  };
+  return _curry();
 }
 function in$(x, arr){
-  var i = 0, l = arr.length >>> 0;
-  while (i < l) if (x === arr[i++]) return true;
+  var i = -1, l = arr.length >>> 0;
+  while (++i < l) if (x === arr[i] && i in arr) return true;
   return false;
 }
 function compose$(fs){
@@ -760,10 +1101,76 @@ function compose$(fs){
   };
 }
 function not$(x){ return !x; }
-function import$(obj, src){
-  var own = {}.hasOwnProperty;
-  for (var key in src) if (own.call(src, key)) obj[key] = src[key];
-  return obj;
+
+},{}],5:[function(require,module,exports){
+var split, join, lines, unlines, words, unwords, chars, unchars, reverse, repeat;
+split = curry$(function(sep, str){
+  return str.split(sep);
+});
+join = curry$(function(sep, xs){
+  return xs.join(sep);
+});
+lines = function(str){
+  if (!str.length) {
+    return [];
+  }
+  return str.split('\n');
+};
+unlines = function(it){
+  return it.join('\n');
+};
+words = function(str){
+  if (!str.length) {
+    return [];
+  }
+  return str.split(/[ ]+/);
+};
+unwords = function(it){
+  return it.join(' ');
+};
+chars = function(it){
+  return it.split('');
+};
+unchars = function(it){
+  return it.join('');
+};
+reverse = function(str){
+  return str.split('').reverse().join('');
+};
+repeat = curry$(function(n, str){
+  var out, res$, i$;
+  res$ = [];
+  for (i$ = 0; i$ < n; ++i$) {
+    res$.push(str);
+  }
+  out = res$;
+  return out.join('');
+});
+module.exports = {
+  split: split,
+  join: join,
+  lines: lines,
+  unlines: unlines,
+  words: words,
+  unwords: unwords,
+  chars: chars,
+  unchars: unchars,
+  reverse: reverse,
+  repeat: repeat
+};
+function curry$(f, bound){
+  var context,
+  _curry = function(args) {
+    return f.length > 1 ? function(){
+      var params = args ? args.concat() : [];
+      context = bound ? context || this : this;
+      return params.push.apply(params, arguments) <
+          f.length && arguments.length ?
+        _curry.call(context, params) : f.apply(context, params);
+    } : f;
+  };
+  return _curry();
 }
-  return exports;
-}();
+
+},{}]},{},[])
+;
