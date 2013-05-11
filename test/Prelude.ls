@@ -1,6 +1,5 @@
 {id, is-type, replicate} = require '..'
-require! assert
-{equal: eq, deep-equal: deep-eq, ok} = assert
+{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'id' ->
   test 'number' ->

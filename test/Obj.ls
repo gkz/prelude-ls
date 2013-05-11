@@ -1,12 +1,12 @@
-Prelude = require '..'
-{id} = Prelude
 {
-  values, keys,
-  pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
-  empty, each, map, filter, compact, reject, partition, find,
-} = Prelude.Obj
-require! assert
-{equal: eq, deep-equal: deep-eq, ok} = assert
+  id
+  Obj: {
+    values, keys,
+    pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
+    empty, each, map, filter, compact, reject, partition, find,
+  }
+} = require '..'
+{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'values' ->
   test 'empty object as input' ->

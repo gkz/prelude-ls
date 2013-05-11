@@ -1,19 +1,19 @@
-Prelude = require '..'
-{id} = Prelude
-{even, odd, floor, is-it-NaN} = Prelude.Num
 {
-  each, map, filter, compact, reject, partition, find,
-  head, first, tail, last, initial, empty,
-  reverse, difference, intersection, union, count-by, group-by,
-  fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
-  any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
-  concat, concat-map, flatten,
-  maximum, minimum, scan, scan1, scanl, scanl1, scanr, scanr1,
-  slice, take, drop, split-at, take-while, drop-while, span, break-list,
-  zip, zip-with, zip-all, zip-all-with,
-} = Prelude.List
-require! assert
-{equal: eq, deep-equal: deep-eq, ok} = assert
+  id
+  Num: {even, odd, floor, is-it-NaN}
+  List: {
+    each, map, filter, compact, reject, partition, find,
+    head, first, tail, last, initial, empty,
+    reverse, difference, intersection, union, count-by, group-by,
+    fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
+    any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
+    concat, concat-map, flatten,
+    maximum, minimum, scan, scan1, scanl, scanl1, scanr, scanr1,
+    slice, take, drop, split-at, take-while, drop-while, span, break-list,
+    zip, zip-with, zip-all, zip-all-with,
+  }
+} = require '..'
+{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'each' ->
   test 'empty list as input' ->

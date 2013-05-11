@@ -1,11 +1,11 @@
-Prelude = require '..'
-{id} = Prelude
 {
-  split, join, lines, unlines, words, unwords, chars, unchars, empty, reverse, repeat,
-  slice, take, drop, split-at, take-while, drop-while, span, break-str
-} = Prelude.Str
-require! assert
-{equal: eq, deep-equal: deep-eq, ok} = assert
+  id
+  Str: {
+    split, join, lines, unlines, words, unwords, chars, unchars, empty, reverse, repeat,
+    slice, take, drop, split-at, take-while, drop-while, span, break-str
+  }
+} = require '..'
+{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'split' ->
   test 'empty string as input' ->
