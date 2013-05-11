@@ -24,7 +24,7 @@
 
       <div class="mini-action-buttons">
         <div><iframe src="http://ghbtns.com/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=small&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="25"></iframe></div>
-        <div><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gkz.github.com/prelude-ls/" data-text="prelude.ls - a functional programming library for JavaScript - the LiveScript standard library" data-related="gkzahariev:The Creator" data-via="gkzahariev">Tweet</a>
+        <div><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://preludels.com" data-text="prelude.ls - a functional programming library for JavaScript - the LiveScript standard library" data-related="gkzahariev:The Creator" data-via="gkzahariev">Tweet</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
       </div>
 
@@ -203,7 +203,7 @@
         <a href="prelude-browser-min.js">prelude-browser-min.js</a>
         <a class="primary" href="https://github.com/gkz/prelude-ls">View project on GitHub</a>
         <iframe src="http://ghbtns.com/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=large&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="140" height="40"></iframe>
-        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://gkz.github.com/prelude-ls/" data-text="prelude.ls - functionally oriented utility library in LiveScript" data-size="large" data-related="gkzahariev:The Creator" data-via="gkzahariev">Tweet</a>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://preludels.com" data-text="prelude.ls - functionally oriented utility library in LiveScript" data-size="large" data-related="gkzahariev:The Creator" data-via="gkzahariev">Tweet</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
       </div>
       <p>Install via <a href="http://npmjs.org">npm</a>: <strong><code>npm install prelude-ls</code></strong>. <a href="https://github.com/gkz/prelude-ls/blob/master/LICENSE">MIT License</a>. <a href="https://github.com/gkz/prelude-ls/blob/master/CHANGELOG.md">Changelog</a>.
@@ -1461,17 +1461,15 @@ lcm 12 18 #=> 36
   prettyPrint();
   window.prelude = require('prelude-ls');
 
-  if(window.location.host === "gkz.github.com") {
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-7402515-6']);
-    _gaq.push(['_trackPageview']);
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7402515-6']);
+  _gaq.push(['_trackPageview']);
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  }
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
 </script>
 </body>
 </html>
