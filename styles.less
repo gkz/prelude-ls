@@ -258,3 +258,20 @@ hr {
     margin-bottom: 5px;
   }
 }
+
+@media (max-width: 900px) {
+  #sidebar {
+    position: static;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+
+    nav {
+      display: none;
+    }
+  }
+  #content {
+    margin-left: 0;
+    position: static;
+  }
+}
