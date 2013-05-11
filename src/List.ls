@@ -85,7 +85,7 @@ concat-map = (f, xs) -->
 flatten = (xs) -->
   [].concat.apply [], [(if x.length? then flatten x else x) for x in xs]
 
-difference = ([xs, ...yss]) ->
+difference = (xs, ...yss) ->
   results = []
   :outer for x in xs
     for ys in yss
@@ -93,7 +93,7 @@ difference = ([xs, ...yss]) ->
     results.push x
   results
 
-intersection = ([xs, ...yss]) ->
+intersection = (xs, ...yss) ->
   results = []
   :outer for x in xs
     for ys in yss
@@ -101,7 +101,7 @@ intersection = ([xs, ...yss]) ->
     results.push x
   results
 
-union = (xss) ->
+union = (...xss) ->
   results = []
   for xs in xss
     for x in xs

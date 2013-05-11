@@ -278,43 +278,43 @@ suite 'flatten' ->
 
 suite 'difference' ->
   test 'empty list(s) as input' ->
-    deep-eq [], difference [[]]
-    deep-eq [], difference [[] []]
+    deep-eq [], difference []
+    deep-eq [], difference [] []
 
   test 'subtract nothing' ->
-    deep-eq [1 2 3], difference [[1 2 3]]
-    deep-eq [1 2 3], difference [[1 2 3] []]
+    deep-eq [1 2 3], difference [1 2 3]
+    deep-eq [1 2 3], difference [1 2 3] []
 
   test 'subtract single element' ->
-    deep-eq [2 3], difference [[1 2 3] [1]]
+    deep-eq [2 3], difference [1 2 3] [1]
 
   test 'subtract multiple elements' ->
-    deep-eq [1 3 4], difference [[1 2 3 4 5] [5 2 10] [9]]
+    deep-eq [1 3 4], difference [1 2 3 4 5] [5 2 10] [9]
 
 suite 'intersection' ->
   test 'empty list(s) as input' ->
-    deep-eq [], intersection [[]]
-    deep-eq [], intersection [[] []]
+    deep-eq [], intersection []
+    deep-eq [], intersection [] []
 
   test 'no common elements' ->
-    deep-eq [],intersection [[2 3] [9 8] [12 1] [99]]
+    deep-eq [],intersection [2 3] [9 8] [12 1] [99]
 
   test 'some common elements' ->
-    deep-eq [1 2], intersection [[1 2 3] [101 2 1 10] [2 1] [-1 0 1 2]]
+    deep-eq [1 2], intersection [1 2 3] [101 2 1 10] [2 1] [-1 0 1 2]
 
   test 'all common elements' ->
-    deep-eq [1 2 3], intersection [[1 2 3] [2 1 3] [3 1 2]]
+    deep-eq [1 2 3], intersection [1 2 3] [2 1 3] [3 1 2]
 
 suite 'union' ->
   test 'empty list(s) as input' ->
-    deep-eq [], union [[]]
-    deep-eq [], union [[] []]
+    deep-eq [], union []
+    deep-eq [], union [] []
 
   test 'list and empty list' ->
-    deep-eq [1 2 3], union [[1 2 3] []]
+    deep-eq [1 2 3], union [1 2 3] []
 
   test 'with various' ->
-    deep-eq [1 5 7 3], union [[1 5 7] [3 5] []]
+    deep-eq [1 5 7 3], union [1 5 7] [3 5] []
 
 suite 'count-by' ->
   test 'empty list as input' ->
