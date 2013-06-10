@@ -628,6 +628,10 @@ suite 'take-while' ->
   test 'list' ->
     deep-eq [1 3 5], take-while odd, [1 3 5 4 8 7 9]
 
+  test 'all pass' ->
+    deep-eq [42], take-while (== 42), [42]
+    deep-eq [2 4 8], take-while even, [2 4 8]
+
   test 'curried' ->
     f = take-while odd
     deep-eq [1 3 5], f [1 3 5 4 8 7 9]
@@ -638,6 +642,10 @@ suite 'drop-while' ->
 
   test 'list' ->
     deep-eq [7 9 10], drop-while even, [2 4 6 7 9 10]
+
+  test 'all pass' ->
+    deep-eq [], drop-while (== 42), [42]
+    deep-eq [], drop-while even, [2 4 8]
 
   test 'curried' ->
     f = drop-while even

@@ -241,15 +241,17 @@ split-at = (n, xs) --> [(take n, xs), (drop n, xs)]
 take-while = (p, xs) -->
   len = xs.length
   return xs unless len
-  for i til len
-    break unless p xs[i]
-  xs.slice 0, i
+  i = 0
+  while i < len and p xs[i]
+    i += 1
+  xs.slice 0 i
 
 drop-while = (p, xs) -->
   len = xs.length
   return xs unless len
-  for i til len
-    break unless p xs[i]
+  i = 0
+  while i < len and p xs[i]
+    i += 1
   xs.slice i
 
 span = (p, xs) --> [(take-while p, xs), (drop-while p, xs)]
