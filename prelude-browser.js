@@ -150,7 +150,7 @@ prelude.even = Num.even;
 prelude.odd = Num.odd;
 prelude.gcd = Num.gcd;
 prelude.lcm = Num.lcm;
-prelude.VERSION = '1.0.0';
+prelude.VERSION = '1.0.1';
 module.exports = prelude;
 function curry$(f, bound){
   var context,
@@ -910,30 +910,26 @@ splitAt = curry$(function(n, xs){
   return [take(n, xs), drop(n, xs)];
 });
 takeWhile = curry$(function(p, xs){
-  var len, i$, i;
+  var len, i;
   len = xs.length;
   if (!len) {
     return xs;
   }
-  for (i$ = 0; i$ < len; ++i$) {
-    i = i$;
-    if (!p(xs[i])) {
-      break;
-    }
+  i = 0;
+  while (i < len && p(xs[i])) {
+    i += 1;
   }
   return xs.slice(0, i);
 });
 dropWhile = curry$(function(p, xs){
-  var len, i$, i;
+  var len, i;
   len = xs.length;
   if (!len) {
     return xs;
   }
-  for (i$ = 0; i$ < len; ++i$) {
-    i = i$;
-    if (!p(xs[i])) {
-      break;
-    }
+  i = 0;
+  while (i < len && p(xs[i])) {
+    i += 1;
   }
   return xs.slice(i);
 });
