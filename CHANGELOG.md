@@ -1,3 +1,6 @@
+# 1.0.1
+- bug fixes for `drop-while` and `take-while`
+
 # 1.0.0
 * massive update - separated functions into separate modules
 * functions do not accept multiple types anymore - use different versions in their respective modules in some cases (eg. `Obj.map`), or use `chars` or `values` in other cases to transform into a list
