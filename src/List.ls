@@ -83,7 +83,7 @@ concat-map = (f, xs) -->
   [].concat.apply [], [f x for x in xs]
 
 flatten = (xs) -->
-  [].concat.apply [], [(if x.length? then flatten x else x) for x in xs]
+  [].concat.apply [], [(if x.length? and typeof!x != \String then flatten x else x) for x in xs]
 
 difference = (xs, ...yss) ->
   results = []

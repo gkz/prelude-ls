@@ -13,7 +13,7 @@
     zip, zip-with, zip-all, zip-all-with,
   }
 } = require '..'
-{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+{equal: eq, deep-equal: deep-eq, ok, does-not-throw} = require 'assert'
 
 suite 'each' ->
   test 'empty list as input' ->
@@ -275,6 +275,9 @@ suite 'flatten' ->
 
   test 'nested lists as input' ->
     deep-eq [1,2,3,4,5], flatten [1, [[2], 3], [4, [[5]]]]
+
+  test 'list with Strings as input' ->
+    does-not-throw (-> flatten ['foo', 'bar']), RangeError
 
 suite 'difference' ->
   test 'empty list(s) as input' ->
