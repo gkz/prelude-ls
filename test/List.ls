@@ -276,6 +276,9 @@ suite 'flatten' ->
   test 'nested lists as input' ->
     deep-eq [1,2,3,4,5], flatten [1, [[2], 3], [4, [[5]]]]
 
+  test 'lists with strings' ->
+    deep-eq ['a','b','c','d','e'], flatten ['a', [['b'], 'c'], ['d', [['e']]]]
+
 suite 'difference' ->
   test 'empty list(s) as input' ->
     deep-eq [], difference []
