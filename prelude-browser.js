@@ -150,7 +150,7 @@ prelude.even = Num.even;
 prelude.odd = Num.odd;
 prelude.gcd = Num.gcd;
 prelude.lcm = Num.lcm;
-prelude.VERSION = '1.0.1';
+prelude.VERSION = '1.0.3';
 module.exports = prelude;
 function curry$(f, bound){
   var context,
@@ -495,7 +495,7 @@ function curry$(f, bound){
 }
 
 },{}],4:[function(require,module,exports){
-var each, map, compact, filter, reject, partition, find, head, first, tail, last, initial, empty, reverse, unique, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, concat, concatMap, flatten, difference, intersection, union, countBy, groupBy, andList, orList, any, all, sort, sortWith, sortBy, sum, product, mean, average, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, slice, take, drop, splitAt, takeWhile, dropWhile, span, breakList, zip, zipWith, zipAll, zipAllWith, slice$ = [].slice;
+var each, map, compact, filter, reject, partition, find, head, first, tail, last, initial, empty, reverse, unique, fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, concat, concatMap, flatten, difference, intersection, union, countBy, groupBy, andList, orList, any, all, sort, sortWith, sortBy, sum, product, mean, average, maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1, slice, take, drop, splitAt, takeWhile, dropWhile, span, breakList, zip, zipWith, zipAll, zipAllWith, toString$ = {}.toString, slice$ = [].slice;
 each = curry$(function(f, xs){
   var i$, len$, x;
   for (i$ = 0, len$ = xs.length; i$ < len$; ++i$) {
@@ -653,7 +653,7 @@ flatten = curry$(function(xs){
     var i$, ref$, len$, results$ = [];
     for (i$ = 0, len$ = (ref$ = xs).length; i$ < len$; ++i$) {
       x = ref$[i$];
-      if (x.length != null) {
+      if (toString$.call(x).slice(8, -1) === 'Array') {
         results$.push(flatten(x));
       } else {
         results$.push(x);
