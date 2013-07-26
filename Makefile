@@ -28,9 +28,9 @@ package.json: package.ls
 
 .PHONY: build-browser test install loc clean
 
-all: $(LIB)
+all: build
 
-build: all package.json
+build: $(LIB) package.json
 
 build-browser: prelude-browser.js prelude-browser-min.js
 
