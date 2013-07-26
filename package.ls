@@ -1,5 +1,5 @@
 name: 'prelude-ls'
-version: '1.0.2'
+version: '1.0.3'
 
 author: 'George Zahariev <z@georgezahariev.com>'
 

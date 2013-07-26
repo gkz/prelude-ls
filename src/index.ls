@@ -51,6 +51,6 @@ prelude <<< Num{
   truncate, round, ceiling, floor, is-it-NaN, even, odd, gcd, lcm,
 }
 
-prelude.VERSION = '1.0.2'
+prelude.VERSION = '1.0.3'
 
 module.exports = prelude
