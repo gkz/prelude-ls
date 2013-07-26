@@ -1,3 +1,6 @@
+# 1.0.2
+- bug fix for `flatten` - slight change with bug fix, flattens arrays only, not array-like objects
+
 # 1.0.1
 - bug fixes for `drop-while` and `take-while`
 
