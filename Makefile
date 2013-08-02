@@ -12,7 +12,7 @@ lib:
 	mkdir lib/
 
 lib/%.js: src/%.ls lib
-	$(LSC) --compile --bare --print "$<" > "$@"
+	$(LSC) --output lib --bare --compile "$<"
 
 browser:
 	mkdir browser/
@@ -24,7 +24,7 @@ prelude-browser-min.js: browser/prelude-browser.js
 	$(UGLIFYJS) browser/prelude-browser.js --mangle --comments "all" > browser/prelude-browser-min.js
 
 package.json: package.ls
-	$(LSC) --compile --json package.ls
+	$(LSC) --compile package.json.ls
 
 .PHONY: build-browser test install loc clean
 
