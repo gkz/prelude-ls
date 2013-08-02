@@ -23,7 +23,7 @@ prelude-browser.js: $(LIB) browser
 prelude-browser-min.js: browser/prelude-browser.js
 	$(UGLIFYJS) browser/prelude-browser.js --mangle --comments "all" > browser/prelude-browser-min.js
 
-package.json: package.ls
+package.json: package.json.ls
 	$(LSC) --compile package.json.ls
 
 .PHONY: build-browser test install loc clean
