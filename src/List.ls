@@ -1,28 +1,28 @@
 each = (f, xs) -->
-  for x in xs then f x
+  for x, i in xs then f x, i, xs
   xs
 
 map = (f, xs) -->
-  [f x for x in xs]
+  [f x, i, xs for x, i in xs]
 
 compact = (xs) -->
   [x for x in xs when x]
 
 filter = (f, xs) -->
-  [x for x in xs when f x]
+  [x for x, i in xs when f x, i, xs]
 
 reject = (f, xs) -->
-  [x for x in xs when not f x]
+  [x for x, i in xs when not f x, i, xs]
 
 partition = (f, xs) -->
   passed = []
   failed = []
-  for x in xs
-    (if f x then passed else failed).push x
+  for x, i in xs
+    (if f x, i, xs then passed else failed).push x
   [passed, failed]
 
 find = (f, xs) -->
-  for x in xs when f x then return x
+  for x, i in xs when f x, i, xs then return x
   void
 
 head = first = (xs) ->
@@ -80,7 +80,7 @@ concat = (xss) ->
   [].concat.apply [], xss
 
 concat-map = (f, xs) -->
-  [].concat.apply [], [f x for x in xs]
+  [].concat.apply [], [f x, i, xs for x, i in xs]
 
 flatten = (xs) -->
   [].concat.apply [], [(if typeof! x is 'Array' then flatten x else x) for x in xs]
@@ -110,8 +110,8 @@ union = (...xss) ->
 
 count-by = (f, xs) -->
   results = {}
-  for x in xs
-    key = f x
+  for x, i in xs
+    key = f x, i, xs
     if key of results
       results[key] += 1
     else
@@ -120,8 +120,8 @@ count-by = (f, xs) -->
 
 group-by = (f, xs) -->
   results = {}
-  for x in xs
-    key = f x
+  for x, i in xs
+    key = f x, i, xs
     if key of results
       results[key].push x
     else
@@ -139,12 +139,12 @@ or-list = (xs) ->
   false
 
 any = (f, xs) -->
-  for x in xs when f x
+  for x, i in xs when f x, i, xs
     return true
   false
 
 all = (f, xs) -->
-  for x in xs when not f x
+  for x, i in xs when not f x, i, xs
     return false
   true
 
