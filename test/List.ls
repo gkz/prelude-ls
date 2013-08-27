@@ -405,6 +405,9 @@ suite 'sort' ->
   test 'multi digit numbers' ->
     deep-eq [2,5,6,12,334,4999], sort [334 12 5 2 4999 6]
 
+  test 'same digits' ->
+    deep-eq [1 2 2 2 3], sort [2 3 2 1 2]
+
 suite 'sort-with' ->
   f = (x, y) ->
     | x.length > y.length => 1
@@ -426,17 +429,18 @@ suite 'sort-by' ->
     'hey'
     'a'
     'there'
+    'hey'
     'ha'
 
   test 'empty list as input' ->
     deep-eq [], sort-by id, []
 
   test 'complex case' ->
-    deep-eq ['a', 'ha', 'hey', 'there'], sort-by (.length), arr
+    deep-eq ['a', 'ha', 'hey', 'hey', 'there'], sort-by (.length), arr
 
   test 'curried' ->
     f = sort-by (.length)
-    deep-eq ['a', 'ha', 'hey', 'there'], f arr
+    deep-eq ['a', 'ha', 'hey', 'hey', 'there'], f arr
 
 suite 'sum' ->
   test 'empty list as input' ->
