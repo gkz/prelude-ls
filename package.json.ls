@@ -43,4 +43,5 @@ dev-dependencies:
   LiveScript: '~1.2.0'
   'uglify-js': '~2.2.5'
   mocha: '~1.8.2'
+  istanbul: '~0.1.43'
   browserify: '~2.13.2'

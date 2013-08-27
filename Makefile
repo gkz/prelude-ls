@@ -7,6 +7,8 @@ LSC = node_modules/.bin/lsc
 BROWSERIFY = node_modules/.bin/browserify
 UGLIFYJS = node_modules/.bin/uglifyjs
 MOCHA = node_modules/.bin/mocha
+MOCHA2 = node_modules/.bin/_mocha
+ISTANBUL = node_modules/.bin/istanbul
 
 lib:
 	mkdir lib/
@@ -26,7 +28,7 @@ prelude-browser-min.js: browser/prelude-browser.js
 package.json: package.json.ls
 	$(LSC) --compile package.json.ls
 
-.PHONY: build-browser test install loc clean
+.PHONY: build build-browser test coverage dev-install loc clean
 
 all: build
 
@@ -37,6 +39,9 @@ build-browser: prelude-browser.js prelude-browser-min.js
 test: build
 	$(MOCHA) --reporter dot --ui tdd --compilers ls:$(LS)
 
+coverage: build
+	$(ISTANBUL) cover $(MOCHA2) -- --reporter dot --ui tdd --compilers ls:$(LS)
+
 dev-install:
 	npm install .
 
@@ -44,7 +49,8 @@ loc:
 	wc --lines src/*
 
 clean:
-	rm --force ./*.js
-	rm --force --recursive lib
-	rm --force --recursive browser
-	rm --force package.json
+	rm -f ./*.js
+	rm -rf lib
+	rm -rf browser
+	rm -rf coverage
+	rm -f package.json
