@@ -202,6 +202,18 @@ minimum = (xs) ->
     min = x
   min
 
+maximum-by = (f, xs) -->
+  max = xs.0
+  for x in xs.slice 1 when (f x) > (f max)
+    max = x
+  max
+
+minimum-by = (f, xs) ->
+  min = xs.0
+  for x in xs.slice 1 when (f x) < (f min)
+    min = x
+  min
+
 scan = scanl = (f, memo, xs) -->
   last = memo
   [memo] ++ [last = f last, x for x in xs]
@@ -293,7 +305,8 @@ module.exports = {
   fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
   any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
   concat, concat-map, flatten,
-  maximum, minimum, scan, scan1, scanl, scanl1, scanr, scanr1,
+  maximum, minimum, maximum-by, minimum-by,
+  scan, scan1, scanl, scanl1, scanr, scanr1,
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
   zip, zip-with, zip-all, zip-all-with,
 }

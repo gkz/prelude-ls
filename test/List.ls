@@ -8,7 +8,8 @@
     fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
     any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
     concat, concat-map, flatten,
-    maximum, minimum, scan, scan1, scanl, scanl1, scanr, scanr1,
+    maximum, minimum, maximum-by, minimum-by,
+    scan, scan1, scanl, scanl1, scanr, scanr1,
     slice, take, drop, split-at, take-while, drop-while, span, break-list,
     zip, zip-with, zip-all, zip-all-with,
   }
@@ -494,6 +495,26 @@ suite 'minimum' ->
 
   test 'list of strings' ->
     eq 'a', minimum ['c', 'e', 'a', 'd', 'b']
+
+suite 'maximum-by' ->
+  test 'empty list as input' ->
+    eq void, maximum-by id, []
+
+  test 'single element list' ->
+    eq 1, maximum-by id, [1]
+
+  test 'multi element list' ->
+    eq 'long-string', maximum-by (.length), <[ hi there I am a really long-string ]>
+
+suite 'minimum-by' ->
+  test 'empty list as input' ->
+    eq void, minimum-by id, []
+
+  test 'single element list' ->
+    eq 1, minimum-by id, [1]
+
+  test 'multi element list' ->
+    eq 'I', minimum-by (.length), <[ hi there I am a really long-string ]>
 
 suite 'scan' ->
   test 'empty list as input' ->

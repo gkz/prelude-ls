@@ -30,7 +30,8 @@ prelude <<< List{
   fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
   any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
   concat, concat-map, flatten,
-  maximum, minimum, scan, scanl, scan1, scanl1, scanr, scanr1,
+  maximum, minimum, maximum-by, minimum-by,
+  scan, scanl, scan1, scanl1, scanr, scanr1,
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
   zip, zip-with, zip-all, zip-all-with,
 }
@@ -38,7 +39,7 @@ prelude <<< Func{
   apply, curry, flip, fix,
 }
 prelude <<< Str{
-  split, join, lines, unlines, words, unwords, chars, unchars
+  split, join, lines, unlines, words, unwords, chars, unchars,
 }
 # not importing all of Obj's functions
 prelude <<< Obj{

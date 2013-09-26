@@ -1,3 +1,6 @@
+# 1.1.0
+- add `maximum-by` and `minimum-by`
+
 # 1.0.3
 - build browser versions
 
