@@ -50,8 +50,10 @@ reverse = (xs) ->
 
 unique = (xs) ->
   result = []
-  for x in xs when x not in result
+  so-far = {}
+  for x in xs when not so-far[x]
     result.push x
+    so-far[x] = true
   result
 
 fold = foldl = (f, memo, xs) -->

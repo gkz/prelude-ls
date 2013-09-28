@@ -1,5 +1,6 @@
 # 1.1.0
 - add `maximum-by` and `minimum-by`
+- improve performance of `unqiue`
 
 # 1.0.3
 - build browser versions
