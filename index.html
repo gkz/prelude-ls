@@ -464,7 +464,7 @@ concat [[1] [2 3] [4]]   #=> [1, 2, 3, 4]
 
       <div id="concat-map" class="func">
         <a href="#concat-map" class="func-name">concat-map</a>
-        <div class="func-type">(a &rarr; b) &rarr; [[a]] &rarr; [b]</div>
+        <div class="func-type">(a &rarr; [b]) &rarr; [a] &rarr; [b]</div>
         <p>Like <code>map</code>, except concatenates the output.
 <pre class="prettyprint example lang-ls">
 concat-map (-> [1 to it]), [1 2 3] #=> [1, 1, 2, 1, 2, 3]
