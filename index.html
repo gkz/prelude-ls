@@ -485,7 +485,7 @@ flatten [1, [[2], 3], [4, [[5]]]] #=> [1, 2, 3, 4, 5]
         <div class="func-type">([a], [a], ...) &rarr; [a]</div>
         <p>Returns a new list containing the elements which are present in the first list and not in the others. This function is not curried as it takes a variable number of arguments.
 <pre class="prettyprint example lang-ls">
-difference [1 2 3] [1]              #=> [1, 2]
+difference [1 2 3] [1]              #=> [2, 3]
 difference [1 2 3 4 5] [5 2 10] [9] #=> [1, 3, 4]
 </pre>
       </div>
