@@ -257,12 +257,6 @@ suite 'concat-map' ->
   test 'empty list as input' ->
     deep-eq [], concat-map id, []
 
-  test 'just using mapping' ->
-    deep-eq [1 2 3], concat-map (+ 1), [0 1 2]
-
-  test 'just using concatinating' ->
-    deep-eq [1 2 3], concat-map id, [[1],[2],[3]]
-
   test 'using mapping and concatinating' ->
     deep-eq [1,1,2,1,2,3], concat-map (-> [1 to it]), [1 2 3]
 
