@@ -179,6 +179,9 @@ suite 'unique' ->
   test 'unique list' ->
     deep-eq [1,2,3,4,5,6], unique [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6]
 
+  test 'mixed string/num' ->
+    deep-eq ['1' 1 2 4 5], unique ['1' 1 2 4 5 5]
+
 suite 'fold' ->
   test 'empty list as input' ->
     eq 0, fold (+), 0, []
