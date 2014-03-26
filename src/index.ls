@@ -34,6 +34,7 @@ prelude <<< List{
   scan, scanl, scan1, scanl1, scanr, scanr1,
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
   zip, zip-with, zip-all, zip-all-with,
+  at, elem-index, elem-indices, find-index, find-indices,
 }
 prelude <<< Func{
   apply, curry, flip, fix, over,

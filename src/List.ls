@@ -298,6 +298,25 @@ zip-all-with = (f, ...xss) ->
     min-length <?= xs.length
   [f.apply(null, [xs[i] for xs in xss]) for i til min-length]
 
+at = (n, xs) -->
+  if n < 0 then xs[xs.length + n] else xs[n]
+
+elem-index = (el, xs) -->
+  for x, i in xs when x is el
+    return i
+  void
+
+elem-indices = (el, xs) -->
+  [i for x, i in xs when x is el]
+
+find-index = (f, xs) -->
+  for x, i in xs when f x
+    return i
+  void
+
+find-indices = (f, xs) -->
+  [i for x, i in xs when f x]
+
 module.exports = {
   each, map, filter, compact, reject, partition, find,
   head, first, tail, last, initial, empty,
@@ -309,4 +328,5 @@ module.exports = {
   scan, scan1, scanl, scanl1, scanr, scanr1,
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
   zip, zip-with, zip-all, zip-all-with,
+  at, elem-index, elem-indices, find-index, find-indices,
 }

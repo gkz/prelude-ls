@@ -12,6 +12,7 @@
     scan, scan1, scanl, scanl1, scanr, scanr1,
     slice, take, drop, split-at, take-while, drop-while, span, break-list,
     zip, zip-with, zip-all, zip-all-with,
+    at, elem-index, elem-indices, find-index, find-indices,
   }
 } = require '..'
 {equal: eq, deep-equal: deep-eq, ok} = require 'assert'
@@ -771,3 +772,83 @@ suite 'zip-all-with' ->
 
   test 'second list shorter' ->
     deep-eq [5 7], zip-all-with (+), [1 2 3] [4 5]
+
+suite 'at' ->
+  test 'empty list as input' ->
+    eq void, at 0, []
+
+  test 'positive n' ->
+    eq 2, at 1, [1 2 3]
+
+  test 'negative n' ->
+    eq 3, at -1, [1 2 3]
+
+  test 'not defined at index' ->
+    eq void, at 10, [1 2 3]
+
+  test 'curried' ->
+    eq 2, (at 1) [1 2 3]
+
+suite 'elem-index' ->
+  test 'empty list as input' ->
+    eq void, elem-index 2, []
+
+  test 'basic' ->
+    eq 1, elem-index 2, [1 2 3]
+
+  test 'multiple' ->
+    eq 1, elem-index 2, [1 2 3 2 1]
+
+  test 'not there' ->
+    eq void, elem-index 5, [1 2 3]
+
+  test 'curried' ->
+    eq 1, (elem-index 2) [1 2 3]
+
+suite 'elem-indices' ->
+  test 'empty list as input' ->
+    deep-eq [], elem-indices 2, []
+
+  test 'single' ->
+    deep-eq [1], elem-indices 2, [1 2 3]
+
+  test 'multiple' ->
+    deep-eq [1, 3], elem-indices 2, [1 2 3 2 1]
+
+  test 'not there' ->
+    deep-eq [], elem-indices 5, [1 2 3]
+
+  test 'curried' ->
+    deep-eq [1], (elem-indices 2) [1 2 3]
+
+suite 'find-index' ->
+  test 'empty list as input' ->
+    eq void, find-index id, []
+
+  test 'basic' ->
+    eq 1, find-index (== 2), [1 2 3]
+
+  test 'multiple' ->
+    eq 1, find-index even, [1 2 3 4]
+
+  test 'not there' ->
+    eq void, find-index odd, [2 4 6]
+
+  test 'curried' ->
+    eq 1, (find-index (== 2)) [1 2 3]
+
+suite 'find-indices' ->
+  test 'empty list as input' ->
+    deep-eq [], find-indices id, []
+
+  test 'basic' ->
+    deep-eq [1], find-indices (== 2), [1 2 3]
+
+  test 'multiple' ->
+    deep-eq [1, 3], find-indices even, [1 2 3 4]
+
+  test 'not there' ->
+    deep-eq [], find-indices odd, [2 4 6]
+
+  test 'curried' ->
+    deep-eq [1], (find-indices (== 2)) [1 2 3]
