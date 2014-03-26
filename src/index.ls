@@ -40,6 +40,7 @@ prelude <<< Func{
 }
 prelude <<< Str{
   split, join, lines, unlines, words, unwords, chars, unchars,
+  repeat, capitalize, camelize, dasherize,
 }
 # not importing all of Obj's functions
 prelude <<< Obj{

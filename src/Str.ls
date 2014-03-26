@@ -27,6 +27,20 @@ repeat = (n, str) -->
   out = [str for til n]
   out.join ''
 
+capitalize = (str) ->
+  (str.char-at 0).to-upper-case! + str.slice 1
+
+camelize = (.replace /[-_]+(.)?/g, (, c) -> (c ? '').to-upper-case!)
+
+# convert camelCase to camel-case, and setJSON to set-JSON
+dasherize = (str) ->
+    str
+      .replace /([^-A-Z])([A-Z]+)/g, (, lower, upper) ->
+         "#{lower}-#{if upper.length > 1 then upper else upper.to-lower-case!}"
+      .replace /^([A-Z]+)/, (, upper) ->
+         if upper.length > 1 then "#upper-" else upper.to-lower-case!
+
 module.exports = {
-  split, join, lines, unlines, words, unwords, chars, unchars, reverse, repeat,
+  split, join, lines, unlines, words, unwords, chars, unchars, reverse,
+  repeat, capitalize, camelize, dasherize,
 }

@@ -1,7 +1,8 @@
 {
   id
   Str: {
-    split, join, lines, unlines, words, unwords, chars, unchars, empty, reverse, repeat,
+    split, join, lines, unlines, words, unwords, chars, unchars, empty, reverse
+    repeat, capitalize, camelize, dasherize
     slice, take, drop, split-at, take-while, drop-while, span, break-str
   }
 } = require '..'
@@ -103,6 +104,55 @@ suite 'repeat' ->
   test 'curried' ->
     f = repeat 2
     eq 'aa', f 'a'
+
+
+suite 'capitalize' ->
+  test 'empty string as input' ->
+    eq '', capitalize ''
+
+  test 'basic' ->
+    eq 'Foo', capitalize 'foo'
+
+suite 'camelize' ->
+  test 'empty string as input' ->
+    eq '', camelize ''
+
+  test 'no change' ->
+    eq 'fooBar', camelize 'fooBar'
+
+  test 'dashes' ->
+    eq 'fooBar', camelize 'foo-bar'
+
+  test 'underscore' ->
+    eq 'fooBar', camelize 'foo_bar'
+
+  test 'ending dash' ->
+    eq 'fooBar', camelize 'foo-bar-'
+
+  test 'more than one' ->
+    eq 'fooBar', camelize 'foo--bar'
+
+suite 'dasherize' ->
+  test 'empty string as input' ->
+    eq '', dasherize ''
+
+  test 'no change' ->
+    eq 'foo-bar', dasherize 'foo-bar'
+
+  test 'basic' ->
+    eq 'foo-bar', dasherize 'fooBar'
+
+  test 'with numbers' ->
+    eq 'f1-bar', dasherize 'f1Bar'
+
+  test 'repeated capitals' ->
+    eq 'set-JSON', dasherize 'setJSON'
+
+  test 'starting with capital' ->
+    eq 'foo-bar', dasherize 'FooBar'
+
+  test 'starting with repeated capitals' ->
+    eq 'JSON-get', dasherize 'JSONget'
 
 suite 'slice' ->
   test 'zero to zero' ->
