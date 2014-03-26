@@ -4,8 +4,8 @@ curry = (f) ->
 flip = (f, x, y) --> f y, x
 
 fix = (f) ->
-  ( (g, x) -> -> f(g g) ...arguments ) do
-    (g, x) -> -> f(g g) ...arguments
+  ( (g) -> -> f(g g) ...arguments ) do
+    (g) -> -> f(g g) ...arguments
 
 apply = (f, list) -->
   f.apply null, list
