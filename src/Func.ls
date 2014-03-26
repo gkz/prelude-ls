@@ -1,3 +1,6 @@
+apply = (f, list) -->
+  f.apply null, list
+
 curry = (f) ->
   curry$ f # using util method curry$ from livescript
 
@@ -7,11 +10,10 @@ fix = (f) ->
   ( (g) -> -> f(g g) ...arguments ) do
     (g) -> -> f(g g) ...arguments
 
-apply = (f, list) -->
-  f.apply null, list
+over = (f, g, x, y) --> f (g x), (g y)
 
 #? memoize, wrap
 
 module.exports = {
-  curry, flip, fix, apply
+  curry, flip, fix, apply, over,
 }

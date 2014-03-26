@@ -1,4 +1,4 @@
-{apply, curry, flip, fix} = require '..' .Func
+{apply, curry, flip, fix, over} = require '..' .Func
 {equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'apply' ->
@@ -34,3 +34,14 @@ suite 'fix' ->
     eq 89, (fix (fib) -> (n, minus=0) ->
       | (n - minus) <= 1 => 1
       | otherwise        => fib(n, minus+1) + fib(n, minus+2))(10)
+
+suite 'over' ->
+  test 'basic' ->
+    f = (==) `over` (-> it)
+    ok f 2 2
+    ok not f 2 3
+
+  test 'with accessor function' ->
+    same-length = (==) `over` (.length)
+    ok same-length [1 2 3] [4 5 6]
+    ok not same-length [1 2] [4 5 6]

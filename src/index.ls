@@ -36,7 +36,7 @@ prelude <<< List{
   zip, zip-with, zip-all, zip-all-with,
 }
 prelude <<< Func{
-  apply, curry, flip, fix,
+  apply, curry, flip, fix, over,
 }
 prelude <<< Str{
   split, join, lines, unlines, words, unwords, chars, unchars,
