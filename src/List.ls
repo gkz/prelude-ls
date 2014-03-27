@@ -70,11 +70,11 @@ fold1 = foldl1 = (f, xs) -->
   fold f, xs.0, xs.slice 1
 
 foldr = (f, memo, xs) -->
-  fold f, memo, (xs.concat!.reverse!)
+  for x in xs by -1 then memo = f x, memo
+  memo
 
 foldr1 = (f, xs) -->
-  ys = xs.concat!.reverse!
-  fold f, ys.0, ys.slice 1
+  foldr f, xs[*-1], xs.slice 0, -1
 
 unfoldr = (f, b) -->
   result = []

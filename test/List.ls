@@ -229,25 +229,25 @@ suite 'foldr' ->
     eq 0, foldr (+), 0, []
 
   test 'list as input' ->
-    eq -1, foldr (-), 9, [1 2 3 4]
+    eq 7, foldr (-), 9, [1 2 3 4]
 
   test 'curried' ->
     f = foldr (-)
-    eq -1, f 9, [1 2 3 4]
+    eq 7, f 9, [1 2 3 4]
 
     g = foldr (-), 9
-    eq -1, g [1 2 3 4]
+    eq 7, g [1 2 3 4]
 
 suite 'foldr1' ->
   test 'empty list as input' ->
     eq void, foldr1 (+), []
 
   test 'list as input' ->
-    eq -1, foldr1 (-), [1 2 3 4 9]
+    eq 7, foldr1 (-), [1 2 3 4 9]
 
   test 'curried' ->
     f = foldr1 (-)
-    eq -1, f [1 2 3 4 9]
+    eq 7, f [1 2 3 4 9]
 
 suite 'unfoldr' ->
   test 'complex case' ->
