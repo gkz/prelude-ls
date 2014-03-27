@@ -28,7 +28,7 @@ prelude <<< List{
   head, first, tail, last, initial, empty,
   reverse, difference, intersection, union, count-by, group-by,
   fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
-  any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
+  any, all, unique, unique-by, sort, sort-with, sort-by, sum, product, mean, average,
   concat, concat-map, flatten,
   maximum, minimum, maximum-by, minimum-by,
   scan, scanl, scan1, scanl1, scanr, scanr1,

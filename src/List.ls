@@ -54,6 +54,14 @@ unique = (xs) ->
     result.push x
   result
 
+unique-by = (f, xs) ->
+  seen = []
+  for x in xs
+    val = f x
+    continue if val in seen
+    seen.push val
+    x
+
 fold = foldl = (f, memo, xs) -->
   for x in xs then memo = f memo, x
   memo
@@ -322,7 +330,7 @@ module.exports = {
   head, first, tail, last, initial, empty,
   reverse, difference, intersection, union, count-by, group-by,
   fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
-  any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
+  any, all, unique, unique-by, sort, sort-with, sort-by, sum, product, mean, average,
   concat, concat-map, flatten,
   maximum, minimum, maximum-by, minimum-by,
   scan, scan1, scanl, scanl1, scanr, scanr1,

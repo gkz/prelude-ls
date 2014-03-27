@@ -6,7 +6,7 @@
     head, first, tail, last, initial, empty,
     reverse, difference, intersection, union, count-by, group-by,
     fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
-    any, all, unique, sort, sort-with, sort-by, sum, product, mean, average,
+    any, all, unique, unique-by, sort, sort-with, sort-by, sum, product, mean, average,
     concat, concat-map, flatten,
     maximum, minimum, maximum-by, minimum-by,
     scan, scan1, scanl, scanl1, scanr, scanr1,
@@ -182,6 +182,16 @@ suite 'unique' ->
 
   test 'mixed string/num' ->
     deep-eq ['1' 1 2 4 5], unique ['1' 1 2 4 5 5]
+
+suite 'unique-by' ->
+  test 'empty list as input' ->
+    deep-eq [], unique-by id, []
+
+  test 'basic' ->
+    deep-eq [1,2,3,4,5,6], unique-by id, [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6]
+
+  test 'accessor' ->
+    deep-eq [[] [1 2 3] [4] [5 6]], unique-by (.length), [[], [1 2 3], [4], [5 6], [7], [8 9 10]]
 
 suite 'fold' ->
   test 'empty list as input' ->
