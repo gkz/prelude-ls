@@ -1,6 +1,11 @@
 # 1.1.0
-- add `maximum-by` and `minimum-by`
-- improve performance of `unqiue`
+- added `List` functions: `maximum-by`, `minimum-by`, `unique-by`
+- added `List` functions: `at`, `elem-index`, `elem-indices`, `find-index`, `find-indices`
+- added `Str` functions: `capitalize`, `camelize`, `dasherize`
+- added `Func` function: `over` - eg. ``same-length = (==) `over` (.length)``
+- exported `Str.repeat` through main `prelude` object
+- fixed issue with `fix`
+- improved code coverage
 
 # 1.0.3
 - build browser versions
