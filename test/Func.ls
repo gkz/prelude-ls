@@ -1,5 +1,5 @@
 {apply, curry, flip, fix, over} = require '..' .Func
-{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+{strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'apply' ->
   test 'empty list' ->

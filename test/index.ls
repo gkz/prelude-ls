@@ -1,5 +1,5 @@
 {id, is-type, replicate, VERSION} = require '..'
-{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+{strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'library' ->
   test 'version' ->

@@ -6,7 +6,7 @@
     slice, take, drop, split-at, take-while, drop-while, span, break-str
   }
 } = require '..'
-{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+{strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'split' ->
   test 'empty string as input' ->

@@ -15,7 +15,7 @@
     at, elem-index, elem-indices, find-index, find-indices,
   }
 } = require '..'
-{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+{strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'each' ->
   test 'empty list as input' ->

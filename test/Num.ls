@@ -3,7 +3,7 @@
   pi, tau, exp, sqrt, ln, pow, sin, tan, cos, acos, asin, atan, atan2,
   truncate, round, ceiling, floor, is-it-NaN, even, odd, gcd, lcm,
 } = require '..'
-{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+{strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'max' ->
   test 'numbers' ->

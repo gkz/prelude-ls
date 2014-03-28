@@ -6,7 +6,7 @@
     empty, each, map, filter, compact, reject, partition, find,
   }
 } = require '..'
-{equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+{strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'values' ->
   test 'empty object as input' ->
