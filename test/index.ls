@@ -1,5 +1,9 @@
-{id, is-type, replicate} = require '..'
+{id, is-type, replicate, VERSION} = require '..'
 {equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+
+suite 'library' ->
+  test 'version' ->
+    eq VERSION, (require '../package.json').version
 
 suite 'id' ->
   test 'number' ->
