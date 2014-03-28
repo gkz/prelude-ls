@@ -1,5 +1,6 @@
 each = (f, xs) -->
-  for x in xs then f x
+  for x in xs
+    f x
   xs
 
 map = (f, xs) -->
@@ -22,11 +23,11 @@ partition = (f, xs) -->
   [passed, failed]
 
 find = (f, xs) -->
-  for x in xs when f x then return x
+  for x in xs when f x
+    return x
   void
 
 head = first = (xs) ->
-  return void unless xs.length
   xs.0
 
 tail = (xs) ->
@@ -34,13 +35,11 @@ tail = (xs) ->
   xs.slice 1
 
 last = (xs) ->
-  return void unless xs.length
   xs[*-1]
 
 initial = (xs) ->
-  len = xs.length
-  return void unless len
-  xs.slice 0, len - 1
+  return void unless xs.length
+  xs.slice 0, -1
 
 empty = (xs) ->
   not xs.length
@@ -63,14 +62,16 @@ unique-by = (f, xs) ->
     x
 
 fold = foldl = (f, memo, xs) -->
-  for x in xs then memo = f memo, x
+  for x in xs
+    memo = f memo, x
   memo
 
 fold1 = foldl1 = (f, xs) -->
   fold f, xs.0, xs.slice 1
 
 foldr = (f, memo, xs) -->
-  for x in xs by -1 then memo = f x, memo
+  for x in xs by -1
+    memo = f x, memo
   memo
 
 foldr1 = (f, xs) -->
@@ -166,11 +167,9 @@ sort = (xs) ->
       0
 
 sort-with = (f, xs) -->
-  return [] unless xs.length
   xs.concat!.sort f
 
 sort-by = (f, xs) -->
-  return [] unless xs.length
   xs.concat!.sort (x, y) ->
     if (f x) > (f y)
       1
@@ -193,10 +192,9 @@ product = (xs) ->
 
 mean = average = (xs) ->
   sum = 0
-  len = xs.length
-  for i til len
-    sum += xs[i]
-  sum / len
+  for x in xs
+    sum += x
+  sum / xs.length
 
 maximum = (xs) ->
   max = xs.0
