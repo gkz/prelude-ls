@@ -19,8 +19,8 @@ lib/%.js: src/%.ls lib
 browser:
 	mkdir browser/
 
-prelude-browser.js: $(LIB) browser
-	$(BROWSERIFY) -r ./lib/index.js:prelude-ls > browser/prelude-browser.js
+prelude-browser.js: $(LIB) browser preroll.ls
+	{ $(LSC) ./preroll.ls ; $(BROWSERIFY) -r ./lib/index.js:prelude-ls ; } > browser/prelude-browser.js
 
 prelude-browser-min.js: browser/prelude-browser.js
 	$(UGLIFYJS) browser/prelude-browser.js --mangle --comments "all" > browser/prelude-browser-min.js
