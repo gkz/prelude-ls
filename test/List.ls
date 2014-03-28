@@ -230,6 +230,7 @@ suite 'foldr' ->
 
   test 'list as input' ->
     eq 7, foldr (-), 9, [1 2 3 4]
+    eq 'abcde', foldr (+), 'e', <[ a b c d ]>
 
   test 'curried' ->
     f = foldr (-)
@@ -244,6 +245,7 @@ suite 'foldr1' ->
 
   test 'list as input' ->
     eq 7, foldr1 (-), [1 2 3 4 9]
+    eq 'abcde', foldr1 (+), <[ a b c d e ]>
 
   test 'curried' ->
     f = foldr1 (-)
