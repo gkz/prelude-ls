@@ -24,9 +24,12 @@
       </ul>
 
       <div class="mini-action-buttons">
-        <div><iframe src="http://ghbtns.com/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=small&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="25"></iframe></div>
-        <div><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://preludels.com" data-text="prelude.ls - a functional programming library for JavaScript - the LiveScript standard library" data-related="gkzahariev:The Creator" data-via="gkzahariev">Tweet</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+        <div>
+          <iframe src="http://ghbtns.com/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=small&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="25"></iframe>
+        </div>
+        <div>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://preludels.com" data-text="prelude.ls - a functional programming library for JavaScript - the LiveScript standard library" data-related="gkzahariev:The Creator" data-via="gkzahariev">Tweet</a>
+        </div>
       </div>
 
       <hr>
@@ -54,6 +57,7 @@
         <li><a href="#empty">empty</a></li>
         <li><a href="#reverse">reverse</a></li>
         <li><a href="#unique">unique</a></li>
+        <li><a href="#unique-by">unique-by</a></li>
         <li><a href="#fold">fold</a></li>
         <li><a href="#foldl">foldl</a></li>
         <li><a href="#fold1">fold1</a></li>
@@ -82,6 +86,8 @@
         <li><a href="#mean">average</a></li>
         <li><a href="#maximum">maximum</a></li>
         <li><a href="#minimum">minimum</a></li>
+        <li><a href="#maximum-by">maximum-by</a></li>
+        <li><a href="#minimum-by">minimum-by</a></li>
         <li><a href="#scan">scan</a></li>
         <li><a href="#scan">scanl</a></li>
         <li><a href="#scan1">scan1</a></li>
@@ -100,6 +106,11 @@
         <li><a href="#zip-with">zip-with</a></li>
         <li><a href="#zip-all">zip-all</a></li>
         <li><a href="#zip-all-with">zip-all-with</a></li>
+        <li><a href="#at">at</a></li>
+        <li><a href="#elem-index">elem-index</a></li>
+        <li><a href="#elem-indices">elem-indices</a></li>
+        <li><a href="#find-index">find-index</a></li>
+        <li><a href="#find-indices">find-indices</a></li>
       </ul>
 
       <a class="module-heading" href="#obj">Obj</a>
@@ -130,9 +141,12 @@
         <li><a href="#unwords">unwords</a></li>
         <li><a href="#chars">chars</a></li>
         <li><a href="#unchars">unchars</a></li>
+        <li><a href="#repeat">repeat</a></li>
+        <li><a href="#capitalize">capitalize</a></li>
+        <li><a href="#camelize">camelize</a></li>
+        <li><a href="#dasherize">dasherize</a></li>
         <li><a href="#str-empty">empty</a></li>
         <li><a href="#str-reverse">reverse</a></li>
-        <li><a href="#str-repeat">repeat</a></li>
         <li><a href="#str-slice">slice</a></li>
         <li><a href="#str-take">take</a></li>
         <li><a href="#str-drop">drop</a></li>
@@ -149,6 +163,7 @@
         <li><a href="#curry">curry</a></li>
         <li><a href="#flip">flip</a></li>
         <li><a href="#fix">fix</a></li>
+        <li><a href="#over">over</a></li>
       </ul>
 
       <a class="module-heading" href="#num">Num</a>
@@ -200,16 +215,15 @@
 [1 to 5] |> map (^2) |> filter even |> fold (+), 0 #=> 20
 </pre>
       <div class="major-actions">
-        <h3>1.0.3</h3>
+        <h3>1.1.0</h3>
         <a href="prelude-browser-min.js">prelude-browser-min.js</a>
         <a class="primary" href="https://github.com/gkz/prelude-ls">View project on GitHub</a>
         <iframe src="http://ghbtns.com/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=large&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="140" height="40"></iframe>
         <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://preludels.com" data-text="prelude.ls - functionally oriented utility library in LiveScript" data-size="large" data-related="gkzahariev:The Creator" data-via="gkzahariev">Tweet</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
       </div>
       <p>Install via <a href="http://npmjs.org">npm</a>: <strong><code>npm install prelude-ls</code></strong>. <a href="https://github.com/gkz/prelude-ls/blob/master/LICENSE">MIT License</a>. <a href="https://github.com/gkz/prelude-ls/blob/master/CHANGELOG.md">Changelog</a>.
       <p><a href="https://twitter.com/gkzahariev" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @gkzahariev</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> for updates on prelude.ls releases.
+      for updates on prelude.ls releases.
       <p>You can report bugs and discuss features on the <a href="https://github.com/gkz/prelude-ls/issues">issue page</a>.
       <h3 id="curried-functions">Curried functions</h3>
       <p>Calling with less than the full number of arguments returns a partially applied function.
@@ -275,7 +289,7 @@ replicate 0 'a' #=> []
 
       <div id="each" class="func">
         <a href="#each" class="func-name">each</a>
-        <div class="func-type">Function &rarr; List &rarr; List</div>
+        <div class="func-type">(a &rarr; Undefined) &rarr; [a] &rarr; [a]</div>
         <p>Applies a function to each item in the list and returns the original list. Used for side effects.
 <pre class="prettyprint example lang-ls">
 each (.push \boom), [['a'] ['b'] ['c']]
@@ -333,8 +347,8 @@ partition (> 60), [49 58 76 43 88 77 90] #=> [[76 88 77 90],[49 58 43]]
 
       <div id="find" class="func">
         <a href="#find" class="func-name">find</a>
-        <div class="func-type">(a &rarr; Boolean) &rarr; [a] &rarr; a</div>
-        <p>Returns the first item in list to pass the function's test.
+        <div class="func-type">(a &rarr; Boolean) &rarr; [a] &rarr; Maybe a</div>
+        <p>Returns the first item in list to pass the function's test. Returns undefined if all items fail the test.
 <pre class="prettyprint example lang-ls">
 find odd, [2 4 6 7 8 9 10] #=> 7
 </pre>
@@ -343,8 +357,8 @@ find odd, [2 4 6 7 8 9 10] #=> 7
       <div id="head" class="func">
         <a href="#head" class="func-name">head</a>
         <div class="alias">alias: first</div>
-        <div class="func-type">[a] &rarr; a</div>
-        <p>The first item of the list.
+        <div class="func-type">[a] &rarr; Maybe a</div>
+        <p>The first item of the list. Returns <code>undefined</code> if the list is empty.
 <pre class="prettyprint example lang-ls">
 head [1 to 5] #=> 1
 </pre>
@@ -361,8 +375,8 @@ tail [1 to 5] #=> [2, 3, 4, 5]
 
       <div id="last" class="func">
         <a href="#last" class="func-name">last</a>
-        <div class="func-type">[a] &rarr; a</div>
-        <p>The last item of the list.
+        <div class="func-type">[a] &rarr; Maybe a</div>
+        <p>The last item of the list. Returns <code>undefined</code> if the list is empty.
 <pre class="prettyprint example lang-ls">
 last [1 to 5] #=> 5
 </pre>
@@ -379,7 +393,7 @@ initial [1 to 5] #=> [1, 2, 3, 4]
 
       <div id="empty" class="func">
         <a href="#empty" class="func-name">empty</a>
-        <div class="func-type">List &rarr; Boolean</div>
+        <div class="func-type">[a] &rarr; Boolean</div>
         <p>Whether the list is empty.
 <pre class="prettyprint example lang-ls">
 empty [] #=> true
@@ -404,11 +418,20 @@ unique [1 1 1 3 3 6 7 8] #=> [1 3 6 7 8]
 </pre>
       </div>
 
+      <div id="unique-by" class="func">
+        <a href="#unique-by" class="func-name">unique-by</a>
+        <div class="func-type">(a &rarr; b) &rarr; [a] &rarr; [a]</div>
+        <p>Returns a new list which contains each item which has a unique value when applied to the supplied function. If there are multiple different items with the same value when the function is applied, the first item is taken.
+<pre class="prettyprint example lang-ls">
+unique-by (.length), <[ and here are some words ]> #=> ['and', 'here', 'words']
+</pre>
+      </div>
+
       <div id="fold" class="func">
         <a href="#fold" class="func-name">fold</a>
         <div class="alias">alias: foldl</div>
-        <div class="func-type">Function &rarr; init &rarr; List &rarr; x</div>
-        <p>Takes a list of items, and using the binary function supplied, folds them into a single value. Requires an initial value, which will be the starting point, and result in case of an empty list.
+        <div class="func-type">(a &rarr; b &rarr; a) &rarr; a &rarr; [b] &rarr; a</div>
+        <p>Takes a list of items, and using the binary function supplied, folds them into a single value. Requires an initial value (the second argument), which will be the starting point, and result in case of an empty list.
 <pre class="prettyprint example lang-ls">
 fold (+), 0, [1 to 5] #=> 15
 product = fold (*), 1
@@ -418,7 +441,7 @@ product = fold (*), 1
       <div id="fold1" class="func">
         <a href="#fold1" class="func-name">fold1</a>
         <div class="alias">alias: foldl1</div>
-        <div class="func-type">Function &rarr; List &rarr; x</div>
+        <div class="func-type">(a &rarr; a &rarr; a) &rarr; [a] &rarr; a</div>
         <p>Like <code>fold</code>, except assumes a non-empty list, and thus doesn't require an initial value.
 <pre class="prettyprint example lang-ls">
 fold1 (+), [1 to 3] #=> 6
@@ -427,26 +450,27 @@ fold1 (+), [1 to 3] #=> 6
 
       <div id="foldr" class="func">
         <a href="#foldr" class="func-name">foldr</a>
-        <div class="func-type">Function &rarr; init &rarr; List &rarr; x</div>
-        <p>Like <code>fold</code>, except starting from the right of the list and folding left.
+        <div class="func-type">(a &rarr; b &rarr; b) &rarr; b &rarr; [a] &rarr; b</div>
+        <p>Like <code>fold</code>, except folding from the right instead of the left.
 <pre class="prettyprint example lang-ls">
-foldr (-), 9, [1 2 3 4] #=> -1
+foldr (-), 9, [1 2 3 4]       #=> 7
+foldr (+), 'e', <[ a b c d ]> #=> 'abcde'
 </pre>
       </div>
 
       <div id="foldr1" class="func">
         <a href="#foldr1" class="func-name">foldr1</a>
-        <div class="func-type">Function &rarr; List &rarr; x</div>
+        <div class="func-type">(a &rarr; a &rarr; a) &rarr; [a] &rarr; a</div>
         <p>Like <code>foldr</code>, except assumes a non-empty list, and thus doesn't require an initial value.
 <pre class="prettyprint example lang-ls">
-foldr1 (-), [1 2 3 4 9] #=> -1
+foldr1 (-), [1 2 3 4 9] #=> 7
 </pre>
       </div>
 
       <div id="unfoldr" class="func">
         <a href="#unfoldr" class="func-name">unfoldr</a>
-        <div class="func-type">Function &rarr; seed &rarr; List</div>
-        <p>Unfoldr builds a list from a seed value. It takes a function which either returns <code>null</code> if it is done producing the list, or returns <code>[a, b]</code>, <code>a</code> which is prepended to the list, and <code>b</code> is used as the next element in the recursive call.
+        <div class="func-type">(b &rarr; Maybe [a, b]) &rarr; b &rarr; [a]</div>
+        <p>Unfoldr builds a list from a seed value (the second argument). It takes a function which either returns <code>null</code> if it is done producing the list, or returns <code>[x, y]</code>, <code>x</code> which is prepended to the list, and <code>y</code> is used as the next element in the recursive call.
 <pre class="prettyprint example lang-ls">
 unfoldr (-> if it == 0 then null else [it, it - 1]), 10
 #=> [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
@@ -532,44 +556,48 @@ group-by (.length), <[ one two three ]> #=> {3: ['one', 'two'], 5: ['three']}
 
       <div id="and-list" class="func">
         <a href="#and-list" class="func-name">and-list</a>
-        <div class="func-type">List &rarr; Boolean</div>
-        <p>Returns true if each item in the list is true.
+        <div class="func-type">[a] &rarr; Boolean</div>
+        <p>Returns <code>false</code> if any item in the list is <code>false</code>, otherwise returns <code>true</code>.
 <pre class="prettyprint example lang-ls">
 and-list [true, 2 + 2 == 4] #=> true
 and-list [true true false ] #=> false
+and-list []                 #=> true
 </pre>
       </div>
 
       <div id="or-list" class="func">
         <a href="#or-list" class="func-name">or-list</a>
-        <div class="func-type">List &rarr; Boolean</div>
-        <p>Returns true if any item in the list is true.
+        <div class="func-type">[a] &rarr; Boolean</div>
+        <p>Returns <code>true</code> if any item in the list is <code>true</code>, otherwise returns <code>false</code>.
 <pre class="prettyprint example lang-ls">
 or-list [false false true false] #=> true
+or-list []                       #=> false
 </pre>
       </div>
 
       <div id="any" class="func">
         <a href="#any" class="func-name">any</a>
         <div class="func-type">(a &rarr; Boolean) &rarr; [a] &rarr; Boolean</div>
-        <p>Returns true if any of the items in the list are true when applied to the test.
+        <p>Returns <code>true</code> if any of the items in the list are <code>true</code> when applied to the test.
 <pre class="prettyprint example lang-ls">
 any even, [3, 5, 7, 8, 9] #=> true
+any even, []              #=> false
 </pre>
       </div>
 
       <div id="all" class="func">
         <a href="#all" class="func-name">all</a>
         <div class="func-type">(a &rarr; Boolean) &rarr; [a] &rarr; Boolean</div>
-        <p>Returns true if all the items in the list are true when applied to the test.
+        <p>Returns <code>true</code> if all the items in the list are <code>true</code> when applied to the test.
 <pre class="prettyprint example lang-ls">
 all (is-type 'String'), <[ ha ma la ]> #=> true
+all (is-type 'String'), []             #=> true
 </pre>
       </div>
 
       <div id="sort" class="func">
         <a href="#sort" class="func-name">sort</a>
-        <div class="func-type">List &rarr; List</div>
+        <div class="func-type">[a] &rarr; [a]</div>
         <p>Sorts a list. Does not modify the input.
 <pre class="prettyprint example lang-ls">
 sort [3 1 5 2 4 6] #=> [1, 2, 3, 4, 5, 6]
@@ -578,8 +606,8 @@ sort [3 1 5 2 4 6] #=> [1, 2, 3, 4, 5, 6]
 
       <div id="sort-with" class="func">
         <a href="#sort-with" class="func-name">sort-with</a>
-        <div class="func-type">(a &rarr; a &rarr; (-1 | 0 | 1)) &rarr; [a] &rarr; [a]</div>
-        <p>Takes a binary function which compares two items and returns either <code>-1</code>, <code>0</code>, or <code>1</code>, and sorts the inputted list using that function. The original list is not modified.
+        <div class="func-type">(a &rarr; a &rarr; Number) &rarr; [a] &rarr; [a]</div>
+        <p>Takes a binary function which compares two items and returns either a positive number, <code>0</code>, or a negative number, and sorts the inputted list using that function. The original list is not modified.
 <pre class="prettyprint example lang-ls">
 f = (x, y) ->
   | x.length > y.length => 1
@@ -591,7 +619,7 @@ sort-with f, <[ three one two ]> #=> ['one','two','three']
 
       <div id="sort-by" class="func">
         <a href="#sort-by" class="func-name">sort-by</a>
-        <div class="func-type">Function &rarr; List &rarr; List</div>
+        <div class="func-type">(a &rarr; b) &rarr; [a] &rarr; [a]</div>
         <p>Sorts a list using the inputted function for making the comparison between the items.
 <pre class="prettyprint example lang-ls">
 sort-by (.length), arr #=> ['a', 'ha', 'hey', 'there']
@@ -611,18 +639,20 @@ sort-by (.name), table
       <div id="sum" class="func">
         <a href="#sum" class="func-name">sum</a>
         <div class="func-type">[Number] &rarr; Number</div>
-        <p>Sums up the values in the list. 0 when the list is empty.
+        <p>Sums up the values in the list.
 <pre class="prettyprint example lang-ls">
 sum [1 to 5] #=> 15
+sum []       #=> 0
 </pre>
       </div>
 
       <div id="product" class="func">
         <a href="#product" class="func-name">product</a>
         <div class="func-type">[Number] &rarr; Number</div>
-        <p>Gets the product of all the items in the list. 1 when the list is empty.
+        <p>Gets the product of all the items in the list.
 <pre class="prettyprint example lang-ls">
 product [1 2 3] #=> 6
+product []      #=> 1
 </pre>
       </div>
 
@@ -654,11 +684,29 @@ minimum ['c', 'e', 'a', 'd', 'b'] #=> 'a'
 </pre>
       </div>
 
+      <div id="maximum-by" class="func">
+        <a href="#maximum-by" class="func-name">maximum-by</a>
+        <div class="func-type">(a &rarr; b) &rarr; [a] &rarr; a</div>
+        <p>Takes a list of items, and returns the item with the largest value resulting from applying the supplied function to that item.
+<pre class="prettyprint example lang-ls">
+maximum-by (.length), <[ hi there I am looooong ]> #=> 'looooong'
+</pre>
+      </div>
+
+      <div id="minimum-by" class="func">
+        <a href="#minimum-by" class="func-name">minimum-by</a>
+        <div class="func-type">(a &rarr; b) &rarr; [a] &rarr; a</div>
+        <p>Takes a list of items, and returns the item with the smallest value resulting from applying the supplied function to that item.
+<pre class="prettyprint example lang-ls">
+minimum-by (.length), <[ hi there I am looooong ]> #=> 'I'
+</pre>
+      </div>
+
       <div id="scan" class="func">
         <a href="#scan" class="func-name">scan</a>
         <div class="alias">alias: scanl</div>
-        <div class="func-type">Function &rarr; init &rarr; List &rarr; List</div>
-        <p>Like <code>fold</code>, except instead of just returning the final value, returns a list composed of the initial value, the intermediate values, and then the final value. Requires an initial value, which is used case of an empty list. The function inputted is binary.
+        <div class="func-type">(a &rarr; b &rarr; a) &rarr; a &rarr; [b] &rarr; [a]</div>
+        <p>Like <code>fold</code>, except instead of just returning the final value, returns a list composed of the initial value, the intermediate values, and then the final value. Requires an initial value (the second argument), which is used case of an empty list.
 <pre class="prettyprint example lang-ls">
 scan (+), 0, [1 to 3] #=> [0, 1, 3, 6]
 </pre>
@@ -667,7 +715,7 @@ scan (+), 0, [1 to 3] #=> [0, 1, 3, 6]
       <div id="scan1" class="func">
         <a href="#scan1" class="func-name">scan1</a>
         <div class="alias">alias: scanl1</div>
-        <div class="func-type">Function &rarr; List &rarr; List</div>
+        <div class="func-type">(a &rarr; a &rarr; a) &rarr; [a] &rarr; [a]</div>
         <p>Like <code>scan</code>, except assumes non-empty list, and thus doesn't require an initial value.
 <pre class="prettyprint example lang-ls">
 scan1 (+), [1 to 3] #=> [1, 3, 6]
@@ -676,7 +724,7 @@ scan1 (+), [1 to 3] #=> [1, 3, 6]
 
       <div id="scanr" class="func">
         <a href="#scanr" class="func-name">scanr</a>
-        <div class="func-type">Function &rarr; init &rarr; List &rarr; List</div>
+        <div class="func-type">(a &rarr; b &rarr; b) &rarr; b &rarr; [a] &rarr; [b]</div>
         <p>Like <code>scan</code>, except from the right.
 <pre class="prettyprint example lang-ls">
 scanr (+), 0, [1 to 3] #=> [6, 5, 3, 0]
@@ -685,7 +733,7 @@ scanr (+), 0, [1 to 3] #=> [6, 5, 3, 0]
 
       <div id="scanr1" class="func">
         <a href="#scanr1" class="func-name">scanr1</a>
-        <div class="func-type">Function &rarr; List &rarr; List</div>
+        <div class="func-type">(a &rarr; a &rarr; a) &rarr; [a] &rarr; [a]</div>
         <p>Like <code>scanr</code>, except assumes non-empty list, and thus doesn't require an initial value.
 <pre class="prettyprint example lang-ls">
 scanr1 (+), [1 to 3] #=> [6, 5, 3]
@@ -800,6 +848,52 @@ zip-all-with (-> &0 + &1 + &2), [1 2 3], [3 2 1] [1 1 1] #=> [5, 5, 5]
 </pre>
       </div>
 
+      <div id="at" class="func">
+        <a href="#at" class="func-name">at</a>
+        <div class="func-type">Number &rarr; [a] &rarr; a</div>
+        <p>Gets the element at the nth index (the first argument). If negative, will work from the end.
+<pre class="prettyprint example lang-ls">
+at 2, [1 2 3 4] #=> 3
+at -3, [1 2 3 4] #=> 2
+</pre>
+      </div>
+
+      <div id="elem-index" class="func">
+        <a href="#elem-index" class="func-name">elem-index</a>
+        <div class="func-type">a &rarr; [a] &rarr; Number</div>
+        <p>Returns the index of the first occurrence of the supplied element in the list. Returns <code>undefined</code> if the element is not found.
+<pre class="prettyprint example lang-ls">
+elem-index 'a', <[ c a b a ]> #=> 1
+</pre>
+      </div>
+
+      <div id="elem-indices" class="func">
+        <a href="#elem-indices" class="func-name">elem-indices</a>
+        <div class="func-type">a &rarr; [a] &rarr; [Number]</div>
+        <p>Returns an array of all the indices of the supplied element in the list. Returns an empty list if the element is not found at all.
+<pre class="prettyprint example lang-ls">
+elem-indices 'a', <[ c a b a ]> #=> [1, 3]
+</pre>
+      </div>
+
+      <div id="find-index" class="func">
+        <a href="#find-index" class="func-name">find-index</a>
+        <div class="func-type">(a &rarr; Boolean) &rarr; [a] &rarr; Number</div>
+        <p>Returns the index of the first element to pass the predicate. Returns <code>undefined</code> if the predicate never passes.
+<pre class="prettyprint example lang-ls">
+find-index even, [1 2 3 4] #=> 1
+</pre>
+      </div>
+
+      <div id="find-indices" class="func">
+        <a href="#find-indices" class="func-name">find-indices</a>
+        <div class="func-type">(a &rarr; Boolean) &rarr; [a] &rarr; [Number]</div>
+        <p>Returns an array of all the indices of the elements which pass the predicate. Returns an empty list if the predicate never passes.
+<pre class="prettyprint example lang-ls">
+find-indices even, [1 2 3 4] #=> [1, 3]
+</pre>
+      </div>
+
 
       <a class="module-heading" id="obj" href="#obj">Obj</a>
 
@@ -860,7 +954,7 @@ obj-to-lists {a: 1, b: 2, c: 3} #=> [['a', 'b', 'c'], [1, 2, 3]]
       <div id="obj-empty" class="func">
         <a href="#obj-empty" class="func-name">Obj.empty</a>
         <div class="func-type">Object &rarr; Boolean</div>
-        <p>Whether the object is empty.
+        <p>Whether the object is empty (has no enumerable keys).
 <pre class="prettyprint example lang-ls">
 empty {} #=> true
 </pre>
@@ -868,7 +962,7 @@ empty {} #=> true
 
       <div id="obj-each" class="func">
         <a href="#obj-each" class="func-name">Obj.each</a>
-        <div class="func-type">Function &rarr; Object &rarr; Object</div>
+        <div class="func-type">(b &rarr; Undefined) &rarr; {a: b} &rarr; {a: b}</div>
         <p>Applies a function to each value in the object, and returns the original object. Used for side effects.
 <pre class="prettyprint example lang-ls">
 count = 4
@@ -1014,6 +1108,46 @@ unchars ['ma', 'ma']          #=> 'mama'
 </pre>
       </div>
 
+      <div id="repeat" class="func">
+        <a href="#repeat" class="func-name">repeat</a>
+        <div class="func-type">Number &rarr; String &rarr; String</div>
+        <p>Takes its second argument, and repeats it n times to create a new, single, string.
+<pre class="prettyprint example lang-ls">
+repeat 4 'a'  #=> 'aaaa'
+repeat 2 'ha' #=> 'haha'
+</pre>
+      </div>
+
+      <div id="capitalize" class="func">
+        <a href="#capitalize" class="func-name">capitalize</a>
+        <div class="func-type">String &rarr; String</div>
+        <p>Capitalizes a string.
+<pre class="prettyprint example lang-ls">
+capitalize 'hi there' #=> 'Hi there'
+</pre>
+      </div>
+
+      <div id="camelize" class="func">
+        <a href="#camelize" class="func-name">camelize</a>
+        <div class="func-type">String &rarr; String</div>
+        <p>Camelizes a string.
+<pre class="prettyprint example lang-ls">
+camelize 'hi-there' #=> 'hiThere'
+camelize 'hi_there' #=> 'hiThere'
+</pre>
+      </div>
+
+      <div id="dasherize" class="func">
+        <a href="#dasherize" class="func-name">dasherize</a>
+        <div class="func-type">String &rarr; String</div>
+        <p>Dasherizes a string.
+<pre class="prettyprint example lang-ls">
+dasherize 'hiThere' #=> 'hi-there'
+dasherize 'FooBar' #=> 'foo-bar'
+dasherize 'innerHTML' #=> 'inner-HTML'
+</pre>
+      </div>
+
       <div id="str-empty" class="func">
         <a href="#str-empty" class="func-name">Str.empty</a>
         <div class="func-type">String &rarr; Boolean</div>
@@ -1032,19 +1166,9 @@ reverse 'goat'   #=> 'taog'
 </pre>
       </div>
 
-      <div id="str-repeat" class="func">
-        <a href="#str-repeat" class="func-name">Str.repeat</a>
-        <div class="func-type">Number &rarr; String &rarr; String</div>
-        <p>Takes its second argument, and repeats it n times to create a new, single, string.
-<pre class="prettyprint example lang-ls">
-repeat 4 'a'  #=> 'aaaa'
-repeat 2 'ha' #=> 'haha'
-</pre>
-      </div>
-
       <div id="str-slice" class="func">
         <a href="#str-slice" class="func-name">Str.slice</a>
-        <div class="func-type">Number &rarr; List &rarr; List</div>
+        <div class="func-type">Number &rarr; String &rarr; String</div>
         <p>Returns a slice of the inputted string.
 <pre class="prettyprint example lang-ls">
 slice 2 4 'hello' #=> 'll'
@@ -1156,6 +1280,17 @@ inverted-power 2 3 #=> 9
 (fix (fib) -> (n) ->
    | n <= 1      => 1
    | otherwise   => fib(n-1) + fib(n-2))(9) #=> 55
+</pre>
+      </div>
+
+      <div id="over" class="func">
+        <a href="#over" class="func-name">over</a>
+        <div class="func-type">(b &rarr; c) &rarr; (a &rarr; b) &rarr; a &rarr; a &rarr; (a &rarr; c)</div>
+        <p>Combines two functions: <code>(f, g, x, y) --> f (g x), (g y)</code>. Looks nice when applied infix.
+<pre class="prettyprint example lang-ls">
+same-length = (==) `over` (.length)
+same-length 'hi', 'me'    #=> true
+same-length 'one', 'boom' #=> false
 </pre>
       </div>
 
@@ -1459,6 +1594,7 @@ lcm 12 18 #=> 36
 <script src="google-code-prettify/prettify.js"></script>
 <script src="lang-ls.js"></script>
 <script src="prelude-browser.js"></script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 <script>
   prettyPrint();
   window.prelude = require('prelude-ls');
