@@ -245,13 +245,11 @@ slice = (x, y, xs) -->
 take = (n, xs) -->
   if n <= 0
     xs.slice 0, 0
-  else if not xs.length
-    xs
   else
     xs.slice 0, n
 
 drop = (n, xs) -->
-  if n <= 0 or not xs.length
+  if n <= 0
     xs
   else
     xs.slice n
