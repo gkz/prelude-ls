@@ -4,6 +4,7 @@
 - added `Str` functions: `capitalize`, `camelize`, `dasherize`
 - added `Func` function: `over` - eg. ``same-length = (==) `over` (.length)``
 - exported `Str.repeat` through main `prelude` object
+- fixed definition of `foldr` and `foldr1`, the new correct definition is backwards incompatible with the old, incorrect one
 - fixed issue with `fix`
 - improved code coverage
 
