@@ -24,8 +24,10 @@ reverse = (str) ->
   str.split '' .reverse!.join ''
 
 repeat = (n, str) -->
-  out = [str for til n]
-  out.join ''
+  result = ''
+  for til n
+    result += str
+  result
 
 capitalize = (str) ->
   (str.char-at 0).to-upper-case! + str.slice 1

@@ -100,6 +100,7 @@ suite 'repeat' ->
   test 'a string several times' ->
     eq 'aa', repeat 2 'a'
     eq 'hihihi', repeat 3 'hi'
+    eq 'hihihihihihihihihihi', repeat 10 'hi'
 
   test 'curried' ->
     f = repeat 2
