@@ -193,6 +193,9 @@ suite 'unique-by' ->
   test 'accessor' ->
     deep-eq [[] [1 2 3] [4] [5 6]], unique-by (.length), [[], [1 2 3], [4], [5 6], [7], [8 9 10]]
 
+  test 'curried' ->
+    deep-eq [1,2,3,4,5,6], (unique-by id) [1 1 2 3 3 4 5 5 5 5 5 6 6 6 6]
+
 suite 'fold' ->
   test 'empty list as input' ->
     eq 0, fold (+), 0, []

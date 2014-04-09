@@ -53,7 +53,7 @@ unique = (xs) ->
     result.push x
   result
 
-unique-by = (f, xs) ->
+unique-by = (f, xs) -->
   seen = []
   for x in xs
     val = f x
