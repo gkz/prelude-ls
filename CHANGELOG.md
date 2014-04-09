@@ -1,3 +1,6 @@
+# 1.1.1
+- curry `unique-by`, `minimum-by`
+
 # 1.1.0
 - added `List` functions: `maximum-by`, `minimum-by`, `unique-by`
 - added `List` functions: `at`, `elem-index`, `elem-indices`, `find-index`, `find-indices`
