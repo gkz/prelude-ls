@@ -13,14 +13,13 @@ obj-to-pairs = (object) ->
 lists-to-obj= (keys, values) -->
   {[key, values[i]] for key, i in keys}
 
-obj-to-lists = (objectect) ->
+obj-to-lists = (object) ->
   keys = []
   values = []
-  for key, value of objectect
+  for key, value of object
     keys.push key
     values.push value
   [keys, values]
-
 
 empty = (object) ->
   for x of object then return false
