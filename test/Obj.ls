@@ -3,7 +3,7 @@
   Obj: {
     values, keys,
     pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
-    empty, each, map, filter, compact, reject, partition, find,
+    empty, each, map, filter, only, compact, reject, omit, partition, find,
   }
 } = require '..'
 {strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
@@ -111,6 +111,17 @@ suite 'filter' ->
     f = filter (== 2)
     deep-eq {b: 2}, f {a:1, b:2}
 
+suite 'only', ->
+  test 'empty object as input' ->
+    deep-eq {}, only id, {}
+
+  test 'only-ing object' ->
+    deep-eq {b:2}, only (== \b), {a:1, b:2}
+
+  test 'curried' ->
+    f = only (== \b)
+    deep-eq {b:2}, f {a:1, b:2}
+
 suite 'reject' ->
   test 'empty object as input' ->
     deep-eq {}, reject id, {}
@@ -121,6 +132,17 @@ suite 'reject' ->
   test 'curried' ->
     f = reject (== 2)
     deep-eq {a: 1}, f {a:1, b:2}
+
+suite 'omit' ->
+  test 'empty object as input' ->
+    deep-eq {}, omit id, {}
+
+  test 'omit object' ->
+    deep-eq {a:1}, omit (== \b), {a:1, b:2}
+
+  test 'curried' ->
+    f = omit (== \b)
+    deep-eq {a:1}, f {a:1, b:2}
 
 suite 'partition' ->
   test 'empty object as input' ->

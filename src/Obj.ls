@@ -38,8 +38,14 @@ compact = (object) -->
 filter = (f, object) -->
   {[k, x] for k, x of object when f x}
 
+only = (f, object) -->
+  {[k, x] for k, x of object when f k}
+
 reject = (f, object) -->
   {[k, x] for k, x of object when not f x}
+
+omit = (f, object) -->
+  {[k, x] for k, x of object when not f k}
 
 partition = (f, object) -->
   passed = {}
@@ -56,5 +62,5 @@ module.exports = {
   values, keys,
   pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
 
-  empty, each, map, filter, compact, reject, partition, find,
+  empty, each, map, filter, only, compact, reject, omit, partition, find,
 }
