@@ -1,5 +1,3 @@
-{id} = require \prelude-ls
-
 apply = (f, list) -->
   f.apply null, list
 
@@ -18,7 +16,7 @@ memoize = (f) ->
   memo = {}
   ->
     args = Array::slice.call &, 0
-    key = id args.join ''
+    key = args.join ''
     memo[key] = if key of memo then memo[key] else f ...
 
 #? wrap
