@@ -1,3 +1,5 @@
+{id} = require \prelude-ls
+
 apply = (f, list) -->
   f.apply null, list
 
@@ -12,8 +14,15 @@ fix = (f) ->
 
 over = (f, g, x, y) --> f (g x), (g y)
 
-#? memoize, wrap
+memoize = (f) ->
+  memo = {}
+  ->
+    args = Array::slice.call &, 0
+    key = id args.join ''
+    memo[key] = if key of memo then memo[key] else f ...
+
+#? wrap
 
 module.exports = {
-  curry, flip, fix, apply, over,
+  curry, flip, fix, apply, over, memoize
 }

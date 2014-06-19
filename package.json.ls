@@ -45,3 +45,4 @@ dev-dependencies:
   mocha: '~1.17.1'
   istanbul: '~0.2.4'
   browserify: '~3.24.13'
+  sinon: '~1.10.2'
