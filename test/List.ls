@@ -11,7 +11,7 @@
     maximum, minimum, maximum-by, minimum-by,
     scan, scan1, scanl, scanl1, scanr, scanr1,
     slice, take, drop, split-at, take-while, drop-while, span, break-list,
-    zip, zip-with, zip-all, zip-all-with,
+    zip, zip-with, zip-all, zip-all-with, interlace,
     at, elem-index, elem-indices, find-index, find-indices,
   }
 } = require '..'
@@ -793,6 +793,26 @@ suite 'zip-all-with' ->
 
   test 'second list shorter' ->
     deep-eq [5 7], zip-all-with (+), [1 2 3] [4 5]
+
+suite 'interlace' ->
+  test 'empty lists' ->
+    deep-eq [], interlace [], []
+
+  test 'shorter list empty' ->
+    deep-eq ['a', 'b'], interlace ['a', 'b'], []
+
+  test 'longer list empty' ->
+    deep-eq [], interlace [], ['a', 'b']
+
+  test 'same lengths' ->
+    deep-eq [1, 'a', 2, 'b'], interlace [1, 2], ['a', 'b']
+
+  test 'lengts different by one' ->
+    deep-eq [1, 'a', 2, 'b', 3], interlace [1, 2, 3], ['a', 'b']
+
+  test 'lengths different by more than one' ->
+    deep-eq [1, 'a', 2, 'b', 3, 4], interlace [1, 2, 3, 4], ['a', 'b']
+
 
 suite 'at' ->
   test 'empty list as input' ->
