@@ -143,22 +143,19 @@ suite 'sin' ->
   test 'zero' ->
     eq 0, sin 0
 
-  test 'one' ->
-    eq 0.8414709848078965, sin 1
+  test 'pi/2' ->
+    eq 1, sin pi/2
 
 suite 'tan' ->
   test 'zero' ->
     eq 0, tan 0
 
-  test 'one' ->
-    eq 1.5574077246549023, tan 1
-
 suite 'cos' ->
   test 'zero' ->
     eq 1, cos 0
 
-  test 'one' ->
-    eq 0.5403023058681398, cos 1
+  test 'pi' ->
+    eq -1, cos pi
 
 suite 'acos' ->
   test 'number' ->
