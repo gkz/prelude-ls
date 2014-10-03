@@ -11,7 +11,7 @@ MOCHA2 = node_modules/.bin/_mocha
 ISTANBUL = node_modules/.bin/istanbul
 
 lib:
-	mkdir lib/
+	mkdir -p lib/
 
 lib/%.js: src/%.ls lib
 	$(LSC) --output lib --bare --compile "$<"
