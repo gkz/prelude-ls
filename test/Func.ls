@@ -1,6 +1,6 @@
 require! \sinon
 {apply, curry, flip, fix, over, memoize} = require '..' .Func
-{strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+{strict-equal: eq, not-strict-equal: not-eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'apply' ->
   test 'empty list' ->
@@ -51,7 +51,7 @@ suite 'memoize' ->
   spy = f = null
 
   setup ->
-    spy := sinon.spy!
+    spy := sinon.spy -> &
     f := memoize spy
 
   test 'only 1 call when using the same arguments' ->
@@ -65,4 +65,9 @@ suite 'memoize' ->
     f \face
     f \mung \face
     ok spy.called-thrice
+
+  test 'that the correct values are returned' ->
+    eq f(\mung), f(\mung)
+    eq f(\mung \face), f(\mung \face)
+    not-eq f(\mung), f(\mung \face)
 
