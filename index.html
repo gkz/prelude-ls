@@ -956,7 +956,7 @@ obj-to-lists {a: 1, b: 2, c: 3} #=> [['a', 'b', 'c'], [1, 2, 3]]
         <div class="func-type">Object &rarr; Boolean</div>
         <p>Whether the object is empty (has no enumerable keys).
 <pre class="prettyprint example lang-ls">
-empty {} #=> true
+Obj.empty {} #=> true
 </pre>
       </div>
 
@@ -966,7 +966,7 @@ empty {} #=> true
         <p>Applies a function to each value in the object, and returns the original object. Used for side effects.
 <pre class="prettyprint example lang-ls">
 count = 4
-each (-> count += it), {a: 1, b: 2, c: 3}
+Obj.each (-> count += it), {a: 1, b: 2, c: 3}
 count #=> 10
 </pre>
       </div>
@@ -976,7 +976,7 @@ count #=> 10
         <div class="func-type">(b &rarr; c) &rarr; {a: b} &rarr; {a: c}</div>
         <p>Applies a function to each value of the object, and produces a new object with the same keys and the new values. The size of the result is the same size as the input.
 <pre class="prettyprint example lang-ls">
-map (+ 2), {a: 2, b: 3, c: 4} #=> {a: 4, b: 5, c: 6}
+Obj.map (+ 2), {a: 2, b: 3, c: 4} #=> {a: 4, b: 5, c: 6}
 </pre>
       </div>
 
@@ -985,7 +985,7 @@ map (+ 2), {a: 2, b: 3, c: 4} #=> {a: 4, b: 5, c: 6}
         <div class="func-type">{a: b} &rarr; {a: b}</div>
         <p>Returns a new object which contains only the truthy values of the inputted object.
 <pre class="prettyprint example lang-ls">
-compact {a: 0, b: 1, c: false, d: '', e: 'ha'} #=> {b: 1, e: 'ha'}
+Obj.compact {a: 0, b: 1, c: false, d: '', e: 'ha'} #=> {b: 1, e: 'ha'}
 </pre>
       </div>
 
@@ -994,7 +994,7 @@ compact {a: 0, b: 1, c: false, d: '', e: 'ha'} #=> {b: 1, e: 'ha'}
         <div class="func-type">(b &rarr; Boolean) &rarr; {a: b} &rarr; {a: b}</div>
         <p>Returns a new object composed of the values which pass the supplied function's test.
 <pre class="prettyprint example lang-ls">
-filter even, {a: 3, b: 4, c: 0} #=> {b: 4, c: 0}
+Obj.filter even, {a: 3, b: 4, c: 0} #=> {b: 4, c: 0}
 </pre>
       </div>
 
@@ -1003,7 +1003,7 @@ filter even, {a: 3, b: 4, c: 0} #=> {b: 4, c: 0}
         <div class="func-type">(b &rarr; Boolean) &rarr; {a: b} &rarr; {a: b}</div>
         <p>Like <code>filter</code>, but the new object is composed of all the values which fail the function's test.
 <pre class="prettyprint example lang-ls">
-reject (== 2), {a:1, b:2} #=> {a: 1}
+Obj.reject (== 2), {a:1, b:2} #=> {a: 1}
 </pre>
       </div>
 
@@ -1012,7 +1012,7 @@ reject (== 2), {a:1, b:2} #=> {a: 1}
         <div class="func-type">(b &rarr; Boolean) &rarr; {a: b} &rarr; [{a: b}, {a: b}]</div>
         <p>Equivalent to <code>[(Obj.filter f, xs), (Obj.reject f, xs)]</code>, but more efficient, only using one loop.
 <pre class="prettyprint example lang-ls">
-partition (== 2), {a:1, b:2, c:3} #=> [{b: 2}, {a: 1, c: 3}]
+Obj.partition (== 2), {a:1, b:2, c:3} #=> [{b: 2}, {a: 1, c: 3}]
 </pre>
       </div>
 
@@ -1021,7 +1021,7 @@ partition (== 2), {a:1, b:2, c:3} #=> [{b: 2}, {a: 1, c: 3}]
         <div class="func-type">(b &rarr; Boolean) &rarr; {a: b} &rarr; b</div>
         <p>Returns the first value to pass the test.
 <pre class="prettyprint example lang-ls">
-find even, {a:1, b:2, c:3, d:4} #=> 2
+Obj.find even, {a:1, b:2, c:3, d:4} #=> 2
 </pre>
       </div>
 
@@ -1230,11 +1230,11 @@ span (is \m), 'mmmmmhmm' #=> ['mmmmm', 'hmm']
       </div>
 
       <div id="str-break-str" class="func">
-        <a href="#str-break-str" class="func-name">Str.break-list</a>
+        <a href="#str-break-str" class="func-name">Str.break-str</a>
         <div class="func-type">(String &rarr; Boolean) &rarr; String &rarr; [String, String]</div>
         <p>Equivalent to <code>span (not) << f, xs</code>
 <pre class="prettyprint example lang-ls">
-break-str (is \h), 'mmmmmhmm' #=> ['mmmmm', 'hmm']
+Str.break-str (is \h), 'mmmmmhmm' #=> ['mmmmm', 'hmm']
 </pre>
       </div>
 
