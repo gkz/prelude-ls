@@ -14,7 +14,7 @@ over = (f, g, x, y) --> f (g x), (g y)
 
 memoize = (f) ->
   memo = {}
-  (...args)->
+  (...args) ->
     key = [arg + typeof! arg for arg in args] * ''
     memo[key] = if key of memo then memo[key] else f ...args
 
