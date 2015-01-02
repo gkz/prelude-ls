@@ -14,10 +14,9 @@ over = (f, g, x, y) --> f (g x), (g y)
 
 memoize = (f) ->
   memo = {}
-  ->
-    args = Array::slice.call &, 0
-    key = args.join ''
-    memo[key] = if key of memo then memo[key] else f ...
+  (...args)->
+    key = [arg.to-string! + typeof arg for arg in args] * ''
+    memo[key] = if key of memo then memo[key] else f ...args
 
 #? wrap
 

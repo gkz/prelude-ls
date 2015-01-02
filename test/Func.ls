@@ -61,13 +61,11 @@ suite 'memoize' ->
   test 'call again when using different arguments' ->
     f \mung
     f \mung
-    f \face
-    f \face
-    f \mung \face
+    f 'foo,bar'
+    f <[ foo bar ]>
     ok spy.called-thrice
 
   test 'that the correct values are returned' ->
     eq f(\mung), f(\mung)
     eq f(\mung \face), f(\mung \face)
     not-eq f(\mung), f(\mung \face)
-
