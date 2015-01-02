@@ -61,8 +61,8 @@ suite 'memoize' ->
   test 'call again when using different arguments' ->
     f \mung
     f \mung
-    f 'foo,bar'
-    f <[ foo bar ]>
+    f '1,2'
+    f [1 2]
     ok spy.called-thrice
 
   test 'that the correct values are returned' ->
