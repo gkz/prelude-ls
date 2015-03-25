@@ -13,9 +13,20 @@
     slice, take, drop, split-at, take-while, drop-while, span, break-list,
     zip, zip-with, zip-all, zip-all-with,
     at, elem-index, elem-indices, find-index, find-indices,
+    window
   }
 } = require '..'
 {strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+
+suite 'window' ->
+  test 'empty list as input' ->
+    deep-eq [], window 3, []
+
+  test 'window' ->
+    deep-eq [[1 2 3] [2 3 4] [3 4 5]], window 3, [1 to 5]
+
+  test 'size larger than input length returns empty list' ->
+    deep-eq [], window 10, [1 to 5]
 
 suite 'each' ->
   test 'empty list as input' ->

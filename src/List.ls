@@ -321,6 +321,11 @@ find-index = (f, xs) -->
 find-indices = (f, xs) -->
   [i for x, i in xs when f x]
 
+window = (size, xs) -->
+  # if size <= 0 then throw new RangeError 'Window size must be a positive integer'
+  last = xs.length - size
+  if last < 0 then [] else [xs[i til i + size] for i from 0 to last]
+
 module.exports = {
   each, map, filter, compact, reject, partition, find,
   head, first, tail, last, initial, empty,
@@ -333,4 +338,5 @@ module.exports = {
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
   zip, zip-with, zip-all, zip-all-with,
   at, elem-index, elem-indices, find-index, find-indices,
+  window
 }
