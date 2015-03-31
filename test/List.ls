@@ -766,6 +766,9 @@ suite 'zip-with' ->
     deep-eq [4 4 4], g [3 2 1]
 
 suite 'zip-all' ->
+  test 'no lists as input' ->
+    deep-eq [], zip-all!
+
   test 'empty lists as input' ->
     deep-eq [], zip-all [] [] []
 
@@ -782,6 +785,12 @@ suite 'zip-all' ->
     deep-eq [[1 4 7], [2 5 8]], zip-all [1 2 3] [4 5 6] [7 8]
 
 suite 'zip-all-with' ->
+  test 'nothing as input' ->
+    deep-eq [], zip-all-with!
+
+  test 'no lists as input' ->
+    deep-eq [], zip-all-with id
+
   test 'empty lists as input' ->
     deep-eq [], zip-all-with id, [], []
 
