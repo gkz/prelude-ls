@@ -291,13 +291,13 @@ zip-with = (f, xs, ys) -->
   result
 
 zip-all = (...xss) ->
-  min-length = 9e9
+  min-length = undefined
   for xs in xss
     min-length <?= xs.length
   [[xs[i] for xs in xss] for i til min-length]
 
 zip-all-with = (f, ...xss) ->
-  min-length = 9e9
+  min-length = undefined
   for xs in xss
     min-length <?= xs.length
   [f.apply(null, [xs[i] for xs in xss]) for i til min-length]
