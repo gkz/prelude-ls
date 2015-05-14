@@ -40,9 +40,9 @@ scripts:
   test: "make test"
 
 dev-dependencies:
-  LiveScript: '~1.2.0'
+  livescript: '~1.4.0'
   'uglify-js': '~2.4.12'
-  mocha: '~1.17.1'
+  mocha: '~2.2.4'
   istanbul: '~0.2.4'
   browserify: '~3.24.13'
   sinon: '~1.10.2'
