@@ -12,8 +12,14 @@ fix = (f) ->
 
 over = (f, g, x, y) --> f (g x), (g y)
 
-#? memoize, wrap
+memoize = (f) ->
+  memo = {}
+  (...args) ->
+    key = [arg + typeof! arg for arg in args] * ''
+    memo[key] = if key of memo then memo[key] else f ...args
+
+#? wrap
 
 module.exports = {
-  curry, flip, fix, apply, over,
+  curry, flip, fix, apply, over, memoize
 }

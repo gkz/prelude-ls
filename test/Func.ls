@@ -1,5 +1,6 @@
-{apply, curry, flip, fix, over} = require '..' .Func
-{strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
+require! \sinon
+{apply, curry, flip, fix, over, memoize} = require '..' .Func
+{strict-equal: eq, not-strict-equal: not-eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'apply' ->
   test 'empty list' ->
@@ -45,3 +46,26 @@ suite 'over' ->
     same-length = (==) `over` (.length)
     ok same-length [1 2 3] [4 5 6]
     ok not same-length [1 2] [4 5 6]
+
+suite 'memoize' ->
+  spy = f = null
+
+  setup ->
+    spy := sinon.spy -> &
+    f := memoize spy
+
+  test 'only 1 call when using the same arguments' ->
+    [0 to 10].for-each -> f!
+    ok spy.called-once
+
+  test 'call again when using different arguments' ->
+    f \mung
+    f \mung
+    f '1,2'
+    f [1 2]
+    ok spy.called-thrice
+
+  test 'that the correct values are returned' ->
+    eq f(\mung), f(\mung)
+    eq f(\mung \face), f(\mung \face)
+    not-eq f(\mung), f(\mung \face)
