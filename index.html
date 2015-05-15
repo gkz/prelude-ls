@@ -164,6 +164,7 @@
         <li><a href="#flip">flip</a></li>
         <li><a href="#fix">fix</a></li>
         <li><a href="#over">over</a></li>
+        <li><a href="#memoize">memoize</a></li>
       </ul>
 
       <a class="module-heading" href="#num">Num</a>
@@ -215,7 +216,7 @@
 [1 to 5] |> map (^2) |> filter even |> fold (+), 0 #=> 20
 </pre>
       <div class="major-actions">
-        <h3>1.1.1</h3>
+        <h3>1.1.2</h3>
         <a href="prelude-browser-min.js">prelude-browser-min.js</a>
         <a class="primary" href="https://github.com/gkz/prelude-ls">View project on GitHub</a>
         <iframe src="http://ghbtns.com/github-btn.html?user=gkz&repo=prelude-ls&type=watch&size=large&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="140" height="40"></iframe>
@@ -1291,6 +1292,17 @@ inverted-power 2 3 #=> 9
 same-length = (==) `over` (.length)
 same-length 'hi', 'me'    #=> true
 same-length 'one', 'boom' #=> false
+</pre>
+      </div>
+
+      <div id="memoize" class="func">
+        <a href="#memoize" class="func-name">memoize</a>
+        <div class="func-type">Function &rarr; Function</div>
+        <p>Caches computed results, speeding up later calls with the same arguments.
+<pre class="prettyprint example lang-ls">
+f = memoize expensive-function
+f 2 # slow, but result is then cached
+f 2 # fast
 </pre>
       </div>
 
