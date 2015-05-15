@@ -1,3 +1,8 @@
+# 1.1.2
+- add `Func.memoize`
+- fix `zip-all` and `zip-with-all` corner case (no input)
+- build with LiveScript 1.4.0
+
 # 1.1.1
 - curry `unique-by`, `minimum-by`
 
