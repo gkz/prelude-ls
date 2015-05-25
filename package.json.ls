@@ -27,10 +27,7 @@ files:
 
 homepage: 'http://preludels.com'
 bugs: 'https://github.com/gkz/prelude-ls/issues'
-licenses:
-  * type: 'MIT'
-    url: 'https://raw.github.com/gkz/prelude-ls/master/LICENSE'
-  ...
+license: 'MIT'
 engines:
   node: '>= 0.8.0'
 repository:
