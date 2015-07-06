@@ -15,6 +15,15 @@ filter = (f, xs) -->
 reject = (f, xs) -->
   [x for x in xs when not f x]
 
+remove = (el, xs) -->
+  i = elem-index el, xs
+  results = xs.slice!
+  if i is void
+    results
+  else
+    results.splice i, 1
+    results
+
 partition = (f, xs) -->
   passed = []
   failed = []
@@ -322,7 +331,7 @@ find-indices = (f, xs) -->
   [i for x, i in xs when f x]
 
 module.exports = {
-  each, map, filter, compact, reject, partition, find,
+  each, map, filter, compact, reject, remove, partition, find,
   head, first, tail, last, initial, empty,
   reverse, difference, intersection, union, count-by, group-by,
   fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
