@@ -18,11 +18,9 @@ reject = (f, xs) -->
 remove = (el, xs) -->
   i = elem-index el, xs
   results = xs.slice!
-  if i is void
-    results
-  else
+  if i?
     results.splice i, 1
-    results
+  results
 
 partition = (f, xs) -->
   passed = []

@@ -123,12 +123,10 @@ remove = curry$(function(el, xs){
   var i, results;
   i = elemIndex(el, xs);
   results = xs.slice();
-  if (i === void 8) {
-    return results;
-  } else {
+  if (i != null) {
     results.splice(i, 1);
-    return results;
   }
+  return results;
 });
 partition = curry$(function(f, xs){
   var passed, failed, i$, len$, x;
