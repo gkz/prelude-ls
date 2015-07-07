@@ -17,10 +17,8 @@ reject = (f, xs) -->
 
 remove = (el, xs) -->
   i = elem-index el, xs
-  results = xs.slice!
-  if i?
-    results.splice i, 1
-  results
+  xs.slice!
+    ..splice i, 1 if i?
 
 partition = (f, xs) -->
   passed = []
