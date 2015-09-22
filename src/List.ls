@@ -320,6 +320,8 @@ find-index = (f, xs) -->
 
 find-indices = (f, xs) -->
   [i for x, i in xs when f x]
+  
+random = (xss) -> xss[Math.random! * xss.length |> Math.floor]
 
 module.exports = {
   each, map, filter, compact, reject, partition, find,
@@ -332,5 +334,5 @@ module.exports = {
   scan, scan1, scanl, scanl1, scanr, scanr1,
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
   zip, zip-with, zip-all, zip-all-with,
-  at, elem-index, elem-indices, find-index, find-indices,
+  at, elem-index, elem-indices, find-index, find-indices, random
 }
