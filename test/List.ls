@@ -2,7 +2,7 @@
   id
   Num: {even, odd, floor, is-it-NaN}
   List: {
-    each, map, filter, compact, reject, partition, find,
+    each, map, filter, compact, reject, remove, partition, find,
     head, first, tail, last, initial, empty,
     reverse, difference, intersection, union, count-by, group-by,
     fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
@@ -79,6 +79,23 @@ suite 'reject' ->
   test 'curried' ->
     f = reject even
     deep-eq [1 3 5], f [1 to 5]
+
+suite 'remove' ->
+  test 'empty list as input' ->
+    deep-eq [], remove 2, []
+
+  test 'basic' ->
+    deep-eq [1 3], remove 2, [1 2 3]
+
+  test 'multiple' ->
+    deep-eq [1 3 2], remove 2, [1 2 3 2]
+
+  test 'not there' ->
+    deep-eq [1 2 3], remove 5, [1 2 3]
+
+  test 'curried' ->
+    f = remove 2
+    deep-eq [1 3], f [1 2 3]
 
 suite 'partition' ->
   test 'empty list as input' ->
