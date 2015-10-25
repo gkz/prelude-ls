@@ -10,6 +10,9 @@ pairs-to-obj= (object) ->
 obj-to-pairs = (object) ->
   [[key, value] for key, value of object]
 
+fold-obj-to-list = (f, object) -->
+  [f key, value for key, value of object]
+
 lists-to-obj= (keys, values) -->
   {[key, values[i]] for key, i in keys}
 
@@ -54,7 +57,7 @@ find = (f, object) -->
 
 module.exports = {
   values, keys,
-  pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
+  pairs-to-obj, obj-to-pairs, fold-obj-to-list, lists-to-obj, obj-to-lists,
 
   empty, each, map, filter, compact, reject, partition, find,
 }
