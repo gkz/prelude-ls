@@ -25,12 +25,7 @@
   ],
   "homepage": "http://preludels.com",
   "bugs": "https://github.com/gkz/prelude-ls/issues",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/gkz/prelude-ls/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -46,7 +41,7 @@
     "uglify-js": "~2.4.12",
     "mocha": "~2.2.4",
     "istanbul": "~0.2.4",
-    "browserify": "~3.24.13",
+    "browserify": "~12.0.1",
     "sinon": "~1.10.2"
   }
 }
