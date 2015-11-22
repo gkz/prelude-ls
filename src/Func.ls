@@ -18,8 +18,16 @@ memoize = (f) ->
     key = [arg + typeof! arg for arg in args].join ''
     memo[key] = if key of memo then memo[key] else f ...args
 
+once = (f) ->
+  result = void
+  done = false
+  ->
+    return result if done
+    done := true
+    result := f &
+
 #? wrap
 
 module.exports = {
-  curry, flip, fix, apply, over, memoize
+  curry, flip, fix, apply, over, memoize, once
 }
