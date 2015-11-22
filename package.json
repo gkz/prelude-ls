@@ -25,7 +25,7 @@
   ],
   "homepage": "http://preludels.com",
   "bugs": "https://github.com/gkz/prelude-ls/issues",
-  "license": [
+  "licenses": [
     {
       "type": "MIT",
       "url": "https://raw.github.com/gkz/prelude-ls/master/LICENSE"
