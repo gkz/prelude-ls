@@ -24,7 +24,7 @@ once = (f) ->
   ->
     return result if done
     done := true
-    result := f &
+    result := f.apply null, &
 
 #? wrap
 
