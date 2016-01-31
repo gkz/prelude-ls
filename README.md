@@ -1,4 +1,4 @@
-# prelude.ls [![Build Status](https://travis-ci.org/gkz/prelude-ls.png?branch=master)](https://travis-ci.org/gkz/prelude-ls)
+# prelude.ls [![Build Status](https://travis-ci.org/gkz/prelude-ls.svg?branch=master)](https://travis-ci.org/gkz/prelude-ls)
 
 is a functionally oriented utility library. It is powerful and flexible. Almost all of its functions are curried. It is written in, and is the recommended base library for, <a href="http://livescript.net">LiveScript</a>.
 
