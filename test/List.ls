@@ -2,7 +2,7 @@
   id
   Num: {even, odd, floor, is-it-NaN}
   List: {
-    each, map, filter, compact, reject, remove, partition, find,
+    each, map, map-ok, filter, compact, reject, remove, partition, find,
     head, first, tail, last, initial, empty,
     reverse, difference, intersection, union, count-by, group-by,
     fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
@@ -38,6 +38,28 @@ suite 'map' ->
   test 'curried' ->
     f = map (+ 1)
     deep-eq [2 3 4], f [1 2 3]
+
+suite 'map-ok' ->
+  test 'empty list as input' ->
+    deep-eq [], map-ok id, []
+
+  test 'mapping over array, no undefineds' ->
+    deep-eq [2 3 4 5 6], map-ok do
+        -> it + 1
+        [1 2 3 4 5]
+
+  test 'mapping over array, with undefineds' ->
+    deep-eq [3 5 7], map-ok do
+        -> it + 1 unless it % 2
+        [1 2 3 4 5 6]
+
+  test 'curried, no undefineds' ->
+    f = map-ok -> it + 1
+    deep-eq [2 3 4 5 6 7], f [1 2 3 4 5 6]
+
+  test 'curried, with undefineds' ->
+    f = map-ok -> it + 1 unless it % 2
+    deep-eq [3 5 7], f [1 2 3 4 5 6]
 
 suite 'compact' ->
   test 'empty list as input' ->
