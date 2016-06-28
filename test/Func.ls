@@ -1,5 +1,5 @@
 require! \sinon
-{apply, curry, flip, fix, over, memoize} = require '..' .Func
+{apply, curry, flip, fix, over, memoize, once} = require '..' .Func
 {strict-equal: eq, not-strict-equal: not-eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'apply' ->
@@ -69,3 +69,32 @@ suite 'memoize' ->
     eq f(\mung), f(\mung)
     eq f(\mung \face), f(\mung \face)
     not-eq f(\mung), f(\mung \face)
+
+suite 'once' ->
+  spy = f = null
+
+  setup ->
+    spy := sinon.spy -> &
+    f := once spy
+
+  test 'only call once when using the same parameters' ->
+    [0 to 10].for-each -> f!
+    ok spy.called-once
+
+  test 'only call once when using different parameters' ->
+    [0 to 10].for-each (i) -> f i
+    ok spy.called-once
+
+  test 'infinitely recursive functions that have been `once`d do not infinitely recurse' ->
+    infinitely-recursive = once ->
+      spy!
+      infinitely-recursive!
+    infinitely-recursive!
+    spy.called-once
+
+  test 'that the correct values are returned' ->
+    f = once do ->
+      num = 5
+      -> num++
+    eq f(\mung), 5
+    eq f(\face), 5
