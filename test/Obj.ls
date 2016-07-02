@@ -2,7 +2,7 @@
   id
   Obj: {
     values, keys,
-    pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
+    pairs-to-obj, obj-to-pairs, fold-obj-to-list, lists-to-obj, obj-to-lists,
     empty, each, map, filter, compact, reject, partition, find,
   }
 } = require '..'
@@ -35,6 +35,13 @@ suite 'obj-to-pairs' ->
 
   test 'object as input' ->
     deep-eq [['a' 'b'] ['c' 'd'] ['e' 1]], obj-to-pairs {a: 'b', c: 'd', e: 1}
+
+suite 'fold-obj-to-list' ->
+  test 'empty object as input' ->
+    deep-eq [], fold-obj-to-list void, {}
+
+  test 'object as input' ->
+    deep-eq [{'a': 'b'}, {'c': 'd'}, {'e': 1}], fold-obj-to-list ((k, v) -> "#k": v), {a: 'b', c: 'd', e: 1}
 
 suite 'lists-to-obj' ->
   test 'empty lists as input' ->
