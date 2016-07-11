@@ -24,7 +24,7 @@ prelude = {
   replicate,
 }
 prelude <<< List{
-  each, map, filter, compact, reject, partition, find,
+  each, map, map-ok, filter, compact, reject, partition, find,
   head, first, tail, last, initial, empty,
   reverse, difference, intersection, union, count-by, group-by,
   fold, foldl, fold1, foldl1, foldr, foldr1, unfoldr, and-list, or-list,

@@ -6,6 +6,9 @@ each = (f, xs) -->
 map = (f, xs) -->
   [f x for x in xs]
 
+map-ok = (f, xs) -->
+  [res for x in xs when (res = f x)?]
+
 compact = (xs) -->
   [x for x in xs when x]
 
@@ -327,7 +330,7 @@ find-indices = (f, xs) -->
   [i for x, i in xs when f x]
 
 module.exports = {
-  each, map, filter, compact, reject, remove, partition, find,
+  each, map, map-ok, filter, compact, reject, remove, partition, find,
   head, first, tail, last, initial, empty,
   reverse, difference, intersection, union, count-by, group-by,
   fold, fold1, foldl, foldl1, foldr, foldr1, unfoldr, and-list, or-list,
