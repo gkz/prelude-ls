@@ -37,7 +37,7 @@ prelude <<< List{
   at, elem-index, elem-indices, find-index, find-indices,
 }
 prelude <<< Func{
-  apply, curry, flip, fix, over,
+  apply, curry, flip, fix, over, memoize, tap
 }
 prelude <<< Str{
   split, join, lines, unlines, words, unwords, chars, unchars,
