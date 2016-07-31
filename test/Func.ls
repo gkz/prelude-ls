@@ -1,5 +1,5 @@
 require! \sinon
-{apply, curry, flip, fix, over, memoize} = require '..' .Func
+{apply, curry, flip, fix, over, memoize, tap} = require '..' .Func
 {strict-equal: eq, not-strict-equal: not-eq, deep-equal: deep-eq, ok} = require 'assert'
 
 suite 'apply' ->
@@ -69,3 +69,13 @@ suite 'memoize' ->
     eq f(\mung), f(\mung)
     eq f(\mung \face), f(\mung \face)
     not-eq f(\mung), f(\mung \face)
+
+suite 'tap' ->
+  test 'basic' ->
+    foo-called = false
+    obj = foo: (-> foo-called := true)
+
+    f = tap (.foo!)
+
+    eq f(obj), obj
+    eq foo-called, true
