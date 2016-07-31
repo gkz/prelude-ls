@@ -20,6 +20,10 @@ memoize = (f) ->
 
 #? wrap
 
+tap = (f, x) -->
+  f x
+  return x
+
 module.exports = {
-  curry, flip, fix, apply, over, memoize
+  curry, flip, fix, apply, over, memoize, tap
 }
