@@ -3,7 +3,7 @@
   Obj: {
     values, keys,
     pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
-    empty, each, map, filter, compact, reject, partition, find,
+    empty, each, map, map-keys, filter, compact, reject, partition, find,
   }
 } = require '..'
 {strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
@@ -92,6 +92,17 @@ suite 'map' ->
   test 'curried' ->
     f = map (* 2)
     deep-eq {a:2, b:4}, f {a:1, b:2}
+
+suite 'map-keys' ->
+  test 'empty object as input' ->
+    deep-eq {}, map-keys id, {}
+
+  test 'mapping keys of object' ->
+    deep-eq {za:1, zb:2}, map-keys ('z' +), {a:1, b:2}
+
+  test 'curried' ->
+    f = map-keys ('z' +)
+    deep-eq {za:1, zb:2}, f {a:1, b:2}
 
 suite 'compact' ->
   test 'empty object as input' ->
