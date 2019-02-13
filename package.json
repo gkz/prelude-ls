@@ -34,7 +34,8 @@
     "url": "git://github.com/gkz/prelude-ls.git"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "prepublish": "make build ; make build-browser"
   },
   "devDependencies": {
     "livescript": "~1.4.0",
