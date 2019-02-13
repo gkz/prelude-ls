@@ -25,9 +25,6 @@ prelude-browser.js: $(LIB) browser preroll.ls
 prelude-browser-min.js: browser/prelude-browser.js
 	$(UGLIFYJS) browser/prelude-browser.js --mangle --comments "all" > browser/prelude-browser-min.js
 
-package.json: package.json.ls
-	$(LSC) --compile package.json.ls
-
 .PHONY: build build-browser test coverage dev-install loc clean
 
 all: build
@@ -53,4 +50,3 @@ clean:
 	rm -rf lib
 	rm -rf browser
 	rm -rf coverage
-	rm -f package.json
