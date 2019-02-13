@@ -31,7 +31,7 @@ suite 'min' ->
 
 suite 'negate' ->
   test 'zero' ->
-    eq 0, negate 0
+    eq -0, negate 0
 
   test 'negative number' ->
     eq -2, negate 2
@@ -203,7 +203,7 @@ suite 'ceiling' ->
     eq 1, ceiling 0.1
 
   test 'negative number' ->
-    eq 0, ceiling -0.9
+    eq -0, ceiling -0.9
 
 suite 'floor' ->
   test 'zero' ->
