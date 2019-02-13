@@ -1,3 +1,5 @@
 language: node_js
+before_install:
+  - lsc -cp package.json.ls
 node_js:
   - 0.10
