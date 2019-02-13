@@ -35,6 +35,7 @@ repository:
   url: 'git://github.com/gkz/prelude-ls.git'
 scripts:
   test: "make test"
+  prepublish: "make build ; make build-browser"
 
 dev-dependencies:
   livescript: '~1.4.0'

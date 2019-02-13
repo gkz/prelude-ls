@@ -1,3 +1,5 @@
 *.swp
 node_modules
 coverage
+package.json
+lib/
