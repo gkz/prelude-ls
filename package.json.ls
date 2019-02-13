@@ -41,5 +41,5 @@ dev-dependencies:
   'uglify-js': '~2.4.12'
   mocha: '~2.2.4'
   istanbul: '~0.2.4'
-  browserify: '~3.24.13'
+  browserify: '~16.2.3'
   sinon: '~1.10.2'
