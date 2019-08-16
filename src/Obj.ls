@@ -10,7 +10,7 @@ pairs-to-obj= (object) ->
 obj-to-pairs = (object) ->
   [[key, value] for key, value of object]
 
-lists-to-obj= (keys, values) -->
+lists-to-obj = (keys, values) -->
   {[key, values[i]] for key, i in keys}
 
 obj-to-lists = (object) ->
