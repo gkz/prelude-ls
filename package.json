@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "livescript": "~1.4.0",
-    "uglify-js": "~2.4.12",
+    "uglify-js": "~3.6.6",
     "mocha": "~2.2.4",
     "istanbul": "~0.2.4",
     "browserify": "~3.24.13",
