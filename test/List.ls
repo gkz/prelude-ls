@@ -352,7 +352,7 @@ suite 'union' ->
 
 suite 'count-by' ->
   test 'empty list as input' ->
-    deep-eq [], count-by id, []
+    deep-eq {}, count-by id, []
 
   test 'list of numbers' ->
     deep-eq {4: 1, 6: 2}, count-by floor, [4.2, 6.1, 6.4]
@@ -366,7 +366,7 @@ suite 'count-by' ->
 
 suite 'group-by' ->
   test 'empty list as input' ->
-    deep-eq [], group-by id, []
+    deep-eq {}, group-by id, []
 
   test 'list of numbers' ->
     deep-eq {4: [4.2], 6: [6.1 6.4]}, group-by floor, [4.2, 6.1, 6.4]
