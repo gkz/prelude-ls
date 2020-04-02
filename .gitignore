@@ -1,2 +1,3 @@
 *.swp
 .livereload
+node_modules
