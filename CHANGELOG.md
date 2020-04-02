@@ -1,3 +1,6 @@
+# 1.2.1
+- fix version
+
 # 1.2.0
 - add `List.remove`
 - build with LiveScript 1.6.0
