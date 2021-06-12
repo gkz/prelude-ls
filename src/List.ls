@@ -326,6 +326,15 @@ find-index = (f, xs) -->
 find-indices = (f, xs) -->
   [i for x, i in xs when f x]
 
+shuffle = (xs) ->
+  m = xs.length
+  while m
+    i = Math.floor Math.random! * m--
+    t = xs[m]
+    xs[m] = xs[i]
+    xs[i] = t
+  xs
+  
 module.exports = {
   each, map, filter, compact, reject, remove, partition, find,
   head, first, tail, last, initial, empty,
@@ -337,5 +346,5 @@ module.exports = {
   scan, scan1, scanl, scanl1, scanr, scanr1,
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
   zip, zip-with, zip-all, zip-all-with,
-  at, elem-index, elem-indices, find-index, find-indices,
+  at, elem-index, elem-indices, find-index, find-indices, shuffle,
 }
