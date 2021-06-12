@@ -32,6 +32,9 @@ each = (f, object) -->
 map = (f, object) -->
   {[k, f x] for k, x of object}
 
+map-keys = (f, object) -->
+  {[f k; x] for k, x of object}
+
 compact = (object) -->
   {[k, x] for k, x of object when x}
 
@@ -56,5 +59,5 @@ module.exports = {
   values, keys,
   pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
 
-  empty, each, map, filter, compact, reject, partition, find,
+  empty, each, map, map-keys, filter, compact, reject, partition, find,
 }

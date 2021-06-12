@@ -47,6 +47,7 @@ prelude <<< Str{
 prelude <<< Obj{
   values, keys,
   pairs-to-obj, obj-to-pairs, lists-to-obj, obj-to-lists,
+  map-keys,
 }
 prelude <<< Num{
   max, min, negate, abs, signum, quot, rem, div, mod, recip,
