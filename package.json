@@ -39,7 +39,7 @@
   "devDependencies": {
     "livescript": "^1.6.0",
     "uglify-js": "^3.8.1",
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "browserify": "^16.5.1",
     "sinon": "~8.0.1"
   }
