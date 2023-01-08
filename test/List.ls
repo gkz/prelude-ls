@@ -12,7 +12,7 @@
     scan, scan1, scanl, scanl1, scanr, scanr1,
     slice, take, drop, split-at, take-while, drop-while, span, break-list,
     zip, zip-with, zip-all, zip-all-with,
-    at, elem-index, elem-indices, find-index, find-indices,
+    at, elem-index, elem-indices, find-index, find-indices, shuffle,
   }
 } = require '..'
 {strict-equal: eq, deep-equal: deep-eq, ok} = require 'assert'
