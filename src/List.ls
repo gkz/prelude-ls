@@ -307,6 +307,9 @@ zip-all-with = (f, ...xss) ->
     min-length <?= xs.length
   [f.apply(null, [xs[i] for xs in xss]) for i til min-length]
 
+interlace = (longer, shorter) -->
+  (flatten zip longer, shorter) ++ (drop shorter.length, longer)
+
 at = (n, xs) -->
   if n < 0 then xs[xs.length + n] else xs[n]
 
@@ -336,6 +339,6 @@ module.exports = {
   maximum, minimum, maximum-by, minimum-by,
   scan, scan1, scanl, scanl1, scanr, scanr1,
   slice, take, drop, split-at, take-while, drop-while, span, break-list,
-  zip, zip-with, zip-all, zip-all-with,
+  zip, zip-with, zip-all, zip-all-with, interlace,
   at, elem-index, elem-indices, find-index, find-indices,
 }
