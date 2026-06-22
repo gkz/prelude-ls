@@ -32,7 +32,7 @@ engines:
   node: '>= 0.8.0'
 repository:
   type: 'git'
-  url: 'git://github.com/gkz/prelude-ls.git'
+  url: 'https://github.com/gkz/prelude-ls.git'
 scripts:
   test: "make test"
 
